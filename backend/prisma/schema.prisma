@@ -23,16 +23,28 @@ model Evento {
   id          String   @id @default(uuid())
   data        DateTime
   horario     DateTime
-  localizacao String
-  descricao   String
-  vagas       Int
+  banner      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 
   organizador Organizador @relation(fields: [id], references: [id])
-  inscricoes  Inscricao[]
 
   @@map("eventos")
+}
+
+model Atividade {
+  id        String   @id @default(uuid())
+  local     String
+  horario   DateTime
+  descricao String
+  vagas     Int
+  banner    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  inscricoes Inscricao[]
+
+  @@map("atividades")
 }
 
 model Participante {
@@ -40,20 +52,25 @@ model Participante {
   nome       String
   email      String
   senha      String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
+
   inscricoes Inscricao[]
 
   @@map("participantes")
 }
 
 model Inscricao {
-  id             String       @id @default(uuid())
+  id             String   @id @default(uuid())
   dataInscricao  DateTime
   status         Boolean
-  updatedAt      DateTime     @default(now())
-  eventoId       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  atividadeId    String
   participanteId String
-  evento         Evento       @relation(fields: [eventoId], references: [id])
-  participante   Participante @relation(fields: [participanteId], references: [id])
+
+  atividade    Atividade    @relation(fields: [atividadeId], references: [id])
+  participante Participante @relation(fields: [participanteId], references: [id])
 
   @@map("inscricoes")
 }

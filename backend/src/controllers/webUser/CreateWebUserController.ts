@@ -6,7 +6,7 @@ class CreateWebUserController{
 
         const { nome, email, senha } = req.body;
 
-        const createWebUserService = new CreateWebUserService();
+        const createWebUserService = new CreateWebUserService(); 
 
         const user = await createWebUserService.execute({
             nome,

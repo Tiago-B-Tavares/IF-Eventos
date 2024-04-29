@@ -1,0 +1,31 @@
+Requisitos dev web
+
+[X] O sistema deve permitir o cadastro de um usuário
+[X] O sistema deve permitir o login com os dados cadastrados no sistema.
+[X] O sistema deve permitir que o usuário visualize seus dados.
+[] O sistema deve permitir que o usuário altere seus dados.
+[] O sistema deve permitir que o usuário logue com o facebook ou google.
+[] O sistema deve permitir que o usuário crie um evento.
+[] O sistema deve permitir que o usuário altere as informações do evento.
+[] O sistema deve permitir que o usuario gere e imprima um qrcode para receber dados cadastrais dos usuarios do app.
+[] O sistema deve permitir que o usuário analise os dados relevantes dos participantes do evento. 
+
+
+
+Regras de negócio:
+
+[X] O sistema não deve permitir que seja cadastrado um usuário já existente.
+[X] O sistema deve possuir rotas privadas (Apenas acessíveis para usuários autenticados).
+[ ] O sistema deve permitir a limitação de vagas para cada evento.
+[ ] O participante não pode se inscrever em um evento com vagas encerradas.
+[ ] O sistema deve receber dados dos participante através do qrcode.
+[ ] O sistema deve permitir a visualização dos dados através de gráficos.
+
+ 
+
+
+
+Observaçôes:
+
+- Adicionar ferramenta de análise de dados
+- Adicionar mais informações dos usuários (Ex: idade, sexo, etc.)
