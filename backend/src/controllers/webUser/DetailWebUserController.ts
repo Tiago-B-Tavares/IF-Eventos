@@ -4,9 +4,11 @@ import { DetailWebUSerService } from '../../services/webUser/DetailWebUserServic
 class DetailWebUserController{
     async  handle(req: Request, res: Response) {
 
+        const user_id = req.user_id;
+
         const detailWebUserService =  new DetailWebUSerService()
 
-        const user = await detailWebUserService.execute()
+        const user = await detailWebUserService.execute(user_id)
 
         return res.json(user);
         
