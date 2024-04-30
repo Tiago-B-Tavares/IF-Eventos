@@ -18,6 +18,7 @@ CREATE TABLE "eventos" (
     "local" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "organizador_id" TEXT NOT NULL,
 
     CONSTRAINT "eventos_pkey" PRIMARY KEY ("id")
 );
@@ -62,7 +63,7 @@ CREATE TABLE "inscricoes" (
 );
 
 -- AddForeignKey
-ALTER TABLE "eventos" ADD CONSTRAINT "eventos_id_fkey" FOREIGN KEY ("id") REFERENCES "organizadores"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "eventos" ADD CONSTRAINT "eventos_organizador_id_fkey" FOREIGN KEY ("organizador_id") REFERENCES "organizadores"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "inscricoes" ADD CONSTRAINT "inscricoes_atividadeId_fkey" FOREIGN KEY ("atividadeId") REFERENCES "atividades"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

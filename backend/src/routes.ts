@@ -4,21 +4,19 @@ import { CreateWebUserController } from './controllers/webUser/CreateWebUserCont
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
 import { DetailWebUserController } from './controllers/webUser/DetailWebUserController';
 import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
+
+import { CreateEventoController } from './controllers/evento/CreateEventoController';
 import { isAuthenticated } from './middlewares/isAuthenticated';
 
 
 
-import { CreateAppUserController } from './controllers/appUser/CreateAppUserController';
+
 
 
 
 const router = Router();
 
-
-
-
-
-//web
+//User
 router.post('/web_user', new CreateWebUserController().handle) 
 
 router.post('/session', new AuthWebUserController().handle)
@@ -27,8 +25,8 @@ router.get('/me', isAuthenticated, new DetailWebUserController().handle)
 
 router.put('/update_user', isAuthenticated, new UpdateWebUserController().handle)
 
-//app
+//Evento
 
-router.post('/app_user', new CreateAppUserController().handle)
+router.post('/evento', isAuthenticated, new CreateEventoController().handle)
 
 export { router };
