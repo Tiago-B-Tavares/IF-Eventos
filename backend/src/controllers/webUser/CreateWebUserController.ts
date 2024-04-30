@@ -13,6 +13,7 @@ class CreateWebUserController{
             email,
             senha
         });
+        
         return res.json(user);
     }
 }

@@ -23,7 +23,7 @@ model Evento {
   id          String   @id @default(uuid())
   data        DateTime
   horario     DateTime
-  banner      String
+  local     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 

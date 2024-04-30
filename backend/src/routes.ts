@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express';
 import { CreateWebUserController } from './controllers/webUser/CreateWebUserController'; 
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
 import { DetailWebUserController } from './controllers/webUser/DetailWebUserController';
+import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
 import { isAuthenticated } from './middlewares/isAuthenticated';
 
 
@@ -24,7 +25,7 @@ router.post('/session', new AuthWebUserController().handle)
 
 router.get('/me', isAuthenticated, new DetailWebUserController().handle)
 
-
+router.put('/update_user', isAuthenticated, new UpdateWebUserController().handle)
 
 //app
 
