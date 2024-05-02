@@ -6,10 +6,10 @@ interface UpdateEventoRequest {
     data: string;
     horario: string;
     local: string;
-    organizador_id: string;
+   
 }
 class UpdateEventoService {
-    async execute({ id, data, horario, local, organizador_id }: UpdateEventoRequest) {
+    async execute({ id, data, horario, local }: UpdateEventoRequest) {
 
         const updadeEvento = await prismaClient.evento.update({
             where: {
@@ -19,10 +19,9 @@ class UpdateEventoService {
                 data: data,
                 horario: horario,
                 local: local,
-                organizador_id: organizador_id
+               
             }
         })
-
     }
 }
 export { UpdateEventoService }

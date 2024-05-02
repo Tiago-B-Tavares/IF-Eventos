@@ -4,9 +4,7 @@ import { UpdateEventoService } from "../../services/evento/UpdateEventoService";
 class UpdateEventoController {
     async handle(req: Request, res: Response) {
 
-        const id  = req.user_id as string;
-
-        const { data, horario, local, organizador_id } = req.body;
+        const { id, data, horario, local  } = req.body;
 
         const updateEventoService = new UpdateEventoService();
 
@@ -14,11 +12,11 @@ class UpdateEventoController {
             id,
             data,
             horario,
-            local,
-            organizador_id
-        })
-        return res.json(evento);
+            local
+        })   
+        return res.json({
+            message: "Alterado com sucesso!"
+        });
     }
-
 }
 export { UpdateEventoController }

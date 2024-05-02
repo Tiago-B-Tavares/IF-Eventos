@@ -4,9 +4,9 @@ import { UpdateWebUserService } from '../../services/webUser/UpdateWebUserServic
 class UpdateWebUserController{
     async handle( req: Request, res: Response){
 
-        const { nome, email } = req.body;
-        
         const id  = req.user_id as string;
+
+        const { nome, email } = req.body;
         
         const updateWebUserService = new UpdateWebUserService();
 

@@ -22,12 +22,12 @@ router.post('/session', new AuthWebUserController().handle)
 
 router.get('/me', isAuthenticated, new DetailWebUserController().handle)
 
-router.put('/user', isAuthenticated, new UpdateWebUserController().handle)
+router.put('/user/update', isAuthenticated, new UpdateWebUserController().handle)
 
 //Evento
 
 router.post('/evento', isAuthenticated, new CreateEventoController().handle)
 
-router.put('/evento', isAuthenticated, new UpdateEventoController().handle)
+router.put('/evento/update', isAuthenticated, new UpdateEventoController().handle)
 
 export { router };

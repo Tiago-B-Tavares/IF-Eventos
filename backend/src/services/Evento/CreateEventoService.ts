@@ -11,6 +11,8 @@ interface CreateEventoRequest{
 class CreateEventoService{
     async execute( { data, horario, local, organizador_id }: CreateEventoRequest ){
 
+        
+
         const evento = await prismaClient.evento.create({
             data: {
                 data: data,
