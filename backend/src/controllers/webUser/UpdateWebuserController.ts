@@ -3,8 +3,11 @@ import { UpdateWebUserService } from '../../services/webUser/UpdateWebUserServic
 
 class UpdateWebUserController{
     async handle( req: Request, res: Response){
-        const { id, nome, email } = req.body;
 
+        const { nome, email } = req.body;
+        
+        const id  = req.user_id as string;
+        
         const updateWebUserService = new UpdateWebUserService();
 
         const user = await updateWebUserService.execute({
@@ -13,7 +16,9 @@ class UpdateWebUserController{
                 email
             });
         
-        return res.json(user);
+        return res.json({
+            menssage: "Usuário alterado com sucesso!"
+        });
 
     }
 }

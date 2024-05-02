@@ -5,7 +5,7 @@ class CreateEventoController{
 
     async handle(req:Request, res: Response){
 
-        const { data, horario, local, organizador_id} = req.body;
+        const { data, horario, local, organizador_id } = req.body;
 
         const createEventoService = new CreateEventoService();
 

@@ -6,7 +6,7 @@ interface UpdateWebUserRequest {
     email: string;
 }
 class UpdateWebUserService {
-    async execute( { id, nome, email }: UpdateWebUserRequest ) {
+    async execute({ id, nome, email }: UpdateWebUserRequest) {
 
         const Updateuser = await prismaClient.organizador.update({
             where: {
@@ -17,7 +17,6 @@ class UpdateWebUserService {
                 email: email,
             }
         })
-        return Updateuser;
     }
 }
 
