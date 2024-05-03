@@ -8,6 +8,7 @@ import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserCont
 import { CreateEventoController } from './controllers/evento/CreateEventoController';
 import { isAuthenticated } from './middlewares/isAuthenticated';
 import { UpdateEventoController } from './controllers/evento/UpdateEventoController';
+import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
 
 
 
@@ -22,12 +23,14 @@ router.post('/session', new AuthWebUserController().handle)
 
 router.get('/me', isAuthenticated, new DetailWebUserController().handle)
 
-router.put('/user/update', isAuthenticated, new UpdateWebUserController().handle)
+router.put('/user', isAuthenticated, new UpdateWebUserController().handle)
 
 //Evento
 
 router.post('/evento', isAuthenticated, new CreateEventoController().handle)
 
-router.put('/evento/update', isAuthenticated, new UpdateEventoController().handle)
+router.put('/evento', isAuthenticated, new UpdateEventoController().handle)
+
+router.delete('/evento', isAuthenticated, new DeleteEventoController().handle)
 
 export { router };
