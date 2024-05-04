@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { isAuthenticated } from './middlewares/isAuthenticated';
 
 import { CreateWebUserController } from './controllers/webUser/CreateWebUserController'; 
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
@@ -6,9 +7,10 @@ import { DetailWebUserController } from './controllers/webUser/DetailWebUserCont
 import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
 
 import { CreateEventoController } from './controllers/evento/CreateEventoController';
-import { isAuthenticated } from './middlewares/isAuthenticated';
 import { UpdateEventoController } from './controllers/evento/UpdateEventoController';
 import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
+
+import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
 
 
 
@@ -32,5 +34,9 @@ router.post('/evento', isAuthenticated, new CreateEventoController().handle)
 router.put('/evento', isAuthenticated, new UpdateEventoController().handle)
 
 router.delete('/evento', isAuthenticated, new DeleteEventoController().handle)
+
+//Atividades
+
+router.post('/atividades', isAuthenticated, new CreateAtividadeController().handle)
 
 export { router };

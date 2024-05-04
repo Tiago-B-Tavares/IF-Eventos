@@ -3,10 +3,10 @@ Requisitos dev web
 [X] O sistema deve permitir o cadastro de um usuário
 [X] O sistema deve permitir o login com os dados cadastrados no sistema.
 [X] O sistema deve permitir que o usuário visualize seus dados.
-[] O sistema deve permitir que o usuário altere seus dados.
+[X] O sistema deve permitir que o usuário altere seus dados.
 [] O sistema deve permitir que o usuário logue com o facebook ou google.
-[] O sistema deve permitir que o usuário crie um evento.
-[] O sistema deve permitir que o usuário altere as informações do evento.
+[X] O sistema deve permitir que o usuário crie um evento.
+[X] O sistema deve permitir que o usuário altere as informações do evento.
 [] O sistema deve permitir que o usuario gere e imprima um qrcode para receber dados cadastrais dos usuarios do app.
 [] O sistema deve permitir que o usuário analise os dados relevantes dos participantes do evento. 
 
