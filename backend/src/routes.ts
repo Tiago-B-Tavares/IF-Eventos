@@ -12,7 +12,7 @@ import { DeleteEventoController } from './controllers/evento/DeleteEventoControl
 
 import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
 import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
-import { SearchAllAtividadesController } from './controllers/atividades/SearchAllAtividadesController';
+import { SearchAllAtividadesController } from './controllers/atividades/listAtividadesByEventIdController';
 
 
 
@@ -42,7 +42,7 @@ router.post('/atividades', isAuthenticated, new CreateAtividadeController().hand
 
 router.delete('/atividades', isAuthenticated, new DeleteAtividadeController().handle);
 
-router.get('/atividades', isAuthenticated, new SearchAllAtividadesController().handle);
+router.get('/evento/atividades', isAuthenticated, new SearchAllAtividadesController().handle);
 
 
 
