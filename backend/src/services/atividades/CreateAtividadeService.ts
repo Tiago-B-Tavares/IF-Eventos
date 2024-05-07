@@ -4,34 +4,35 @@ interface AtividadeRequest {
     local: string;
     horario: string;
     descricao: string;
-    vagas: number;
+    vagas: string;
     banner: string;
     evento_id: string;
 }
 
 class CreateAtividadeService {
-    async execute({ local, horario, descricao, vagas, banner, evento_id}: AtividadeRequest) {
-        console.log(evento_id);
-        
-        const atividade = await prismaClient.atividade.create({
-            data: {
-                local,
-                horario,
-                descricao,
-                vagas,
-                banner,
-                evento_id
-            },
-            select: {
-                local: true,
-                horario: true,
-                descricao: true,
-                vagas: true,
-                banner: true
-            }
-        });
-
-        return atividade;
+    async execute({ local, horario, descricao, vagas, banner, evento_id }: AtividadeRequest) {
+        try {
+            const atividade = await prismaClient.atividade.create({
+                data: {
+                    local,
+                    horario,
+                    descricao,
+                    vagas,
+                    banner,
+                    evento_id
+                },
+                select: {
+                    local: true,
+                    horario: true,
+                    descricao: true,
+                    vagas: true,
+                    banner: true
+                }
+            });
+            return atividade;
+        } catch (error) {
+            return { message: `Não foi possível cadastrar atividade devido ao erro: ${error} `}
+        }
     }
 }
 export { CreateAtividadeService };

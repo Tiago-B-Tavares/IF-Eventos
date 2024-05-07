@@ -3,14 +3,14 @@ import { DeleteEventoService } from "../../services/evento/DeleteEventoService";
 
 class DeleteEventoController {
     async handle(req: Request, res: Response) {
-        
-            const { id, organizador_id } = req.body;
 
-            const deleteEventoService = new DeleteEventoService();
+        const id = req.query.id as string;
 
-            const deleteEvento = await deleteEventoService.execute({ id, organizador_id })
+        const deleteEventoService = new DeleteEventoService();
 
-           return res.json(deleteEvento) 
+        const evento = await deleteEventoService.execute({ id })
+
+        return res.json(evento)
     }
 }
-export { DeleteEventoController  }
+export { DeleteEventoController }

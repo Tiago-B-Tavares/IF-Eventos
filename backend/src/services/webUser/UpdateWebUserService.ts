@@ -7,16 +7,19 @@ interface UpdateWebUserRequest {
 }
 class UpdateWebUserService {
     async execute({ id, nome, email }: UpdateWebUserRequest) {
-
-         await prismaClient.organizador.update({
-            where: {
-                id: id,
-            },
-            data: {
-                nome: nome,
-                email: email,
-            }
-        })
+        try {
+            await prismaClient.organizador.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    nome: nome,
+                    email: email,
+                }
+            })
+        } catch (error) {
+            return { message: `Não foi possível atualizardados do usuário devido ao erro: ${error} ` }
+        }
     }
 }
 

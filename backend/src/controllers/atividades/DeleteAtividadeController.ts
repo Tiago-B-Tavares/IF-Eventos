@@ -5,7 +5,7 @@ class DeleteAtividadeController {
 
     async handle(req: Request, res: Response) {
 
-        const { id } = req.body;
+        const  id  = req.query.id as string;
 
         const deleteAtividade = new DeleteAtividadeService();
 

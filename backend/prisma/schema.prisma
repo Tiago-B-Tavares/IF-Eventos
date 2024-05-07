@@ -39,7 +39,7 @@ model Atividade {
   local     String
   horario   String
   descricao String
-  vagas     Int
+  vagas     String
   banner    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

@@ -4,14 +4,16 @@ import { CreateAppUserService } from '../../services/appUser/CreateAppUserServic
 class CreateAppUserController{
     async handle(req:Request, res: Response){
 
-        const { nome, email, senha } = req.body;
+        const { nome, email, senha, sexo, idade } = req.body;
 
         const createAppUserService = new CreateAppUserService();
 
         const user = await createAppUserService.execute({
             nome,
             email,
-            senha
+            senha,
+            sexo,
+            idade
         });
         return res.json(user);
     }

@@ -2,17 +2,15 @@ import prismaClient from "../../prisma";
 
 interface deleteEventoRequest {
     id: string;
-    organizador_id: string;
 }
 class DeleteEventoService {
-    async execute({ id, organizador_id }: deleteEventoRequest) {
+    async execute({ id }: deleteEventoRequest) {
 
         try {
             const deleteEvento = await prismaClient.evento.delete({
 
                 where: {
                     id: id,
-                    organizador_id: organizador_id
                 }
             })
 

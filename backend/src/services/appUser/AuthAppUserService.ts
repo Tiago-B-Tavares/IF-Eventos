@@ -6,10 +6,10 @@ interface AuthRequest {
   email: string;
   senha: string;
 }
-class AuthWebUserService {
+class AuthAppUserService {
   async execute({ email, senha }: AuthRequest) {
     try {
-      const user = await prismaClient.organizador.findFirst({
+      const user = await prismaClient.participante.findFirst({
         where: {
           email: email
         }
@@ -46,4 +46,4 @@ class AuthWebUserService {
     }
   }
 }
-export { AuthWebUserService }
+export { AuthAppUserService }
