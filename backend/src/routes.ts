@@ -11,7 +11,8 @@ import { UpdateEventoController } from './controllers/evento/UpdateEventoControl
 import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
 
 import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
-
+import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
+import { SearchAllAtividadesController } from './controllers/atividades/SearchAllAtividadesController';
 
 
 
@@ -19,24 +20,30 @@ import { CreateAtividadeController } from './controllers/atividades/CreateAtivid
 const router = Router();
 
 //User
-router.post('/user', new CreateWebUserController().handle) 
+router.post('/user', new CreateWebUserController().handle);
 
-router.post('/session', new AuthWebUserController().handle)
+router.post('/session', new AuthWebUserController().handle);
 
-router.get('/me', isAuthenticated, new DetailWebUserController().handle)
+router.get('/me', isAuthenticated, new DetailWebUserController().handle);
 
-router.put('/user', isAuthenticated, new UpdateWebUserController().handle)
+router.put('/user', isAuthenticated, new UpdateWebUserController().handle);
 
 //Evento
 
-router.post('/evento', isAuthenticated, new CreateEventoController().handle)
+router.post('/evento', isAuthenticated, new CreateEventoController().handle);
 
-router.put('/evento', isAuthenticated, new UpdateEventoController().handle)
+router.put('/evento', isAuthenticated, new UpdateEventoController().handle);
 
-router.delete('/evento', isAuthenticated, new DeleteEventoController().handle)
+router.delete('/evento', isAuthenticated, new DeleteEventoController().handle);
 
 //Atividades
 
-router.post('/atividades', isAuthenticated, new CreateAtividadeController().handle)
+router.post('/atividades', isAuthenticated, new CreateAtividadeController().handle);;
+
+router.delete('/atividades', isAuthenticated, new DeleteAtividadeController().handle);
+
+router.get('/atividades', isAuthenticated, new SearchAllAtividadesController().handle);
+
+
 
 export { router };

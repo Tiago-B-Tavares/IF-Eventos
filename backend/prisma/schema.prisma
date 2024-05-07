@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
-}
+  previewFeatures = ["relationJoins"]
+  }
 
 datasource db {
   provider = "postgresql"
@@ -42,10 +43,10 @@ model Atividade {
   banner    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  eventoId  String
+  evento_id  String
 
   inscricoes Inscricao[]
-  Evento     Evento?     @relation(fields: [eventoId], references: [id])
+  Evento     Evento?     @relation(fields: [evento_id], references: [id])
 
   @@map("atividades")
 }
@@ -71,11 +72,11 @@ model Inscricao {
   status         Boolean
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now())
-  atividadeId    String
-  participanteId String
+  atividade_id    String
+  participante_id String
 
-  atividade    Atividade    @relation(fields: [atividadeId], references: [id])
-  participante Participante @relation(fields: [participanteId], references: [id])
+  atividade    Atividade    @relation(fields: [atividade_id], references: [id])
+  participante Participante @relation(fields: [participante_id], references: [id])
 
   @@map("inscricoes")
 }

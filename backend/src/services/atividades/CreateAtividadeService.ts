@@ -6,11 +6,13 @@ interface AtividadeRequest {
     descricao: string;
     vagas: number;
     banner: string;
-    eventoId: string;
+    evento_id: string;
 }
 
 class CreateAtividadeService {
-    async execute({ local, horario, descricao, vagas, banner, eventoId}: AtividadeRequest) {
+    async execute({ local, horario, descricao, vagas, banner, evento_id}: AtividadeRequest) {
+        console.log(evento_id);
+        
         const atividade = await prismaClient.atividade.create({
             data: {
                 local,
@@ -18,7 +20,7 @@ class CreateAtividadeService {
                 descricao,
                 vagas,
                 banner,
-                eventoId
+                evento_id
             },
             select: {
                 local: true,
