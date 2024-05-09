@@ -9,8 +9,7 @@ import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserCont
 
 import { CreateAppUserController } from './controllers/appUser/CreateAppUserController'; 
 import { AuthAppUserController } from './controllers/appUser/AuthAppUserController';
-//import { DetailAppUserController } from './controllers/appUser/DetailWebUserController';
-//import { UpdateAppUserController } from './controllers/appUser/UpdateWebuserController';
+import { UpdateAppUserController } from './controllers/appUser/UpdateAppUserController';
 
 import { CreateEventoController } from './controllers/evento/CreateEventoController';
 import { UpdateEventoController } from './controllers/evento/UpdateEventoController';
@@ -45,9 +44,8 @@ router.post('/app/user', new CreateAppUserController().handle);
 
 router.post('/app/session', new AuthAppUserController().handle);
 
-//router.get('app/me', isAuthenticated, new DetailAppUserController().handle);
 
-//router.put('app/user', isAuthenticated, new UpdateAppUserController().handle);
+router.put('/app/user', isAuthenticated, new UpdateAppUserController().handle);
 
 //Evento
 
