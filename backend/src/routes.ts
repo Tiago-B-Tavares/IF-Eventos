@@ -21,6 +21,9 @@ import { DeleteAtividadeController } from './controllers/atividades/DeleteAtivid
 import { SearchAllAtividadesController } from './controllers/atividades/listAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
+import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
+import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
+
 import uploadConfig from './config/multer'
 
 
@@ -30,7 +33,7 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //User organizador
-router.post('/user', new CreateWebUserController().handle);
+router.post(' ', new CreateWebUserController().handle);
 
 router.post('/session', new AuthWebUserController().handle);
 
@@ -51,7 +54,7 @@ router.put('/app/user', isAuthenticated, new UpdateAppUserController().handle);
 
 router.post('/evento', isAuthenticated, new CreateEventoController().handle);
 
-router.get('/eventos', isAuthenticated, new ListEventoController().handle)
+router.get('/eventos', isAuthenticated, new ListEventoController().handle);   
 
 router.put('/evento', isAuthenticated, new UpdateEventoController().handle);
 
@@ -59,13 +62,19 @@ router.delete('/evento', isAuthenticated, new DeleteEventoController().handle);
 
 //Atividades
 
-router.post('/atividades', isAuthenticated, upload.single('file'), new CreateAtividadeController().handle);;
+router.post('/atividades', isAuthenticated, upload.single('file'), new CreateAtividadeController().handle);
 
 router.delete('/atividades', isAuthenticated, new DeleteAtividadeController().handle);
 
 router.get('/evento/atividades', isAuthenticated, new SearchAllAtividadesController().handle);
 
-router.put('/atividades', isAuthenticated, upload.single('file'), new UpdateAtividadeController().handle)
+router.put('/atividades', isAuthenticated, upload.single('file'), new UpdateAtividadeController().handle);
+
+//Inscrições
+
+router.post('/inscrever', isAuthenticated, new CreateInscricoesController().handle)
+
+router.delete('/inscrever', isAuthenticated, new RemoveInscricaoController().handle);
 
 
 

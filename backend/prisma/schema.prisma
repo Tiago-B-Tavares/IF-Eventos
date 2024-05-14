@@ -68,8 +68,6 @@ model Participante {
 
 model Inscricao {
   id             String   @id @default(uuid())
-  dataInscricao  String
-  status         Boolean
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now())
   atividade_id    String
