@@ -2,12 +2,12 @@ import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import { isAuthenticated } from './middlewares/isAuthenticated';
 
-import { CreateWebUserController } from './controllers/webUser/CreateWebUserController'; 
+import { CreateWebUserController } from './controllers/webUser/CreateWebUserController';
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
 import { DetailWebUserController } from './controllers/webUser/DetailWebUserController';
 import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
 
-import { CreateAppUserController } from './controllers/appUser/CreateAppUserController'; 
+import { CreateAppUserController } from './controllers/appUser/CreateAppUserController';
 import { AuthAppUserController } from './controllers/appUser/AuthAppUserController';
 import { UpdateAppUserController } from './controllers/appUser/UpdateAppUserController';
 
@@ -23,6 +23,7 @@ import { UpdateAtividadeController } from './controllers/atividades/UpdateAtivid
 
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
+import { ShowInscritosByAtividadeController } from './controllers/inscricoes/ShowInscritosByAtividadeController';
 
 import uploadConfig from './config/multer'
 
@@ -33,7 +34,7 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //User organizador
-router.post(' ', new CreateWebUserController().handle);
+router.post('/user', new CreateWebUserController().handle);
 
 router.post('/session', new AuthWebUserController().handle);
 
@@ -54,7 +55,7 @@ router.put('/app/user', isAuthenticated, new UpdateAppUserController().handle);
 
 router.post('/evento', isAuthenticated, new CreateEventoController().handle);
 
-router.get('/eventos', isAuthenticated, new ListEventoController().handle);   
+router.get('/eventos', isAuthenticated, new ListEventoController().handle);
 
 router.put('/evento', isAuthenticated, new UpdateEventoController().handle);
 
@@ -75,6 +76,8 @@ router.put('/atividades', isAuthenticated, upload.single('file'), new UpdateAtiv
 router.post('/inscrever', isAuthenticated, new CreateInscricoesController().handle)
 
 router.delete('/inscrever', isAuthenticated, new RemoveInscricaoController().handle);
+
+router.get('/inscricoes', isAuthenticated, new ShowInscritosByAtividadeController().handle)
 
 
 
