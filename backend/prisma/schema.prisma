@@ -1,7 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["relationJoins"]
-  }
+}
 
 datasource db {
   provider = "postgresql"
@@ -22,6 +22,7 @@ model Organizador {
 
 model Evento {
   id             String      @id @default(uuid())
+  nome           String
   data           String
   horario        String
   local          String
@@ -43,7 +44,7 @@ model Atividade {
   banner    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  evento_id  String
+  evento_id String
 
   inscricoes Inscricao[]
   Evento     Evento?     @relation(fields: [evento_id], references: [id])
@@ -67,9 +68,9 @@ model Participante {
 }
 
 model Inscricao {
-  id             String   @id @default(uuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now())
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
   atividade_id    String
   participante_id String
 

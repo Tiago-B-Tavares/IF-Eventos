@@ -29,3 +29,18 @@ Observaçôes:
 
 - Adicionar ferramenta de análise de dados
 - Adicionar mais informações dos usuários (Ex: idade, sexo, etc.)
+
+GEOLOCALIZAÇÃO:
+
+- Deixar o usuario web escolher o local e pegar latitude e longitude e salvar no banco
+- Pegar a localização do usuario app (latitude e longitude) 
+- Definir uma distancia mínima para validar a participação nas atividades
+- Monitorar a distancia do usuário e do local da atividade
+
+QRCODE:
+
+- Usar api de geração do qrcode
+- O usuário web gera um qrcode com o link da rota de inscrição 
+- O usuário web pode imprimir o codigo gerado
+- O usuário app escaneia e abre a tela de se inscrever na atividade
+

@@ -6,24 +6,39 @@ interface inscricacaoRequest {
 }
 class CreateInscricaoService {
     async execute({ atividade_id, participante_id }: inscricacaoRequest) {
-
         try {
-            const inscricao = await prismaClient.inscricao.create({
-                data: {
-
-                    atividade_id: atividade_id,
+            const participanteAlreadExists = await prismaClient.inscricao.findFirst({
+                where: {
                     participante_id: participante_id
-                },
-                select: {
-                    id: true,
-                    atividade_id: true,
-                    participante_id: true,
-                    createdAt: true
                 }
-
             })
+            if (participanteAlreadExists) {
 
-            return inscricao;
+                return "Já está inscrito!!"
+
+            } else {
+
+                const inscricao = await prismaClient.inscricao.create({
+
+                    data: {
+
+                        atividade_id: atividade_id,
+                        participante_id: participante_id
+                    },
+
+                    select: {
+                        id: true,
+                        atividade_id: true,
+                        participante_id: true,
+                        createdAt: true
+                    }
+
+                })
+
+                return inscricao;
+            }
+
+
 
         } catch (error) {
             return { message: `erro ao se inscrever: ${error}` };

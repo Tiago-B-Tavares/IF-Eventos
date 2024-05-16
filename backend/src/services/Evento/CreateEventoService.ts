@@ -1,6 +1,7 @@
 import prismaClient from "../../prisma";
 
 interface CreateEventoRequest {
+    nome:string
     data: string;
     horario: string;
     local: string;
@@ -9,17 +10,19 @@ interface CreateEventoRequest {
 }
 
 class CreateEventoService {
-    async execute({ data, horario, local, organizador_id }: CreateEventoRequest) {
+    async execute({ nome, data, horario, local, organizador_id }: CreateEventoRequest) {
 
         try {
             const evento = await prismaClient.evento.create({
                 data: {
+                    nome:nome,
                     data: data,
                     horario: horario,
                     local: local,
                     organizador_id: organizador_id
                 },
                 select: {
+                    nome:true,
                     data: true,
                     horario: true,
                     local: true
