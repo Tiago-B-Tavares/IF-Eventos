@@ -10,7 +10,7 @@ class CreateWebUserService {
     async execute({ nome, email, senha }: WebUserRequest) {
         try {
             if (!email) {
-                throw new Error("Email incorreto!");
+                throw new Error("Email vazio!");
             }
             const userAlreadyExists = await prismaClient.organizador.findFirst({
                 where: {
@@ -39,7 +39,8 @@ class CreateWebUserService {
             return user;
         } catch (error) {
 
-            return { message: `Não foi possível cadastrar usuário devido ao erro: ${error} ` }
+            console.error("Erro no processo de autenticação:", error);
+            throw new Error(`Não foi possível cadastrar o usuário devido ao erro: ${error.message}`);
         }
     }
 }

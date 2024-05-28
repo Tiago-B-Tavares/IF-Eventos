@@ -26,6 +26,7 @@ import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscri
 import { ShowInscritosByAtividadeController } from './controllers/inscricoes/ShowInscritosByAtividadeController';
 
 import uploadConfig from './config/multer'
+import { logRequestData } from './middlewares/logRequestData';
 
 
 const router = Router();

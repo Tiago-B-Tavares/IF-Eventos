@@ -8,6 +8,9 @@ interface AuthRequest {
 }
 class AuthWebUserService {
   async execute({ email, senha }: AuthRequest) {
+
+    console.log('recebidos do controller: ', email, ' ', senha);
+    
     try {
       const user = await prismaClient.organizador.findFirst({
         where: {
@@ -42,7 +45,8 @@ class AuthWebUserService {
         token: token
       }
     } catch (error) {
-      return { message: `Não foi possível logar usuário devido ao erro: ${error} ` }
+      console.error("Erro no processo de autenticação:", error);
+      throw new Error(`Não foi possível logar usuário devido ao erro: ${error.message}`);
     }
   }
 }

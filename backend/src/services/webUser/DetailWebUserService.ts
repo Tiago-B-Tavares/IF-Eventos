@@ -16,7 +16,7 @@ class DetailWebUSerService {
 
             return user;
         } catch (error) {
-            return { message: `Não foi possível buscar dados do usuário devido ao erro: ${error} ` }
+            throw new Error( `Não foi possível buscar dados do usuário devido ao erro: ${error} `)
         }
     }
 }
