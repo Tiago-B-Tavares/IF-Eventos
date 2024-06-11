@@ -2,7 +2,7 @@
 import { getServerSession } from "next-auth"
 
 import Image from "next/image";
-import  BtnLogout from "../../components/btnLogOut/btnLogout"
+import  BtnLogout from "../components/Logout/btnLogout"
 import { redirect } from "next/navigation";
 
 
@@ -17,6 +17,7 @@ export default async function Page() {
             <div>
                 <div>Olá, {session?.user?.name} essa é a página dashboard</div>
                 <div>email:  {session?.user?.email}</div>
+                <div>image:  {session?.user?.image}</div>
                 <BtnLogout/>
             </div>
         </div>

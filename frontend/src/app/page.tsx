@@ -1,16 +1,13 @@
 
-import Link from "next/link";
-import {FormLogin} from "../components/FormLogin/login"
-import {GoogleLoginBtn} from "../components/googleLoginBtn/googleLoginBtn"
+import { FormLogin } from "./components/Auth/FormCredentialsLogin/login"
 
 
 export default function Home() {
   return (
     <main>
-      <div className="container">
-        <FormLogin/>
+      <div className="flex items-center justify-centerflex items-center justify-center h-screen w-screen">
+        <FormLogin />
       </div>
-      <GoogleLoginBtn/>
     </main>
   );
 }

@@ -40,7 +40,6 @@ const handler = NextAuth({
             id: response.data.id,
             name: response.data.nome,
             email: response.data.email,
-
           };
         } catch (error) {
           console.log("Erro na autenticação");
