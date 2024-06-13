@@ -23,7 +23,7 @@ export function FormLogin() {
     }
     return (
 
-        <div className='min-w-80 md:w-48 flex flex-col items-center justify-center border shadow-2xl'>
+        <div className='min-w-80 md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
             <Heading as='h3' size='lg' className=" py-8 text-purple-700">
                 <Highlight
                     query='login' styles={{ px: '2', py: '1', rounded: 'lg', bg: 'orange.100', color: '#7e22ce' }}>
@@ -53,18 +53,18 @@ export function FormLogin() {
             </form>
             <Text className="text-xs text-right" color='#7e22ce' >
                 Não possui uma conta?{' '}
-                <Link className='' href='#'>
+                <Link className='' href='/signup'>
                     Cadastre-se
                 </Link>
             </Text>
             <Box position='relative' padding='7'>
-                <Divider/>
+                <Divider />
                 <AbsoluteCenter className="text-gray-950 text-xs text-center text-nowrap" bg='white' px='4'>
                     Ou entre com
                 </AbsoluteCenter>
             </Box>
 
-            <GoogleLoginBtn/>
+            <GoogleLoginBtn />
         </div>
 
 

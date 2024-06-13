@@ -11,20 +11,14 @@ const facebookIconUrl = (facebookIcon as unknown as { src: string }).src;
 
 export default function GoogleLoginBtn() {
     return (
-        <div className="flex flex-col gap-2 justify-center items-center  pb-4">
-
-            <button className=" w-60 text-sm flex justify-start rounded-lg" onClick={() => { signIn('google', { callbackUrl: "/dashboard" }) }}>
-                <img className="w-4 h-4 mr-2" src={googleIconUrl} alt="" />
-                Entrar com o google
+        <div className="flex flex-row  justify-center pb-4">
+            <button className=" w-auto text-sm flex mx-5 rounded-lg border" onClick={() => { signIn('google', { callbackUrl: "/dashboard" }) }}>
+                <Image className="w-6 h-6 " src={googleIconUrl} alt="" />
             </button>
 
-            <button className=" w-60 text-sm flex justify-start rounded-lg" onClick={() => { signIn('google', { callbackUrl: "/dashboard" }) }}>
-                <img className="w-4 h-4 mr-2" src={facebookIconUrl} alt="" />
-                Entrar com o google
+            <button className=" w-auto text-sm flex rounded-lg border" onClick={() => { signIn('google', { callbackUrl: "/dashboard" }) }}>
+                <Image className="w-6 h-6 " src={facebookIconUrl} alt="" />
             </button>
-           
-
-          
         </div>
 
 
