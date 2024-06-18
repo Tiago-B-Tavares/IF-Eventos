@@ -1,7 +1,10 @@
+
 import React from 'react';
 import type { Metadata } from "next";
-import MainLayoutDashboard from '../components/MainLayout/MainLayout';
+import MainLayout from '../components/MainLayout/MainLayout';
 import MenuContextProvider from '@/contexts/MenuContexts';
+
+
 
 
 export const metadata: Metadata = {
@@ -12,12 +15,15 @@ type DashboardLayoutProps = {
     children: React.ReactNode;
 };
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+   
     return (
         <div>
-            <MenuContextProvider>
-                <MainLayoutDashboard>{ children }</MainLayoutDashboard>
-            </MenuContextProvider>
+           
+                <MenuContextProvider>
+                    <MainLayout>{children}</MainLayout>
+                </MenuContextProvider>
+            
         </div>
     );
 }

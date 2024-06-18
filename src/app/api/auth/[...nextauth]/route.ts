@@ -1,9 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { api } from '../../../../services/setupApiClient';
 import { cookies } from 'next/headers'
-const handler = NextAuth({
+
+const nextAuthOptions: NextAuthOptions = {
   pages: {
     signIn: "/"
   },
@@ -53,6 +54,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     })
   ]
-});
+}
+const handler = NextAuth(nextAuthOptions);
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, nextAuthOptions };
