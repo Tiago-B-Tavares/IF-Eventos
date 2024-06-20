@@ -1,20 +1,30 @@
-import { Request, Response} from 'express'
+import { Request, Response } from 'express';
 import { CreateWebUserService } from '../../services/webUser/CreateWebUserService';
 
-class CreateWebUserController{
-    async handle(req:Request, res: Response){
+class CreateWebUserController {
+  async handle(req: Request, res: Response) {
 
-        const { nome, email, senha } = req.body;
+    const { nome, email, senha, googleId } = req.body;
 
-        const createWebUserService = new CreateWebUserService(); 
+    try {
 
-        const user = await createWebUserService.execute({
-            nome,
-            email,
-            senha
-        });
-        
-        return res.json(user);
+      const createWebUserService = new CreateWebUserService();
+
+      const user = await createWebUserService.execute({
+        nome,
+        email,
+        senha,
+        googleId
+      });
+
+
+      return res.json(user);
+
+    } catch (error) {
+      console.error('Erro ao criar usuário:', error);
+      return res.status(500).json({ error: 'Erro ao criar usuário' });
     }
+  }
 }
-export { CreateWebUserController }
+
+export { CreateWebUserController };

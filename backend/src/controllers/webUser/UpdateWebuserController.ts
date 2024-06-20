@@ -6,14 +6,15 @@ class UpdateWebUserController{
 
         const id  = req.user_id as string;
 
-        const { nome, email } = req.body;
+        const { nome, email, senha } = req.body;
         
         const updateWebUserService = new UpdateWebUserService();
 
         const user = await updateWebUserService.execute({
                 id, 
                 nome, 
-                email
+                email, 
+                senha
             });
         
         return res.json({

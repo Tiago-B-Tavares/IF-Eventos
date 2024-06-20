@@ -4,10 +4,11 @@ import prismaClient from '../../prisma'
 interface WebUserRequest {
     nome: string;
     email: string;
-    senha: string
+    senha?: string
+    googleId?: string
 }
 class CreateWebUserService {
-    async execute({ nome, email, senha }: WebUserRequest) {
+    async execute({ nome, email, senha, googleId }: WebUserRequest) {
         try {
             if (!email) {
                 throw new Error("Email vazio!");
@@ -19,6 +20,7 @@ class CreateWebUserService {
             })
             if (userAlreadyExists) {
                 throw new Error("Email já existe!");
+               
             }
 
             const senhaHash = await hash(senha, 8)
@@ -28,11 +30,13 @@ class CreateWebUserService {
                     nome: nome,
                     email: email,
                     senha: senhaHash,
+                    googleId: googleId
                 },
                 select: {
                     id: true,
                     nome: true,
                     email: true,
+                    googleId: true
                 }
             })
 
@@ -40,7 +44,7 @@ class CreateWebUserService {
         } catch (error) {
 
             console.error("Erro no processo de autenticação:", error);
-            throw new Error(`Não foi possível cadastrar o usuário devido ao erro: ${error.message}`);
+            throw new Error( error.message);
         }
     }
 }

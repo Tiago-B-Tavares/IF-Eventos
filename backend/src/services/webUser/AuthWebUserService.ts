@@ -9,7 +9,7 @@ interface AuthRequest {
 class AuthWebUserService {
   async execute({ email, senha }: AuthRequest) {
 
-    console.log('recebidos do controller: ', email, ' ', senha);
+   
     
     try {
       const user = await prismaClient.organizador.findFirst({
