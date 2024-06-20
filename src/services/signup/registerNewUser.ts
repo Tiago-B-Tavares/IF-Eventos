@@ -4,6 +4,7 @@ interface DataRegister {
     nome: string;
     email: string;
     senha: string;
+    googleId?: string | undefined ;
 }
 
 export default async function registerNewUser(data: DataRegister) {

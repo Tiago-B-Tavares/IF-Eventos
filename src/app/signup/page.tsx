@@ -1,6 +1,4 @@
-
-"use client";
-
+"use client"
 import React from 'react';
 import { Heading, Highlight, Input, Text, Link, useToast } from "@chakra-ui/react";
 import registerNewUser from "@/services/signup/registerNewUser";
@@ -14,10 +12,13 @@ export default function Signup() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
-        const nome = formData.get("nome");
-        const email = formData.get("email");
-        const senha = formData.get("senha");
-        const confirmaSenha = formData.get("confirmaSenha");
+        const nome = formData.get("nome") as string;
+        let email = formData.get("email") as string;
+        const senha = formData.get("senha") as string;
+        const confirmaSenha = formData.get("confirmaSenha") as string;
+
+        
+        email = email.trim().toLowerCase();
 
         if (senha !== confirmaSenha) {
             toast({
@@ -31,9 +32,9 @@ export default function Signup() {
         }
 
         const data = {
-            nome: nome as string,
-            email: email as string,
-            senha: senha as string,
+            nome,
+            email,
+            senha,
         };
 
         try {
@@ -58,7 +59,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="flex items-center justify-center py-3  rounded-lg h-screen w-screen">
+        <div className="flex items-center justify-center py-3 rounded-lg h-screen w-screen">
             <div className="min-w-80 md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl">
                 <Heading as="h3" size="lg" className="text-purple-700  pt-3">
                     <Highlight
@@ -68,7 +69,7 @@ export default function Signup() {
                         Faça seu cadastro!
                     </Highlight>
                 </Heading>
-                <form onSubmit={getDataNewUser} className="flex items-center  flex-col gap-4 p-6">
+                <form onSubmit={getDataNewUser} className="flex items-center flex-col gap-4 p-6">
                     <Input
                         type="text"
                         placeholder="Nome"
@@ -100,7 +101,7 @@ export default function Signup() {
                         focusBorderColor="#7e22ce"
                     />
                     <button className="text-white bg-purple-700 py-2 px-4 rounded-md" type="submit">
-                        Entrar
+                        Cadastrar
                     </button>
                 </form>
                 <Text className="text-xs text-right mb-7" color="#7e22ce">

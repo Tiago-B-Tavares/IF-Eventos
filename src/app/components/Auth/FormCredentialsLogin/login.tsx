@@ -11,19 +11,25 @@ export function FormLogin() {
     async function login(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
+     
+        let email = formData.get("email") as string;
+
+        email = email.trim().toLowerCase();
+        
+        const password = formData.get("password")
 
         const data = {
-            email: formData.get("email"),
-            password: formData.get("password")
+            email:email,
+            password:password
         }
         signIn("credentials", {
             ...data,
             callbackUrl: "/dashboard"
         })
-    }
+}
     return (
 
-        <div className='min-w-80 md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
+        <div className='min-w-96 h-auto  py-7  md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
             <Heading as='h3' size='lg' className=" py-8 text-purple-700">
                 <Highlight
                     query='login' styles={{ px: '2', py: '1', rounded: 'lg', bg: 'orange.100', color: '#7e22ce' }}>
@@ -49,7 +55,7 @@ export function FormLogin() {
                     focusBorderColor='#7e22ce'
 
                 />
-                <button className="text-white bg-purple-700 py-2 px-4 rounded-md	 " type="submit">Entrar</button>
+                <button className="text-white bg-green-950 py-2 px-4 rounded-md	 " type="submit">Entrar</button>
             </form>
             <Text className="text-xs text-right" color='#7e22ce' >
                 Não possui uma conta?{' '}
