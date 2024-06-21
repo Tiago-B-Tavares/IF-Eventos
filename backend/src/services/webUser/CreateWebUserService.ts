@@ -36,7 +36,7 @@ class CreateWebUserService {
                     id: true,
                     nome: true,
                     email: true,
-                    googleId: true
+                   
                 }
             })
 

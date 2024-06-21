@@ -1,39 +1,56 @@
 import prismaClient from "../../prisma";
 
 interface CreateEventoRequest {
-    nome:string
+    nome: string;
     data: string;
     horario: string;
     local: string;
     organizador_id: string;
-
 }
 
 class CreateEventoService {
     async execute({ nome, data, horario, local, organizador_id }: CreateEventoRequest) {
-
         try {
             const evento = await prismaClient.evento.create({
                 data: {
-                    nome:nome,
-                    data: data,
-                    horario: horario,
-                    local: local,
-                    organizador_id: organizador_id
+                    nome,
+                    data,
+                    horario,
+                    local,
+                    organizadores: {
+                        create: {
+                            organizador: {
+                                connect: { id: organizador_id },
+                            },
+                        },
+                    },
                 },
-                select: {
-                    nome:true,
-                    data: true,
-                    horario: true,
-                    local: true
-                }
-            })
+                include: {
+                    organizadores: {
+                        include: {
+                            organizador: true,
+                        },
+                    },
+                },
+            });
 
-            return evento;
+            const eventoResponse = {
+                id: evento.id,
+                nome: evento.nome,
+                data: evento.data,
+                horario: evento.horario,
+                local: evento.local,
+                organizadores: evento.organizadores.map(org => ({
+                    id: org.organizador.id,
+                    nome: org.organizador.nome,
+                })),
+            };
 
+            return eventoResponse;
         } catch (error) {
-            return { message: `Não foi possível cadastrar Evento devido ao erro: ${error} ` }
+            return { message: `Não foi possível cadastrar Evento devido ao erro: ${error.message}` };
         }
     }
 }
-export { CreateEventoService }
+
+export { CreateEventoService };
