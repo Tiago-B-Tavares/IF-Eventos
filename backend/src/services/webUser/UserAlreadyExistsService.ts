@@ -13,7 +13,6 @@ interface UserExistsResponse {
 class UserAlreadyExistsService {
   async execute({ email }: UserExistsRequest): Promise<UserExistsResponse> {
     try {
-      console.log(email);
 
       const user = await prismaClient.organizador.findFirst({
         where: {

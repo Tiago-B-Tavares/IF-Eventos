@@ -38,6 +38,7 @@ model Evento {
 model Atividade {
   id        String      @id @default(uuid())
   local     String
+  nome      String
   horario   String
   descricao String
   vagas     String

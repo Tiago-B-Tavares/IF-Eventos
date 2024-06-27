@@ -4,7 +4,7 @@ import { CreateAtividadeService } from "../../services/atividades/CreateAtividad
 class CreateAtividadeController {
     async handle(req: Request, res: Response) {
 
-        const { local, horario, descricao, vagas, evento_id } = req.body;
+        const { local, horario, nome, descricao, vagas, evento_id } = req.body;
 
         const createAtividadeService = new CreateAtividadeService();
 
@@ -20,6 +20,7 @@ class CreateAtividadeController {
 
                 local,
                 horario,
+                nome,
                 descricao,
                 vagas,
                 banner,

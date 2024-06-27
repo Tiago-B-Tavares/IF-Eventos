@@ -6,6 +6,7 @@ import { CreateWebUserController } from './controllers/webUser/CreateWebUserCont
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
 import { DetailWebUserController } from './controllers/webUser/DetailWebUserController';
 import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
+import { GetUserDataController } from './controllers/webUser/GetUserDataController';
 import { UserAlreadyExistsController } from './controllers/webUser/UserAlreadyExistsController';
 
 import { CreateAppUserController } from './controllers/appUser/CreateAppUserController';
@@ -43,23 +44,24 @@ router.post('/session', new AuthWebUserController().handle);
 
 router.get('/me', new DetailWebUserController().handle);
 
+router.get('/userData', new GetUserDataController().handle);
+
 router.post('/check-email', new UserAlreadyExistsController().handler);
-
-
 
 router.put('/user', new UpdateWebUserController().handle);
 
 //User app
+
 router.post('/app/user', new CreateAppUserController().handle);
 
 router.post('/app/session', new AuthAppUserController().handle);
-
 
 router.put('/app/user', new UpdateAppUserController().handle);
 
 //Evento
 
 router.post('/eventos', new CreateEventoController().handle)
+
 router.get('/eventos', new ListEventoController().handle);
 
 router.put('/evento', new UpdateEventoController().handle);
