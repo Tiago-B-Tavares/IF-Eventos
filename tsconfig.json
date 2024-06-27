@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/MainLayout/MainLayout.tsx", "src/contexts/MenuContexts.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/MainLayout/MainLayout.tsx", "src/contexts/MenuContexts.jsx", "src/middleware.ts"],
   "exclude": ["node_modules"]
 }

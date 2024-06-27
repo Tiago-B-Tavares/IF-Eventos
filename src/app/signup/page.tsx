@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { Heading, Highlight, Input, Text, Link, useToast } from "@chakra-ui/react";
-import registerNewUser from "@/services/signup/registerNewUser";
+import registerNewUser from "@/services/user/registerNewUser";
 import { useRouter } from 'next/navigation'; // Use next/navigation ao invés de next/router
 
 export default function Signup() {

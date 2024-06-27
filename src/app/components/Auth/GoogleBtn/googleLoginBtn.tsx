@@ -5,7 +5,7 @@ import { Image } from '@chakra-ui/react'
 import googleIcon from "../../../images/googleIcon.png"
 import facebookIcon from "../../../images/facebookIcon.png"
 
-// Converter StaticImageData para string
+
 const googleIconUrl = (googleIcon as unknown as { src: string }).src;
 const facebookIconUrl = (facebookIcon as unknown as { src: string }).src;
 

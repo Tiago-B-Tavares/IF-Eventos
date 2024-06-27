@@ -1,12 +1,9 @@
 "use client";
+
 import MainHeader from "../Header/Header";
-
-
 import { MenuContexts } from "../../../contexts/MenuContexts";
 import { useContext } from "react";
 import MenuBar from "../MenuBar/MenuBar";
-
-
 
 type DashboardLayoutProps = {
     children: React.ReactNode;
@@ -26,8 +23,6 @@ export default function MainLayout({ children }: DashboardLayoutProps) {
                     {children}
                 </main>
             </div>
-
         </div>
     )
-
 }

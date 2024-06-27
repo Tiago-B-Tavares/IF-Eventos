@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ChakraProvider } from '@chakra-ui/react';
-
-import "./globals.css";
-import { SessionProvider } from "next-auth/react";
 import NextAuthSessionProvider from "@/providers/sessionProvider";
+import "./globals.css";
+import ChakraUIProvider from "@/providers/ChakraUIProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,9 +21,9 @@ export default async function RootLayout({
     <html lang="pt-br">
       <body className={inter.className}>
         <NextAuthSessionProvider> 
-          <ChakraProvider>
+          <ChakraUIProvider>
             {children}
-          </ChakraProvider>
+          </ChakraUIProvider>
          </NextAuthSessionProvider>
       </body>
     </html>

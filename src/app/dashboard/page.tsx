@@ -1,18 +1,14 @@
 
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+"use client"
+import { useSession } from "next-auth/react";
 
-
-
-export default async function Dashboard() {
-    const session = await getServerSession();
-    if (!session) {
-        redirect("/")
-    }
-
+export default function Dashboard() {
+    
+    const { data: session } = useSession();
+  
     return (
         <div>
-            <h1>home</h1>
+           home
         </div>
 
     )

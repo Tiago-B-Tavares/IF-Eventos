@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { FaBars, FaRegUser } from "react-icons/fa";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import BtnLogout from "../Logout/btnLogout";
-import { Menu, MenuButton, Button, MenuList, MenuGroup, MenuItem, MenuDivider, Avatar, WrapItem } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuGroup, MenuItem, MenuDivider, Avatar, WrapItem } from "@chakra-ui/react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -21,7 +21,7 @@ export default function MainHeader() {
                     <WrapItem>
                         <Avatar
                             name={data?.user?.name ?? "Usuário"}
-                            src={data?.user?.image ?? "https://bit.ly/dan-abramov"}
+                            src={data?.user?.image ?? "https://bit.ly/broken-link"}
                         />
                     </WrapItem>
                     </MenuButton>

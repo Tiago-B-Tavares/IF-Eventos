@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { Input, Button, Box, Divider, AbsoluteCenter, Heading, Text } from '@chakra-ui/react'
+import { Input, Box, Divider, AbsoluteCenter, Heading, Text } from '@chakra-ui/react'
 import GoogleLoginBtn from "../GoogleBtn/googleLoginBtn";
 import { Highlight } from '@chakra-ui/react'
 import Link from "next/link";
@@ -29,7 +29,7 @@ export function FormLogin() {
 }
     return (
 
-        <div className='min-w-96 h-auto  py-7  md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
+        <div className='min-w-96 h-auto  py-7  lg:w-48 sx:w-full flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
             <Heading as='h3' size='lg' className=" py-8 text-purple-700">
                 <Highlight
                     query='login' styles={{ px: '2', py: '1', rounded: 'lg', bg: 'orange.100', color: '#7e22ce' }}>

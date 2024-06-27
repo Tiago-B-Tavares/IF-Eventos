@@ -1,9 +1,14 @@
 {
   "pages": {
-    "/page": [
+    "/dashboard/eventos/meus-eventos/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/dashboard/eventos/meus-eventos/page.js"
+    ],
+    "/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/layout.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,25 +16,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/signup/page": [
+    "/dashboard/eventos/novo-evento/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/signup/page.js"
+      "static/chunks/app/dashboard/eventos/novo-evento/page.js"
     ],
     "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/page.js"
     ],
-    "/dashboard/layout": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/layout.js"
-    ],
-    "/dashboard/eventos/meusEventos/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/eventos/meusEventos/page.js"
+      "static/chunks/app/page.js"
     ]
   }
 }

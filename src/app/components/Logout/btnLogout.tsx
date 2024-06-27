@@ -1,16 +1,16 @@
-// BtnLogout.jsx (ou BtnLogout.tsx se estiver usando TypeScript)
-import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from 'next-auth/react';
 
-export default function BtnLogout() {
-    const { data: session } = useSession(); // Obtém a sessão do usuário
+function LogoutButton() {
+  const { data: session } = useSession();
 
-    const handleSignOut = async () => {
-        await signOut(); // Função assíncrona para realizar o logout
-    };
+  const handleLogout = async () => {
+    await signOut();
+   
+  };
 
-    return (
-        <button onClick={handleSignOut}>
-            Sair
-        </button>
-    );
+  return (
+    <button onClick={handleLogout}>Sair</button>
+  );
 }
+
+export default LogoutButton;
