@@ -35,9 +35,6 @@ export default function MainHeader() {
                             <RiLogoutBoxLine className="mr-3" />
                             <BtnLogout />
                         </div>
-
-
-
                     </MenuList>
                 </Menu>
 

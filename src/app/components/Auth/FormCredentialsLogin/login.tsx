@@ -29,8 +29,8 @@ export function FormLogin() {
 }
     return (
 
-        <div className='min-w-96 h-auto  py-7  lg:w-48 sx:w-full flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
-            <Heading as='h3' size='lg' className=" py-8 text-purple-700">
+        <div className='min-w-96 h-auto  py-7  lg:w-48 md:w-full sm:w-full  flex flex-col items-center justify-center border rounded-2xl shadow-2xl'>
+            <Heading as='h3' size='lg' className=" py-8 text-purple-700 sm:text-lg">
                 <Highlight
                     query='login' styles={{ px: '2', py: '1', rounded: 'lg', bg: 'orange.100', color: '#7e22ce' }}>
                     Faça seu login
@@ -55,7 +55,7 @@ export function FormLogin() {
                     focusBorderColor='#7e22ce'
 
                 />
-                <button className="text-white bg-green-950 py-2 px-4 rounded-md	 " type="submit">Entrar</button>
+                <button className="text-white bg-purple-700 py-2 px-4 rounded-md	 " type="submit">Entrar</button>
             </form>
             <Text className="text-xs text-right" color='#7e22ce' >
                 Não possui uma conta?{' '}

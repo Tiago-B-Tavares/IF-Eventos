@@ -27,7 +27,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
-    Image // Import the Image component
+    Image 
 } from "@chakra-ui/react";
 import { FaTrashAlt, FaPen } from "react-icons/fa";
 
@@ -49,7 +49,7 @@ interface ActivitiesProps {
     local: string;
     descricao: string;
     vagas: string;
-    banner: string; // URL for the image
+    banner: string; 
     eventoId: string;
 }
 
@@ -119,10 +119,6 @@ export default function Eventos() {
         }
     };
 
-    if (!session) {
-        return <div>Você precisa estar logado para ver os eventos.</div>;
-    }
-
     return (
         <div>
             {eventos.length > 0 ? (
@@ -136,7 +132,7 @@ export default function Eventos() {
                                         <h2>
                                             <AccordionButton>
                                                 <Box className="text-lg" as='span' flex='1' textAlign='left'>
-                                                    <Heading size='lg'> {evento.nome}</Heading>
+                                                    <Heading size='md'> {evento.nome}</Heading>
                                                 </Box>
                                                 <AccordionIcon />
                                             </AccordionButton>
@@ -153,7 +149,7 @@ export default function Eventos() {
                                                                 className="flex justify-center w-60"
                                                             >
                                                                 <Stack >
-                                                                    <CardBody  className="w-auto">
+                                                                    <CardBody className="w-auto">
                                                                         <div>
                                                                             <Heading size='md'>{atividade.nome}</Heading>
                                                                             <Box>
@@ -178,7 +174,7 @@ export default function Eventos() {
                                                                         }}>
                                                                             Excluir
                                                                         </Button>
-                                                                        <Button leftIcon={<FaPen />}  colorScheme='blue'>
+                                                                        <Button leftIcon={<FaPen />} colorScheme='blue'>
                                                                             Editar
                                                                         </Button>
                                                                     </CardFooter>
@@ -188,7 +184,7 @@ export default function Eventos() {
                                                     ))}
                                                 </ul>
                                             ) : (
-                                                <div>Não há atividades para este evento.</div>
+                                                <div className="text-sm font-semibold text-purple-700">Não há atividades para este evento</div>
                                             )}
                                         </AccordionPanel>
                                     </AccordionItem>

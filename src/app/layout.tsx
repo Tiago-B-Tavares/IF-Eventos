@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import NextAuthSessionProvider from "@/providers/sessionProvider";
 import "./globals.css";
 import ChakraUIProvider from "@/providers/ChakraUIProvider";
 
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   description: "next-auth credentials",
@@ -19,6 +19,9 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-br">
+      <head>
+
+      </head>
       <body className={inter.className}>
         <NextAuthSessionProvider> 
           <ChakraUIProvider>
