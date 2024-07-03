@@ -10,7 +10,6 @@ import { GetUserDataController } from './controllers/webUser/GetUserDataControll
 import { UserAlreadyExistsController } from './controllers/webUser/UserAlreadyExistsController';
 
 import { CreateAppUserController } from './controllers/appUser/CreateAppUserController';
-import { AuthAppUserController } from './controllers/appUser/AuthAppUserController';
 import { UpdateAppUserController } from './controllers/appUser/UpdateAppUserController';
 
 import { CreateEventoController } from './controllers/evento/CreateEventoController';
@@ -53,8 +52,6 @@ router.put('/user', new UpdateWebUserController().handle);
 //User app
 
 router.post('/app/user', new CreateAppUserController().handle);
-
-router.post('/app/session', new AuthAppUserController().handle);
 
 router.put('/app/user', new UpdateAppUserController().handle);
 

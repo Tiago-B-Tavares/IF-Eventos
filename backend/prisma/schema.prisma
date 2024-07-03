@@ -80,6 +80,7 @@ model Inscricao {
 }
 
 model EventoOrganizador {
+  id             String
   organizador_id String
   evento_id      String
   organizador    Organizador  @relation(fields: [organizador_id], references: [id])

@@ -1,4 +1,4 @@
-Requisitos dev web
+Requisitos web
 
 [X] O sistema deve permitir o cadastro de um usuário
 [X] O sistema deve permitir o login com os dados cadastrados no sistema.
@@ -21,7 +21,7 @@ Regras de negócio:
 [ ] O sistema deve receber dados dos participante através do qrcode.
 [ ] O sistema deve permitir a visualização dos dados através de gráficos.
 
- 
+
 
 
 
@@ -35,12 +35,31 @@ GEOLOCALIZAÇÃO:
 - Deixar o usuario web escolher o local e pegar latitude e longitude e salvar no banco
 - Pegar a localização do usuario app (latitude e longitude) 
 - Definir uma distancia mínima para validar a participação nas atividades
-- Monitorar a distancia do usuário e do local da atividade
+- Monitorar a distancia entre o usuário do app e do local da atividade cadastrado
 
 QRCODE:
 
 - Usar api de geração do qrcode
 - O usuário web gera um qrcode com o link da rota de inscrição 
-- O usuário web pode imprimir o codigo gerado
+- O usuário web pode baixar o codigo gerado
 - O usuário app escaneia e abre a tela de se inscrever na atividade
 
+
+
+- adicionar status se o evento pode ser concomitante com outro ou não
+
+- certificados diferentes para proponentes(com dobro de horas), monitores e organizadores(fixo definido pelo criador do evento) e participantes(por participação) 
+
+- Certificado do evento com soma de horas de atividades (frente) e certificados das atividades (verso)
+
+- qrcode representando assinatura dos diretores e organizadores(link para o suap)
+
+- Adicionar usuário administrador de todo evento
+
+- permitir ao organiizador alterar dados de um participante
+
+- adicionar periodo do evento (data de inicio e fim )
+
+- Adicionar status de check-in e check-out 
+
+- adicionar horario de check-in e check-out da atividade
