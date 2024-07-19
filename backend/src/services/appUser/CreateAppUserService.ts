@@ -1,11 +1,12 @@
 import { hash } from 'bcryptjs';
 import prismaClient from '../../prisma'
+import { Sex } from '../../enums/participantSex'
 
 interface AppUserRequest {
     nome: string;
     email: string;
     senha: string
-    sexo: string;
+    sexo:Sex;
     idade:number;
 }
 class CreateAppUserService {

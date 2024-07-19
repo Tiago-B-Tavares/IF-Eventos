@@ -2,29 +2,39 @@ import prismaClient from "../../prisma";
 
 interface CreateEventoRequest {
     nome: string;
-    data: string;
+    dataInicio: string;
+    dataFim: string;
     horario: string;
     local: string;
     organizador_id: string;
 }
 
 class CreateEventoService {
-    async execute({ nome, data, horario, local, organizador_id }: CreateEventoRequest) {
+    async execute({ nome, dataInicio, dataFim, horario, local, organizador_id }: CreateEventoRequest) {
         try {
+           console.log(nome, dataInicio, dataFim, horario, local, organizador_id);
+           
             const evento = await prismaClient.evento.create({
                 data: {
                     nome,
-                    data,
+                    dataInicio,
+                    dataFim,
                     horario,
                     local,
-                    organizadores: {
-                        create: {
-                            organizador: {
-                                connect: { id: organizador_id },
-                            },
-                        },
-                    },
                 },
+            });
+
+            // Cria a relação no modelo EventoOrganizador
+            await prismaClient.eventoOrganizador.create({
+                data: {
+                    evento_id: evento.id,
+                    organizador_id: organizador_id,
+                },
+            });
+
+            // Recupera o evento com os organizadores
+            const eventoComOrganizadores = await prismaClient.evento.findUnique({
+                where: { id: evento.id },
                 include: {
                     organizadores: {
                         include: {
@@ -35,12 +45,13 @@ class CreateEventoService {
             });
 
             const eventoResponse = {
-                id: evento.id,
-                nome: evento.nome,
-                data: evento.data,
-                horario: evento.horario,
-                local: evento.local,
-                organizadores: evento.organizadores.map(org => ({
+                id: eventoComOrganizadores.id,
+                nome: eventoComOrganizadores.nome,
+                dataInicio: eventoComOrganizadores.dataInicio,
+                dataFim: eventoComOrganizadores.dataFim,
+                horario: eventoComOrganizadores.horario,
+                local: eventoComOrganizadores.local,
+                organizadores: eventoComOrganizadores.organizadores.map(org => ({
                     id: org.organizador.id,
                     nome: org.organizador.nome,
                 })),

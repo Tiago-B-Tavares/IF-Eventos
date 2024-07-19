@@ -19,7 +19,7 @@ import { ListEventoController } from './controllers/evento/ListEventoController'
 
 import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
 import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
-import { SearchAllAtividadesController } from './controllers/atividades/listAtividadesByEventIdController';
+import { SearchAllAtividadesController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';

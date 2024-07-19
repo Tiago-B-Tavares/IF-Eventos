@@ -8,60 +8,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Sexo {
+  M
+  F
+}
+
+
+enum Role {
+  SUPER_ADMIN
+  ACTIVITIES_ADMIN
+}
+
 model Organizador {
-  id        String   @id @default(uuid())
-  nome      String
-  email     String
-  senha     String
-  googleId  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  eventos   EventoOrganizador[]
-  
+  id             String              @id @default(uuid())
+  nome           String
+  email          String              
+  senha          String
+  role           Role
+  googleId       String?             
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  eventos        EventoOrganizador[]
+  atividades     AtividadeOrganizador[] // Novo campo para o relacionamento
+
   @@map("organizadores")
 }
 
 model Evento {
-  id             String              @id @default(uuid())
-  nome           String
-  data           String
-  horario        String
-  local          String
-  createdAt      DateTime            @default(now())
-  updatedAt      DateTime            @default(now())
-  atividades     Atividade[]
-  organizadores  EventoOrganizador[]
-  
+  id            String              @id @default(uuid())
+  nome          String
+  dataInicio    String
+  dataFim       String
+  horario       String
+  local         String
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  atividades    Atividade[]
+  organizadores EventoOrganizador[]
+
   @@map("eventos")
 }
 
 model Atividade {
-  id        String      @id @default(uuid())
-  local     String
-  nome      String
-  horario   String
-  descricao String
-  vagas     Int
-  banner    String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now())
-  evento    Evento      @relation(fields: [evento_id], references: [id])
-  evento_id String
+  id            String               @id @default(uuid())
+  local         String
+  nome          String
+  horario       String
+  ch            Int
+  descricao     String
+  vagas         Int
+  banner        String
+  concomitante  Boolean
+  colaboradores String[]
+  responsavel   String
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  evento        Evento               @relation(fields: [evento_id], references: [id])
+  evento_id     String
+  organizadores AtividadeOrganizador[] // Novo campo para o relacionamento
 
-  inscricoes Inscricao[]
+  inscricoes    Inscricao[]
 
   @@map("atividades")
 }
 
 model Participante {
-  id        String       @id @default(uuid())
-  nome      String
-  email     String
-  senha     String
-  sexo      String
-  idade     Int
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @default(now())
+  id         String      @id @default(uuid())
+  nome       String
+  email      String      
+  senha      String
+  sexo       Sexo
+  idade      Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   inscricoes Inscricao[]
 
   @@map("participantes")
@@ -70,7 +89,7 @@ model Participante {
 model Inscricao {
   id              String       @id @default(uuid())
   createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
   atividade       Atividade    @relation(fields: [atividade_id], references: [id])
   atividade_id    String
   participante    Participante @relation(fields: [participante_id], references: [id])
@@ -80,12 +99,21 @@ model Inscricao {
 }
 
 model EventoOrganizador {
-  id             String
+  id             String      @id @default(uuid())
   organizador_id String
   evento_id      String
-  organizador    Organizador  @relation(fields: [organizador_id], references: [id])
-  evento         Evento       @relation(fields: [evento_id], references: [id])
+  organizador    Organizador @relation(fields: [organizador_id], references: [id])
+  evento         Evento      @relation(fields: [evento_id], references: [id])
 
-  @@id([organizador_id, evento_id])
   @@map("evento_organizador")
+}
+
+model AtividadeOrganizador {
+  id             String      @id @default(uuid())
+  organizador_id String
+  atividade_id   String
+  organizador    Organizador @relation(fields: [organizador_id], references: [id])
+  atividade      Atividade   @relation(fields: [atividade_id], references: [id])
+
+  @@map("atividade_organizadores")
 }

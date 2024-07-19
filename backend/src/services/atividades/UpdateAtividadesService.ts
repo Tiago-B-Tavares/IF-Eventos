@@ -1,17 +1,22 @@
-import { PrismaClient } from "@prisma/client";
+
 import prismaClient from "../../prisma";
 
 interface UpdateAtividadeRequest {
-    id: string;
+    id:string;
+    nome: string;
+    responsavel: string;
+    colaboradores: string[];
+    descricao: string;
     local: string;
     horario: string;
-    descricao: string;
-    vagas: string;
+    vagas: number; 
+    ch: number;
+    concomitante: boolean;
     banner: string;
     evento_id: string;
 }
 class UpdateAtividadesService {
-    async execute({ id, local, horario, descricao, vagas, banner, evento_id }: UpdateAtividadeRequest) {
+    async execute({ id, local, horario, ch, concomitante, nome, descricao, vagas, banner, evento_id }: UpdateAtividadeRequest) {
         try {
             const updadeEvento = await prismaClient.atividade.update({
                 where: {
@@ -21,8 +26,11 @@ class UpdateAtividadesService {
 
                     local,
                     horario,
+                    ch,
+                    concomitante,
+                    nome,
                     descricao,
-                    vagas,
+                    vagas ,
                     banner,
                     evento_id
 

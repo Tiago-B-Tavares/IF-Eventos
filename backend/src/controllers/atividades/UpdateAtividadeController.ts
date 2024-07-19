@@ -4,9 +4,8 @@ import { UpdateAtividadesService } from "../../services/atividades/UpdateAtivida
 class UpdateAtividadeController {
     async handle(req: Request, res: Response) {
 
-        const { id, local, horario, descricao, vagas, evento_id } = req.body;
+        const { id, nome, responsavel, colaboradores, descricao, local, horario, vagas, ch, concomitante, banner, evento_id   } = req.body;
 
-        const updateAtividadesService = new UpdateAtividadesService();
         if (!req.file) {
             throw new Error("Erro ao enviar arquivo");
         } else {
@@ -17,8 +16,13 @@ class UpdateAtividadeController {
 
             const atividade = await updateAtividadesService.execute({
                 id: id,
+                nome:nome,
+                responsavel:responsavel,
+                colaboradores:colaboradores,
                 local: local,
                 horario: horario,
+                ch:ch,
+                concomitante:concomitante,
                 descricao: descricao,
                 vagas: vagas,
                 banner: banner,

@@ -3,20 +3,22 @@ import prismaClient from "../../prisma";
 
 interface UpdateEventoRequest {
     id: string;
-    data: string;
+    dataInicio: string;
+    dataFim: string;
     horario: string;
     local: string;
 
 }
 class UpdateEventoService {
-    async execute({ id, data, horario, local }: UpdateEventoRequest) {
+    async execute({ id, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
         try {
             const updadeEvento = await prismaClient.evento.update({
                 where: {
                     id: id
                 },
                 data: {
-                    data: data,
+                    dataInicio,
+                    dataFim,
                     horario: horario,
                     local: local,
                 }
