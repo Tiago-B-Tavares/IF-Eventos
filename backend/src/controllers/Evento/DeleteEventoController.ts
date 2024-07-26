@@ -4,7 +4,7 @@ import { DeleteEventoService } from "../../services/evento/DeleteEventoService";
 class DeleteEventoController {
     async handle(req: Request, res: Response) {
 
-        const id = req.query.id as string;
+        const id = req.query.evento_id as string;
 
         const deleteEventoService = new DeleteEventoService();
 

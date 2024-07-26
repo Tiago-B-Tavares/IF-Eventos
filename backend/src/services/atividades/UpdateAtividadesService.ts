@@ -18,7 +18,7 @@ interface UpdateAtividadeRequest {
 class UpdateAtividadesService {
     async execute({ id, local, horario, ch, concomitante, nome, descricao, vagas, banner, evento_id }: UpdateAtividadeRequest) {
         try {
-            const updadeEvento = await prismaClient.atividade.update({
+            const updadeAtividade = await prismaClient.atividade.update({
                 where: {
                     id: id
                 },
@@ -36,6 +36,7 @@ class UpdateAtividadesService {
 
                 }
             })
+            return updadeAtividade
         } catch (error) {
             return { message: `Não foi possível atualizar essa atividade devido ao erro: ${error} `}
         }

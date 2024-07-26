@@ -4,34 +4,51 @@ import { CreateAtividadeService } from '../../services/atividades/CreateAtividad
 class CreateAtividadeController {
     async handle(req: Request, res: Response) {
         try {
-            const { nome, responsavel, colaboradores, descricao, local, horario, vagas, ch, concomitante } = req.body;
+            
+            const {
+                nome,
+                descricao,
+                local,
+                horario,
+                vagas,
+                ch,
+                concomitante,
+                organizador_id
+            } = req.body;
+
+        
             const evento_id = req.query.id as string;
 
-
-            const createAtividadeService = new CreateAtividadeService();
-
+         
             if (!req.file) {
                 throw new Error("Erro ao enviar arquivo");
             }
 
+            
             const { originalname, filename: banner } = req.file;
 
+           
+            const createAtividadeService = new CreateAtividadeService();
+
+            
             const atividade = await createAtividadeService.execute({
                 nome,
-                responsavel,
-                colaboradores,
                 descricao,
                 local,
                 horario,
-                vagas:Number(vagas),
-                ch:Number(ch),
-                concomitante: concomitante==="true",
-                banner,
-                evento_id
+                vagas: Number(vagas),
+                ch: Number(ch),
+                concomitante: !!concomitante ,
+                banner, 
+                evento_id,
+                organizador_id,
+               
             });
 
+            // Retornando a resposta com a atividade criada
             return res.json(atividade);
         } catch (error) {
+            // Retornando erro em caso de falha
             return res.status(400).json({ error: error.message });
         }
     }

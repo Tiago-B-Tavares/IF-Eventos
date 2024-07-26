@@ -3,8 +3,8 @@ import { UpdateAtividadesService } from "../../services/atividades/UpdateAtivida
 
 class UpdateAtividadeController {
     async handle(req: Request, res: Response) {
-
-        const { id, nome, responsavel, colaboradores, descricao, local, horario, vagas, ch, concomitante, banner, evento_id   } = req.body;
+        const id = req.query.id as string;
+        const {  nome, responsavel, colaboradores, descricao, local, horario, vagas, ch, concomitante, banner, evento_id   } = req.body;
 
         if (!req.file) {
             throw new Error("Erro ao enviar arquivo");
@@ -21,16 +21,16 @@ class UpdateAtividadeController {
                 colaboradores:colaboradores,
                 local: local,
                 horario: horario,
-                ch:ch,
-                concomitante:concomitante,
+                ch:Number(ch),
+                concomitante:!!concomitante,
                 descricao: descricao,
-                vagas: vagas,
+                vagas: Number(vagas),
                 banner: banner,
                 evento_id: evento_id
             })
-            return res.json({
-                message: "Alterado com sucesso!"
-            });
+            return res.json(
+                atividade
+            );
         }
     }
 }

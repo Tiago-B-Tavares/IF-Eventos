@@ -22,6 +22,8 @@ import { DeleteAtividadeController } from './controllers/atividades/DeleteAtivid
 import { SearchAllAtividadesController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
+import {CreateColaboradorController} from './controllers/colaboradores/CreateColaboradorController'
+
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
 import { ShowInscritosByAtividadeController } from './controllers/inscricoes/ShowInscritosByAtividadeController';
@@ -74,6 +76,10 @@ router.delete('/atividades', new DeleteAtividadeController().handle);
 router.get('/evento/atividades', new SearchAllAtividadesController().handle);
 
 router.put('/atividades', upload.single('file'), new UpdateAtividadeController().handle);
+
+//colaboradores das atividades
+
+router.post('/colaborador', new CreateColaboradorController().handle);
 
 //Inscrições
 

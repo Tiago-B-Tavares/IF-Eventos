@@ -12,54 +12,43 @@ interface CreateEventoRequest {
 class CreateEventoService {
     async execute({ nome, dataInicio, dataFim, horario, local, organizador_id }: CreateEventoRequest) {
         try {
-           console.log(nome, dataInicio, dataFim, horario, local, organizador_id);
-           
-            const evento = await prismaClient.evento.create({
-                data: {
-                    nome,
-                    dataInicio,
-                    dataFim,
-                    horario,
-                    local,
+            const userRole = await prismaClient.organizador.findFirst({
+                where: {
+                    id: organizador_id,
                 },
-            });
-
-            // Cria a relação no modelo EventoOrganizador
-            await prismaClient.eventoOrganizador.create({
-                data: {
-                    evento_id: evento.id,
-                    organizador_id: organizador_id,
-                },
-            });
-
-            // Recupera o evento com os organizadores
-            const eventoComOrganizadores = await prismaClient.evento.findUnique({
-                where: { id: evento.id },
-                include: {
-                    organizadores: {
-                        include: {
-                            organizador: true,
-                        },
+                select:{
+                    role: true
+                }
+            })
+            if (userRole.role === 'SUPER_ADMIN') {
+                const evento = await prismaClient.evento.create({
+                    data: {
+                        nome,
+                        dataInicio,
+                        dataFim,
+                        horario,
+                        local,
                     },
-                },
-            });
+                });
 
-            const eventoResponse = {
-                id: eventoComOrganizadores.id,
-                nome: eventoComOrganizadores.nome,
-                dataInicio: eventoComOrganizadores.dataInicio,
-                dataFim: eventoComOrganizadores.dataFim,
-                horario: eventoComOrganizadores.horario,
-                local: eventoComOrganizadores.local,
-                organizadores: eventoComOrganizadores.organizadores.map(org => ({
-                    id: org.organizador.id,
-                    nome: org.organizador.nome,
-                })),
-            };
 
-            return eventoResponse;
+                await prismaClient.eventoOrganizador.create({
+                    data: {
+                        evento_id: evento.id,
+                        organizador_id: organizador_id,
+                    },
+                });
+
+
+                return { message: "evento criado com sucesso" };
+            }else{
+                throw new Error("Este usuário não tem permissao para criar um evento");
+            }
+
+
         } catch (error) {
-            return { message: `Não foi possível cadastrar Evento devido ao erro: ${error.message}` };
+            console.error(error)
+             throw new Error(`Não foi possível cadastrar Evento devido ao erro: ${error.message}`);
         }
     }
 }

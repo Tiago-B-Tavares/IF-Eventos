@@ -1,8 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+
 import prismaClient from "../../prisma";
 
 interface UpdateEventoRequest {
     id: string;
+    nome
     dataInicio: string;
     dataFim: string;
     horario: string;
@@ -10,19 +11,21 @@ interface UpdateEventoRequest {
 
 }
 class UpdateEventoService {
-    async execute({ id, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
+    async execute({ id, nome, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
         try {
             const updadeEvento = await prismaClient.evento.update({
                 where: {
                     id: id
                 },
                 data: {
-                    dataInicio,
-                    dataFim,
+                    nome:nome,
+                    dataInicio: dataInicio,
+                    dataFim: dataFim,
                     horario: horario,
                     local: local,
                 }
             })
+            return { message: "alterado com susesso!" }
         } catch (error) {
             return { message: `Não foi possível atualizar Evento devido ao erro: ${error} ` }
         }

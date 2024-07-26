@@ -18,7 +18,7 @@ class ListEventoService {
                     }
                 },
                 include: {
-                    organizadores: true, // Inclui informações do organizador, caso seja necessário
+                    organizadores: true, 
                 },
             });
             return listEventos;
