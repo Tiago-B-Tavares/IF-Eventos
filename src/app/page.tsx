@@ -1,5 +1,5 @@
 "use client"
-import { FormLogin } from "./components/Auth/FormCredentialsLogin/login"
+import { FormLogin } from "./components/Auth/LoginByCredentials/login"
 
 
 export default function Home() {

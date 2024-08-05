@@ -18,7 +18,7 @@ type DashboardLayoutProps = {
 export default async function DashboardLayout({ children }: DashboardLayoutProps) {
    
     return (
-        <div>
+        <div >
            
                 <MenuContextProvider>
                     <MainLayout>{children}</MainLayout>

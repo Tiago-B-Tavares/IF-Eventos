@@ -26,10 +26,10 @@ import {
     AlertDialogContent,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogOverlay,
-    Image 
+    AlertDialogOverlay
 } from "@chakra-ui/react";
 import { FaTrashAlt, FaPen } from "react-icons/fa";
+import CreateNewActivityDrawer from "@/app/components/Drawers/CreateNewActivity";
 
 interface EventProps {
     id: string;
@@ -49,7 +49,7 @@ interface ActivitiesProps {
     local: string;
     descricao: string;
     vagas: string;
-    banner: string; 
+    banner: string;
     eventoId: string;
 }
 
@@ -62,13 +62,15 @@ export default function Eventos() {
     const cancelRef = useRef<HTMLButtonElement>(null);
     const [selectedActivity, setSelectedActivity] = useState<{ activityId: string, eventId: string } | null>(null);
 
+
     useEffect(() => {
         async function fetchEventsAndActivities() {
             if (session?.user?.id) {
                 try {
                     const events = await getEvents(session.user.id);
-                    setEventos(events);
 
+                    setEventos(events);
+                    //retorna um objeto contendo o id do evento e a lista de atividades
                     const activitiesPromises = events.map(async (evento: { id: string; }) => {
                         const activities = await getActivities(evento.id);
                         return { eventId: evento.id, activities };
@@ -91,6 +93,7 @@ export default function Eventos() {
         fetchEventsAndActivities();
     }, [session]);
 
+    // Handle activity deletion
     const handleDeleteActivity = async () => {
         if (!selectedActivity) return;
 
@@ -132,7 +135,7 @@ export default function Eventos() {
                                         <h2>
                                             <AccordionButton>
                                                 <Box className="text-lg" as='span' flex='1' textAlign='left'>
-                                                    <Heading size='md'> {evento.nome}</Heading>
+                                                    <Heading size='md'>{evento.nome}</Heading>
                                                 </Box>
                                                 <AccordionIcon />
                                             </AccordionButton>
@@ -148,7 +151,7 @@ export default function Eventos() {
                                                                 variant='outline'
                                                                 className="flex justify-center w-60"
                                                             >
-                                                                <Stack >
+                                                                <Stack>
                                                                     <CardBody className="w-auto">
                                                                         <div>
                                                                             <Heading size='md'>{atividade.nome}</Heading>
@@ -165,13 +168,17 @@ export default function Eventos() {
                                                                                 <strong>Descrição:</strong> {atividade.descricao}
                                                                             </Box>
                                                                         </div>
-
                                                                     </CardBody>
                                                                     <CardFooter className="flex justify-around">
-                                                                        <Button leftIcon={<FaTrashAlt />} marginRight={2} colorScheme='red' onClick={() => {
-                                                                            setSelectedActivity({ activityId: atividade.id, eventId: evento.id });
-                                                                            onOpen();
-                                                                        }}>
+                                                                        <Button
+                                                                            leftIcon={<FaTrashAlt />}
+                                                                            marginRight={2}
+                                                                            colorScheme='red'
+                                                                            onClick={() => {
+                                                                                setSelectedActivity({ activityId: atividade.id, eventId: evento.id });
+                                                                                onOpen();
+                                                                            }}
+                                                                        >
                                                                             Excluir
                                                                         </Button>
                                                                         <Button leftIcon={<FaPen />} colorScheme='blue'>
@@ -184,7 +191,10 @@ export default function Eventos() {
                                                     ))}
                                                 </ul>
                                             ) : (
-                                                <div className="text-sm font-semibold text-purple-700">Não há atividades para este evento</div>
+                                                <div className="text-sm font-semibold text-purple-700">
+                                                    Não há atividades para este evento
+                                                    <CreateNewActivityDrawer/>
+                                                </div>
                                             )}
                                         </AccordionPanel>
                                     </AccordionItem>
@@ -222,7 +232,9 @@ export default function Eventos() {
                     </AlertDialog>
                 </div>
             ) : (
-                <div>Nenhum evento encontrado.</div>
+                <div className="flex justify-center items-center font-semibold text-purple-700">
+                    Nenhum evento cadastrado!
+                </div>
             )}
         </div>
     );

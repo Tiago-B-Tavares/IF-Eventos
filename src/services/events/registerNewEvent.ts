@@ -3,28 +3,31 @@ import { api } from "../setupApiClient";
 
 interface registerEventsProps {
     nome: string;
-    dataEvento: string;
+    dataInicio: string;
+    dataFim: string; 
     horario: string;
     local: string;
     organizador_id: string;
 }
 
-export default function RegisterEvent({ nome, dataEvento, horario, local, organizador_id }: registerEventsProps) {
+export default function RegisterEvent({ nome, dataInicio, dataFim, horario, local, organizador_id }: registerEventsProps) {
+ 
  
     api.post("/eventos", {
         nome:nome, 
-        data: dataEvento, 
+        dataInicio: dataInicio, 
+        dataFim:dataFim,
         horario:horario, 
         local: local,
         organizador_id: organizador_id
     })
         .then(response => {
             
-        console.log("deu bom no cadastro");
+        console.log(response);
             
         })
         .catch(error => {
-            console.log("erro ao cadastrar evento");
+            console.log(error);
 
         });
 }

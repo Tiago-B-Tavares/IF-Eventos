@@ -13,7 +13,7 @@ export default function MainHeader() {
     const { toggle } = useContext(MenuContexts);
 
     return (
-        <header className="bg-white flex flex-1 w-full justify-between items-center lg:justify-end px-5 h-16 shadow-lg shadow-gray-200">
+        <header className=" bg-white  mt-4 flex flex-1 w-full  shadow-lg justify-between items-center lg:justify-end px-4 h-16  ">
             <div onClick={toggle} className="lg:hidden"><FaBars className="cursor-pointer" /></div>
             <div>
                 <Menu>

@@ -5,7 +5,7 @@ import "./globals.css";
 import ChakraUIProvider from "@/providers/ChakraUIProvider";
 
 
-const inter = Nunito_Sans({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   description: "next-auth credentials",
@@ -22,7 +22,7 @@ export default async function RootLayout({
       <head>
 
       </head>
-      <body className={inter.className}>
+      <body >
         <NextAuthSessionProvider> 
           <ChakraUIProvider>
             {children}

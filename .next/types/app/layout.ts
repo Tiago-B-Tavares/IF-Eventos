@@ -1,4 +1,4 @@
-// File: C:\Users\Tiggas\Desktop\TCC\IF-Eventos\frontend\src\app\layout.tsx
+// File: D:\Tiggas\TCC\IF-Eventos(Desenvolvimento)\frontend\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

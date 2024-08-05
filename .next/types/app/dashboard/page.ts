@@ -1,4 +1,4 @@
-// File: C:\Users\Tiggas\Desktop\TCC\IF-Eventos\frontend\src\app\dashboard\page.tsx
+// File: D:\Tiggas\TCC\IF-Eventos(Desenvolvimento)\frontend\src\app\dashboard\page.tsx
 import * as entry from '../../../../src/app/dashboard/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

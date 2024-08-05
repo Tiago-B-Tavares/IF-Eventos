@@ -17,7 +17,7 @@ export default function Signup() {
         const senha = formData.get("senha") as string;
         const confirmaSenha = formData.get("confirmaSenha") as string;
 
-        
+
         email = email.trim().toLowerCase();
 
         if (senha !== confirmaSenha) {
@@ -59,9 +59,9 @@ export default function Signup() {
     }
 
     return (
-        <div className="flex items-center justify-center py-3 rounded-lg h-screen w-screen">
-            <div className="min-w-80 md:w-48 flex flex-col items-center justify-center border rounded-2xl shadow-2xl">
-                <Heading as="h3" size="lg" className="text-purple-700  pt-3">
+        <div className='w-full min-h-screen h-auto flex justify-center items-center'>
+            <div className="w-full lg:w-96 h-auto py-7 flex flex-col items-center justify-center border rounded-2xl shadow-2xl">
+                <Heading as="h3" fontSize="4xl" className="text-purple-700  pt-3">
                     <Highlight
                         query="cadastro!"
                         styles={{ px: "2", py: "", rounded: "lg", bg: "orange.100", color: "#7e22ce" }}
@@ -69,7 +69,7 @@ export default function Signup() {
                         Faça seu cadastro!
                     </Highlight>
                 </Heading>
-                <form onSubmit={getDataNewUser} className="flex items-center flex-col gap-4 p-6">
+                <form onSubmit={getDataNewUser} className="flex items-center flex-col gap-4 py-6  lg:w-64 sm:w-96">
                     <Input
                         type="text"
                         placeholder="Nome"

@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
-export default function middleware(req: NextRequest) {
-  const session = req.cookies.get('next-auth.session-token')?.value;
+export default async function Middlewares(req: NextRequest) {
+  const secret = process.env.NEXTAUTH_SECRET;
+  const token = await getToken({ req, secret });    
+
   const isLoginPage = req.nextUrl.pathname === '/';
 
-  if (!session) {
+
+  if (!token) {
     if (isLoginPage) {
       return NextResponse.next();
     }
@@ -15,6 +19,8 @@ export default function middleware(req: NextRequest) {
   if (isLoginPage) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {

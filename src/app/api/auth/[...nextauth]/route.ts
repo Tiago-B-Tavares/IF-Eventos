@@ -4,8 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import { api } from "../../../../services/setupApiClient";
 import bcrypt from "bcryptjs";
 import registerNewUser from "@/services/user/registerNewUser";
-import getUserData from "@/services/user/getUserData";
+import getUserData from "@/services/user/getUserDataByEmail";
 import UpdateUserData from "@/services/user/updateUserData";
+import getUserDataByEmail from "@/services/user/getUserDataByEmail";
 
 const nextAuthOptions: NextAuthOptions = {
  
@@ -100,12 +101,21 @@ const nextAuthOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+
+        
+        const dataUser = await getUserDataByEmail(user.email as string);
+        console.log(dataUser);
+        
+        token.role = dataUser.role
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
+        session.user.role = token.role as string;
+        console.log(session.user.role);
+        
       }
       return session;
     },

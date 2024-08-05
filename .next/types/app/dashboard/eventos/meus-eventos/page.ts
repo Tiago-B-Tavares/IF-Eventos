@@ -1,4 +1,4 @@
-// File: C:\Users\Tiggas\Desktop\TCC\IF-Eventos\frontend\src\app\dashboard\eventos\meus-eventos\page.tsx
+// File: D:\Tiggas\TCC\IF-Eventos(Desenvolvimento)\frontend\src\app\dashboard\eventos\meus-eventos\page.tsx
 import * as entry from '../../../../../../src/app/dashboard/eventos/meus-eventos/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

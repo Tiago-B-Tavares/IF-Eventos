@@ -8,10 +8,10 @@ export default async function deleteActivity(id_activity:string) {
         
         const response = await api.delete(`/atividades?id=${id_activity}`)
         
-        const listEvents = response.data;
-        console.log(listEvents);
+        const activity = response.data;
+        console.log(activity);
 
-        return listEvents;
+        return activity;
 
     } catch (error) {
         throw new Error('Erro ao obter lista de Eventos');
