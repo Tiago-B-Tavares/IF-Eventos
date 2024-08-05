@@ -1,17 +1,17 @@
-import { GetDataUserService } from "../../services/webUser/getUserDataService";
+import { GetDataUserService } from "../../services/webUser/GetAllUsersService";
 import { Response } from 'express';
 
-class GetUserDataController {
+class GetAllUsersController {
     async handle(res: Response) {
 
 
         const getUserDataService = new GetDataUserService();
 
         const userData = await getUserDataService.execute();
-       console.log(userData);
+     
        
-        return res.json(userData)
+        return userData;
 
     }
 }
-export { GetUserDataController }
+export { GetAllUsersController }

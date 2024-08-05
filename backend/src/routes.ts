@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import multer from 'multer';
 
 
@@ -6,8 +6,9 @@ import { CreateWebUserController } from './controllers/webUser/CreateWebUserCont
 import { AuthWebUserController } from './controllers/webUser/AuthWebUserController';
 import { DetailWebUserController } from './controllers/webUser/DetailWebUserController';
 import { UpdateWebUserController } from './controllers/webUser/UpdateWebuserController';
-import { GetUserDataController } from './controllers/webUser/GetUserDataController';
+import { GetAllUsersController } from './controllers/webUser/GetAllUsersController';
 import { UserAlreadyExistsController } from './controllers/webUser/UserAlreadyExistsController';
+import { GetUserDataByIdController } from './controllers/webUser/GetUserDataByIdController';
 
 import { CreateAppUserController } from './controllers/appUser/CreateAppUserController';
 import { UpdateAppUserController } from './controllers/appUser/UpdateAppUserController';
@@ -22,7 +23,7 @@ import { DeleteAtividadeController } from './controllers/atividades/DeleteAtivid
 import { SearchAllAtividadesController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
-import {CreateColaboradorController} from './controllers/colaboradores/CreateColaboradorController'
+import { CreateColaboradorController } from './controllers/colaboradores/CreateColaboradorController'
 
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
@@ -45,7 +46,9 @@ router.post('/session', new AuthWebUserController().handle);
 
 router.get('/me', new DetailWebUserController().handle);
 
-router.get('/userData', new GetUserDataController().handle);
+router.get('/users', new GetAllUsersController().handle);
+
+router.get('/user', new GetUserDataByIdController().handle);
 
 router.post('/check-email', new UserAlreadyExistsController().handler);
 
