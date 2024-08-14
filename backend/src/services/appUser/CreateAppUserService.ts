@@ -38,6 +38,8 @@ class CreateAppUserService {
                     id: true,
                     nome: true,
                     email: true,
+                    sexo:true,
+                    idade:true
                 }
             })
 

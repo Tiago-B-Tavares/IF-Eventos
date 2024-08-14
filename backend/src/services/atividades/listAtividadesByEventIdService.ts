@@ -9,8 +9,18 @@ class SearchAllAtividadesService {
       const atividades = await prismaClient.atividade.findMany({
         where: {
           evento_id: evento_id
+        }, select:{
+           id:true,
+           nome:true,
+           local:true,
+           horario:true,
+           concomitante:true,
+           responsaveis:true,
+           vagas:true,
+           ch:true
         }
       });
+console.log(atividades);
 
       return atividades;
 

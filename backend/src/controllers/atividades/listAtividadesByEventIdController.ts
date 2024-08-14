@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { SearchAllAtividadesService } from "../../services/atividades/listAtividadesByEventIdService";
+import { SearchAllAtividadesService } from "../../services/atividades/ListAtividadesByEventIdService";
 
 
-class SearchAllAtividadesController {
+class ListAtividadesByEventIdController {
 
     async handle( req: Request, res: Response) {
 
@@ -16,4 +16,4 @@ class SearchAllAtividadesController {
     }
 
 }
-export { SearchAllAtividadesController }
+export { ListAtividadesByEventIdController }

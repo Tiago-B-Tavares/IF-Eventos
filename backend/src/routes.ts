@@ -16,15 +16,15 @@ import { UpdateAppUserController } from './controllers/appUser/UpdateAppUserCont
 import { CreateEventoController } from './controllers/evento/CreateEventoController';
 import { UpdateEventoController } from './controllers/evento/UpdateEventoController';
 import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
+import { CountEventosController } from './controllers/evento/CountEventoController';
 import { ListEventoController } from './controllers/evento/ListEventoController';
 
 import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
 import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
-import { SearchAllAtividadesController } from './controllers/atividades/ListAtividadesByEventIdController';
+import { ListAtividadesByEventIdController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
 import { CreateColaboradorController } from './controllers/colaboradores/CreateColaboradorController'
-
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
 import { ShowInscritosByAtividadeController } from './controllers/inscricoes/ShowInscritosByAtividadeController';
@@ -64,6 +64,8 @@ router.put('/app/user', new UpdateAppUserController().handle);
 
 router.post('/eventos', new CreateEventoController().handle)
 
+router.get('/count-eventos', new CountEventosController().handle)
+
 router.get('/eventos', new ListEventoController().handle);
 
 router.put('/evento', new UpdateEventoController().handle);
@@ -76,7 +78,9 @@ router.post('/atividades', upload.single('file'), new CreateAtividadeController(
 
 router.delete('/atividades', new DeleteAtividadeController().handle);
 
-router.get('/evento/atividades', new SearchAllAtividadesController().handle);
+router.get('/evento/atividades', new ListAtividadesByEventIdController().handle);
+
+
 
 router.put('/atividades', upload.single('file'), new UpdateAtividadeController().handle);
 
