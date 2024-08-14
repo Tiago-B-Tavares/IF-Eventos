@@ -9,6 +9,7 @@ export default async function getEvents(id:string) {
         const response = await api.get(`/evento/atividades?evento_id=${id}`)
 
         const listEvents = response.data;
+console.log(listEvents);
 
         return listEvents;
 

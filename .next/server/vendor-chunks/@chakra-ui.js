@@ -1716,16 +1716,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "(ssr)/./node_modules/@chakra-ui/icons/dist/chunk-TRO7245M.mjs":
-/*!***************************************************************!*\
-  !*** ./node_modules/@chakra-ui/icons/dist/chunk-TRO7245M.mjs ***!
-  \***************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   AddIcon: () => (/* binding */ AddIcon)\n/* harmony export */ });\n/* harmony import */ var _chakra_ui_icon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @chakra-ui/icon */ \"(ssr)/./node_modules/@chakra-ui/icon/dist/chunk-DEQZ7DVA.mjs\");\n/* __next_internal_client_entry_do_not_use__ AddIcon auto */ // src/Add.tsx\n\nvar AddIcon = (0,_chakra_ui_icon__WEBPACK_IMPORTED_MODULE_0__.createIcon)({\n    d: \"M0,12a1.5,1.5,0,0,0,1.5,1.5h8.75a.25.25,0,0,1,.25.25V22.5a1.5,1.5,0,0,0,3,0V13.75a.25.25,0,0,1,.25-.25H22.5a1.5,1.5,0,0,0,0-3H13.75a.25.25,0,0,1-.25-.25V1.5a1.5,1.5,0,0,0-3,0v8.75a.25.25,0,0,1-.25.25H1.5A1.5,1.5,0,0,0,0,12Z\",\n    displayName: \"AddIcon\"\n});\n //# sourceMappingURL=chunk-TRO7245M.mjs.map\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvQGNoYWtyYS11aS9pY29ucy9kaXN0L2NodW5rLVRSTzcyNDVNLm1qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBMkI7QUFFcEIsSUFBTUMsVUFBVUQsMkRBQVVBLENBQUM7SUFDaENFLEdBQUc7SUFDSEMsYUFBYTtBQUNmIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vYXV0aC8uLi9zcmMvQWRkLnRzeD81ZmM5Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGNyZWF0ZUljb24gfSBmcm9tIFwiQGNoYWtyYS11aS9pY29uXCJcblxuZXhwb3J0IGNvbnN0IEFkZEljb24gPSBjcmVhdGVJY29uKHtcbiAgZDogXCJNMCwxMmExLjUsMS41LDAsMCwwLDEuNSwxLjVoOC43NWEuMjUuMjUsMCwwLDEsLjI1LjI1VjIyLjVhMS41LDEuNSwwLDAsMCwzLDBWMTMuNzVhLjI1LjI1LDAsMCwxLC4yNS0uMjVIMjIuNWExLjUsMS41LDAsMCwwLDAtM0gxMy43NWEuMjUuMjUsMCwwLDEtLjI1LS4yNVYxLjVhMS41LDEuNSwwLDAsMC0zLDB2OC43NWEuMjUuMjUsMCwwLDEtLjI1LjI1SDEuNUExLjUsMS41LDAsMCwwLDAsMTJaXCIsXG4gIGRpc3BsYXlOYW1lOiBcIkFkZEljb25cIixcbn0pXG4iXSwibmFtZXMiOlsiY3JlYXRlSWNvbiIsIkFkZEljb24iLCJkIiwiZGlzcGxheU5hbWUiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/@chakra-ui/icons/dist/chunk-TRO7245M.mjs\n");
-
-/***/ }),
-
 /***/ "(ssr)/./node_modules/@chakra-ui/image/dist/chunk-QINAG4RG.mjs":
 /*!***************************************************************!*\
   !*** ./node_modules/@chakra-ui/image/dist/chunk-QINAG4RG.mjs ***!
