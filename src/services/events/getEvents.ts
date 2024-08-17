@@ -9,7 +9,6 @@ export default async function getEvents(organizador_id: string) {
         const response = await api.get(`/eventos?id=${organizador_id}`)
 
         const listEvents = response.data;
-console.log(listEvents);
 
         return listEvents;
 

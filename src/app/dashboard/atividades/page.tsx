@@ -31,12 +31,15 @@ import {
     Heading,
 
 } from "@chakra-ui/react";
+import { log } from "console";
 
 interface EventoProps {
     id: string;
     nome: string;
     dataInicio: string;
     dataFim: string;
+    local: string
+    banner: string
     atividades: AtividadesProps[]
 
 }
@@ -74,7 +77,8 @@ export default function Eventos() {
             if (session?.user?.id) {
                 try {
                     const listaEventos = await getEvents(session.user.id);
-
+                        console.log(listaEventos);
+                        
                     setEventos(listaEventos);
 
 
@@ -121,9 +125,10 @@ export default function Eventos() {
         <>
             <div>
                 {eventos.map((e) => (
-                    <div key={e.id}  className="bg-white ">
+                    <div key={e.id} className="bg-white ">
                         <ul className="bg-slate-200">
                             {e.atividades.map((atividade) => (
+                                
                                 <li key={atividade.id} className="mb-4 bg-white rounded-lg p-4">
                                     <Accordion defaultIndex={[1]} allowMultiple >
                                         <AccordionItem >
@@ -131,8 +136,7 @@ export default function Eventos() {
                                                 <Box as='span' flex='1' textAlign='left' className="flex lg:flex-row sm:flex-col  flex-wrap justify-start items-center">
                                                     <img
                                                         className=" lg:w-1/5 md:1/3 sm:w-full rounded-lg pr-4"
-                                                        src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
-                                                        alt='Caffe Latte'
+                                                        src={`http://localhost:3333/files/${e.banner}`}
                                                     />
                                                     <div>
                                                         <Heading as='h2' size='md' className=" underline  text-green-800 pb-4">
@@ -146,11 +150,10 @@ export default function Eventos() {
                                                                     <span className=""><b>Até:</b> {e.dataFim}</span>
                                                                 </div>
                                                             </div>
-                                                            <div className=" flex flex-row justify-between gap-4">
-                                                                <MdPlace className="text-xl text-green-700" />
+                                                            <div className=" flex flex-row justify-start gap-4">
+                                                                <MdPlace className="text-xl text-red-700" />
                                                                 <div className="flex flex-row justify-between gap-4 text-green-700">
-                                                                    <span className="  "><b>De:</b> {e.dataInicio}</span>
-                                                                    <span className=""><b>Até:</b> {e.dataFim}</span>
+                                                                    <span >{e.local}</span>
                                                                 </div>
 
                                                             </div>
@@ -162,8 +165,17 @@ export default function Eventos() {
                                             </AccordionButton>
 
                                             <AccordionPanel pb={4}>
-
-                                                adfadsf
+                                                sda {atividade.local}
+                                                <img src={`${atividade.banner}`}alt="" />
+                                            
+                                                <div>
+                                               
+                                                {atividade.ch}
+                                                {atividade.concomitante}
+                                
+                                                {atividade.descricao}
+                                               
+                                                </div>
                                             </AccordionPanel>
                                         </AccordionItem>
                                     </Accordion>
