@@ -9,7 +9,7 @@ import UpdateUserData from "@/services/user/updateUserData";
 import getUserDataByEmail from "@/services/user/getUserDataByEmail";
 
 const nextAuthOptions: NextAuthOptions = {
- 
+
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -102,10 +102,9 @@ const nextAuthOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
 
-        
+
         const dataUser = await getUserDataByEmail(user.email as string);
-        console.log(dataUser);
-        
+
         token.role = dataUser.role
       }
       return token;
@@ -114,8 +113,6 @@ const nextAuthOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
-        console.log(session.user.role);
-        
       }
       return session;
     },

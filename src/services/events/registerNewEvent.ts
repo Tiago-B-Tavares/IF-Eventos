@@ -1,33 +1,29 @@
-
+import { TypesEventsProps } from "@/types/interfaces";
 import { api } from "../setupApiClient";
 
-interface registerEventsProps {
-    nome: string;
-    dataInicio: string;
-    dataFim: string; 
-    horario: string;
-    local: string;
-    organizador_id: string;
-}
+export default async function RegisterEvent(
+    { organizador_id, nome, horario, descricao, local, dataInicio, dataFim }: TypesEventsProps) {
 
-export default function RegisterEvent({ nome, dataInicio, dataFim, horario, local, organizador_id }: registerEventsProps) {
- 
- 
-    api.post("/eventos", {
-        nome:nome, 
-        dataInicio: dataInicio, 
-        dataFim:dataFim,
-        horario:horario, 
-        local: local,
-        organizador_id: organizador_id
-    })
-        .then(response => {
-            
-        console.log(response);
-            
-        })
-        .catch(error => {
-            console.log(error);
 
+    try {
+
+
+        const response = await api.post("/eventos", {
+            organizador_id,
+            nome,
+            horario,
+            descricao,
+            local,
+            dataInicio,
+            dataFim
         });
+
+        console.log("Evento registrado com sucesso", response.data);
+        console.log("deu bom");
+        return response.data;
+
+    } catch (error) {
+        console.error("Erro ao registrar evento:", error);
+        throw error; // Para capturar o erro corretamente no frontend
+    }
 }

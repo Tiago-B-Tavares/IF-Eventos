@@ -14,19 +14,20 @@ export default function MainHeader() {
     const { toggle } = useContext(MenuContexts);
 
     return (
-        <header className="mt-4 flex flex-1 w-full sm:w-full sm:mb-4 md:mb-4  justify-between items-center lg:justify-end px-4 h-16  ">
+        <header className="mt-4 flex flex-1 w-screen sm:w-full sm:mb-4 md:mb-4  justify-between items-center lg:justify-end  h-16">
 
             <div onClick={toggle} className="lg:hidden"><FaBars className="cursor-pointer" /></div>
             <div className="pl-2 flex lg:flex-1 font-bold opacity-60">
                 Dashboard
             </div>
-            <div>
+            <div className="pr-4">
                 <Menu>
                     <MenuButton className="text-purple-700">
                         <WrapItem>
                             <Avatar
                                 name={data?.user?.name ?? "Usuário"}
                                 src={data?.user?.image ?? "https://bit.ly/broken-link"}
+                                
                             />
                         </WrapItem>
                     </MenuButton>

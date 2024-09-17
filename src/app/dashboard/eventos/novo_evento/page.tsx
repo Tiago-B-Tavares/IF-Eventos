@@ -1,112 +1,98 @@
-"use client"
-import RegisterEvent from "@/services/events/registerNewEvent";
-import { Button, Heading, Input, useToast } from "@chakra-ui/react";
+"use client";
+
+import React, { ChangeEvent, useState } from 'react';
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react";
+import { RiUploadCloudFill } from "react-icons/ri";
 import { useSession } from "next-auth/react";
 import { FaCheckCircle } from "react-icons/fa";
+import Form from "@/app/components/Forms/genericForm";
+import { api } from "@/services/setupApiClient";
+import registerNewEvent from "@/services/events/registerNewEvent";
 
 export default function CadastrarEvento() {
+    const { data } = useSession();
+
     const toast = useToast();
-    const { data: session } = useSession();
+    const [nome, setNome] = useState('')
+    const [horario, setHorario] = useState('')
+    const [descricao, setDescricao] = useState('')
+    const [local, setLocal] = useState('')
+    const [dataInicio, setDataInicio] = useState('')
+    const [dataFim, setDataFim] = useState('')
+    const organizador_id = data?.user.id as string
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault(); // Prevenir o comportamento padrão de recarregar a página
+    async function handleRegisterEvent(e: React.FormEvent<HTMLFormElement>) {
 
-        if (session?.user?.id) {
-            try {
-                const formData = new FormData(e.currentTarget);
-                const nome = formData.get("nome") as string;
-                const dataInicio = formData.get("dataInicio") as string;
-                const dataFim = formData.get("dataFim") as string;
-                const horario = formData.get("horario") as string;
-                const local = formData.get("local") as string;
-                const organizador_id = session?.user.id as string;
+        const dados = {
+            organizador_id,
+            nome,
+            horario,
+            descricao,
+            local,
+            dataInicio,
+            dataFim
+        }
 
-                const dataCadastro = { nome, dataInicio, dataFim, horario, local, organizador_id };
-                
-                RegisterEvent(dataCadastro); 
+        try {
+            await registerNewEvent(dados)
 
-                toast({
-                    title: 'Cadastrado com sucesso!',
-                    status: 'success',
-                    duration: 5000,
-                    isClosable: true,
-                });
-            } catch (error) {
-                console.error("Erro ao registrar o evento:", error);
-                toast({
-                    title: 'Erro ao cadastrar o evento.',
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true,
-                });
-            }
-        } else {
+
+
             toast({
-                title: 'Usuário não autenticado.',
-                status: 'error',
+                title: "Sucesso",
+                description: "Evento cadastrado com sucesso!",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            });
+
+        } catch (err) {
+            console.error("Failed to register event", err);
+            toast({
+                title: "Erro",
+                description: "Falha ao cadastrar o evento.",
+                status: "error",
                 duration: 5000,
                 isClosable: true,
             });
         }
-    }
 
+    }
     return (
         <>
-            <form onSubmit={handleSubmit} className='flex items-center rounded-lg bg-white flex-col gap-4 p-6'>
-                
-                <Heading size='md' colorScheme='gray'>Cadastro de evento</Heading>
-                <Input
-                    type="text"
-                    placeholder="Nome"
-                    name="nome"
-                    size="md"
-                    focusBorderColor='#7e22ce'
-                    required
-                />
-                <Input
-                    type="date"
-                    placeholder="Data Início"
-                    name="dataInicio"
-                    size="md"
-                    focusBorderColor='#7e22ce'
-                    required
-                />
-                <Input
-                    type="date"
-                    placeholder="Data Fim"
-                    name="dataFim"
-                    size="md"
-                    focusBorderColor='#7e22ce'
-                    required
-                />
-                <Input
-                    type="time"
-                    placeholder="Horário"
-                    name="horario"
-                    size="md"
-                    focusBorderColor='#7e22ce'
-                    required
-                />
-                <Input
-                    type="text"
-                    placeholder="Local"
-                    name="local"
-                    size="md"
-                    focusBorderColor='#7e22ce'
-                    required
-                />
-                <Button
-                    backgroundColor='#7e22ce'
-                    borderColor='#7e22ce'
-                    variant='outline'
-                    _hover={{ bg: 'white', color: '#7e22ce' }}
-                    color='white'
-                    type="submit"
-                    mr={3}
-                >
-                    <FaCheckCircle className="mr-3" /> Salvar
-                </Button>
-            </form>
+            <div className=" bg-white p-10 gap-4  rounded-lg">
+
+                <form method="post" encType="multipart/form-data" className="flex flex-col gap-4" onSubmit={handleRegisterEvent}>
+
+                    <label className="text-base font-semibold text-green-800 ">Nome:</label>
+                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='text'
+
+                        onChange={(e) => setNome(e.target.value)} />
+
+                    <label className="text-base font-semibold text-green-800 ">Descriçao:</label>
+                    <textarea className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40"
+                        onChange={(e) => setDescricao(e.target.value)} />
+
+                    <label className="text-base font-semibold text-green-800 ">Horario:</label>
+                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='time'
+                        onChange={(e) => setHorario(e.target.value)}
+                    />
+
+                    <label className="text-base font-semibold text-green-800 ">Início:</label>
+                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='date'
+                        onChange={(e) => setDataInicio(e.target.value)} />
+
+                    <label className="text-base font-semibold text-green-800 ">Término:</label>
+                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='date'
+                        onChange={(e) => setDataFim(e.target.value)} />
+
+                    <label className="text-base font-semibold text-green-800 ">Local:</label>
+                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='text'
+                        onChange={(e) => setLocal(e.target.value)} />
+
+                    <Button type="submit" className="w-40">cadastrar</Button>
+                </form>
+            </div>
         </>
     );
 }

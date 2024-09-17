@@ -1,17 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, ReactNode } from "react";
-import { useSession } from "next-auth/react";
-import getEvents from "@/services/events/getEvents";
-import getActivities from "@/services/activities/getActivities";
-import deleteActivity from "@/services/activities/deleteActivity";
-import { MdPlace } from "react-icons/md";
-import { FaTrashAlt, FaPen } from "react-icons/fa";
-import { LuCalendarClock } from "react-icons/lu";
+import React, { useState, useEffect, useRef } from 'react';
 import {
-
-
-
     Button,
     useToast,
     useDisclosure,
@@ -24,179 +14,226 @@ import {
     AlertDialogOverlay,
     Accordion,
     AccordionButton,
-    AccordionIcon,
     AccordionItem,
     AccordionPanel,
     Box,
     Heading,
-
+    Stack,
+    Input,
+    Textarea,
+    Editable,
+    EditableInput,
+    EditablePreview,
 } from "@chakra-ui/react";
-import { log } from "console";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { PiFileMagnifyingGlassLight } from "react-icons/pi";
+import { MdEditDocument } from "react-icons/md";
+import Image from "next/image";
 
-interface EventoProps {
-    id: string;
-    nome: string;
-    dataInicio: string;
-    dataFim: string;
-    local: string
-    banner: string
-    atividades: AtividadesProps[]
+import { useSession } from "next-auth/react";
+import getEvents from "@/services/events/getEvents";
+import deleteActivity from "@/services/activities/deleteActivity";
+import editActivity from "@/services/activities/editActivity";
+import { AtividadesProps, EventoProps } from "@/types/interfaces";
 
-}
-interface ResponsaveisProps {
-    nome: string;
-}
 
-interface AtividadesProps {
-    id: string;
-    horario: string;
-    nome: string;
-    local: string;
-    descricao: string;
-    vagas: string;
-    banner: string;
-    eventoId: string;
-    createdAt: string
-    concomitante: boolean;
-    responsaveis: ResponsaveisProps[];
-    ch: number;
-}
-
-export default function Eventos() {
+export default function Atividades() {
     const { data: session } = useSession();
     const [eventos, setEventos] = useState<EventoProps[]>([]);
-    const [atividades, setAtividades] = useState<{ [key: string]: AtividadesProps[] }>({});
+    const [selectedActivity, setSelectedActivity] = useState<AtividadesProps | null>(null);
+    const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
-    const [selectedActivity, setSelectedActivity] = useState<{ activityId: string, eventId: string } | null>(null);
-
 
     useEffect(() => {
-        async function fetchEventsAndActivities() {
+        async function fetchEvents() {
             if (session?.user?.id) {
                 try {
                     const listaEventos = await getEvents(session.user.id);
-                        console.log(listaEventos);
-                        
                     setEventos(listaEventos);
-
-
                 } catch (error) {
                     console.error("Erro ao obter lista de Eventos:", error);
                 }
             }
         }
-
-
-        fetchEventsAndActivities();
+        fetchEvents();
     }, [session]);
 
-    // Handle activity deletion
     const handleDeleteActivity = async () => {
-        if (!selectedActivity) return;
-
-        try {
-            const { activityId, eventId } = selectedActivity;
-            await deleteActivity(activityId);
-            setAtividades(prev => ({
-                ...prev,
-                [eventId]: prev[eventId].filter(activity => activity.id !== activityId)
-            }));
-            toast({
-                title: 'Excluído com sucesso!',
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            });
-            onClose();
-        } catch (error) {
-            toast({
-                title: 'Erro ao excluir!',
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-            console.error("Erro ao excluir a atividade:", error);
+        if (selectedActivity) {
+            try {
+                await deleteActivity(selectedActivity.id);
+                toast({
+                    title: "Excluído com sucesso!",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                onClose();
+                setEventos((prevEventos) =>
+                    prevEventos.map((evento) => ({
+                        ...evento,
+                        atividades: evento.atividades.filter((atividade) => atividade.id !== selectedActivity.id),
+                    }))
+                );
+            } catch (error) {
+                toast({
+                    title: "Erro ao excluir!",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                console.error("Erro ao excluir a atividade:", error);
+            }
         }
+    };
+
+    const handleEditActivity = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+     
+        const formData = new FormData(e.currentTarget);
+
+        const nome = formData.get("nome") as string;
+        const local = formData.get("local") as string;
+        const descricao = formData.get("descricao") as string;
+        const banner = formData.get("banner") as string;
+        const concomitante = formData.get("concomitante") as unknown as boolean;
+        const ch = formData.get("ch") as unknown as number;
+
+
+
+
+       
+        // if (selectedActivity) {
+        //     try {
+        //         await editActivity(selectedActivity);
+        //         console.log(selectedActivity);
+
+        //         toast({
+        //             title: "Alterado com sucesso!",
+        //             status: "success",
+        //             duration: 5000,
+        //             isClosable: true,
+        //         });
+        //         onClose();
+        //         setEventos((prevEventos) =>
+        //             prevEventos.map((evento) => ({
+        //                 ...evento,
+        //                 atividades: evento.atividades.map((atividade) =>
+        //                     atividade.id === selectedActivity.id ? selectedActivity : atividade
+        //                 ),
+        //             }))
+        //         );
+        //     } catch (error) {
+        //         toast({
+        //             title: "Erro ao alterar!",
+        //             status: "error",
+        //             duration: 5000,
+        //             isClosable: true,
+        //         });
+        //         console.error("Erro ao Alterar os dados da atividade:", error);
+        //     }
+        // }
+    };
+
+    const openModal = (type: 'edit' | 'delete', activity: AtividadesProps) => {
+        setSelectedActivity(activity);
+        setModalType(type);
+        onOpen();
     };
 
     return (
         <>
-            <div>
+            <div className="">
                 {eventos.map((e) => (
-                    <div key={e.id} className="bg-white ">
+                   
+                    <div key={e.id} className="bg-white">
                         <ul className="bg-slate-200">
-                            {e.atividades.map((atividade) => (
-                                
-                                <li key={atividade.id} className="mb-4 bg-white rounded-lg p-4">
-                                    <Accordion defaultIndex={[1]} allowMultiple >
-                                        <AccordionItem >
-                                            <AccordionButton className="flex flex-wrap ">
-                                                <Box as='span' flex='1' textAlign='left' className="flex lg:flex-row sm:flex-col  flex-wrap justify-start items-center">
-                                                    <img
-                                                        className=" lg:w-1/5 md:1/3 sm:w-full rounded-lg pr-4"
-                                                        src={`http://localhost:3333/files/${e.banner}`}
-                                                    />
-                                                    <div>
-                                                        <Heading as='h2' size='md' className=" underline  text-green-800 pb-4">
-                                                            {e.nome}
-                                                        </Heading>
-                                                        <div className=" text-sm flex gap-4 flex-col">
-                                                            <div className=" flex flex-row justify-between gap-4">
-                                                                <LuCalendarClock className="text-xl text-green-700" />
-                                                                <div className="flex flex-row justify-between gap-4 text-green-700">
-                                                                    <span className="  "><b>De:</b> {e.dataInicio}</span>
-                                                                    <span className=""><b>Até:</b> {e.dataFim}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className=" flex flex-row justify-start gap-4">
-                                                                <MdPlace className="text-xl text-red-700" />
-                                                                <div className="flex flex-row justify-between gap-4 text-green-700">
-                                                                    <span >{e.local}</span>
-                                                                </div>
+                            <li className="mb-4 bg-white rounded-lg p-4">
+                                <Box
+                                    as="span"
+                                    flex="1"
+                                    textAlign="left"
+                                    className="flex lg:flex-row sm:flex-col flex-wrap justify-start items-center h-auto relative"
+                                >
+                                    <Heading as="h2" size="lg" className="underline text-green-800 pb-4">
+                                        {e.nome}
+                                    </Heading>
+                                </Box>
+                                <Heading as="h2" size="sm" className="text-green-800 pb-4">
+                                    Atividades:
+                                </Heading>
 
-                                                            </div>
+                                {e.atividades.length > 0 ? (
+                                    e.atividades.map((atividade) => (
+                                        
+                                        <div key={atividade.id}>
+                                            <Accordion defaultIndex={[1]} allowMultiple className="bg-white rounded-lg mb-2">
+                                                <AccordionItem>
+                                                    <AccordionButton className="flex flex-wrap justify-between font-medium border border-green-700 rounded-lg text-green-700">
+                                                        <div>{atividade.nome}</div>
+                                                        <div>
+                                                            <Button
+                                                                size="sm"
+                                                                colorScheme="red"
+                                                                onClick={() => openModal('delete', atividade)}
+                                                            >
+                                                                <FaRegTrashAlt />
+                                                            </Button>
+                                                            <Button
+                                                                size="sm"
+                                                                colorScheme="blue"
+                                                                onClick={() => openModal('edit', atividade)}
+                                                            >
+                                                                <MdEditDocument />
+                                                            </Button>
                                                         </div>
-                                                    </div>
-
-                                                </Box>
-                                                <AccordionIcon />
-                                            </AccordionButton>
-
-                                            <AccordionPanel pb={4}>
-                                                sda {atividade.local}
-                                                <img src={`${atividade.banner}`}alt="" />
-                                            
-                                                <div>
-                                               
-                                                {atividade.ch}
-                                                {atividade.concomitante}
-                                
-                                                {atividade.descricao}
-                                               
-                                                </div>
-                                            </AccordionPanel>
-                                        </AccordionItem>
-                                    </Accordion>
-
-
-
-                                    <ul>
-                                        {atividade.responsaveis.map((responsavel, index) => (
-                                            <li key={index}>{responsavel.nome}</li>
-                                        ))}
-                                    </ul>
-                                </li>
-                            ))}
+                                                    </AccordionButton>
+                                                    <AccordionPanel pb={4} className="bg-slate-100">
+                                                        <div>
+                                                           
+                                                            <p className="text-green-800">
+                                                                <b>Local:</b> {atividade.local}
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Carga Horária:</b> {atividade.ch}h
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Concomitante:</b> {atividade.concomitante ? "Sim" : "Não"}
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Descrição:</b> {atividade.descricao}
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Responsáveis:</b>
+                                                                <ul>
+                                                                    {atividade.responsaveis.map((responsavel, index) => (
+                                                                        <li key={index}>{responsavel.responsavel.nome}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            </p>
+                                                        </div>
+                                                    </AccordionPanel>
+                                                </AccordionItem>
+                                            </Accordion>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="text-center border border-green-700 rounded-lg text-red-500 text-sm flex justify-center flex-col items-center  p-3">
+                                        <PiFileMagnifyingGlassLight className="text-2xl" />
+                                        <p className="">Este evento ainda não possui atividades</p>
+                                    </div>
+                                )}
+                            </li>
                         </ul>
                     </div>
                 ))}
             </div>
 
-
-
-            <div>
+            {/* Modal de Excluir */}
+            {modalType === 'delete' && selectedActivity && (
                 <AlertDialog
                     isOpen={isOpen}
                     leastDestructiveRef={cancelRef}
@@ -204,27 +241,78 @@ export default function Eventos() {
                 >
                     <AlertDialogOverlay>
                         <AlertDialogContent>
-                            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                            <AlertDialogHeader fontSize="lg" fontWeight="bold">
                                 Excluir Atividade
                             </AlertDialogHeader>
-
                             <AlertDialogCloseButton />
                             <AlertDialogBody>
                                 Tem certeza que deseja excluir esta atividade? Esta ação não pode ser desfeita.
                             </AlertDialogBody>
-
                             <AlertDialogFooter>
                                 <Button ref={cancelRef} onClick={onClose}>
                                     Cancelar
                                 </Button>
-                                <Button colorScheme='red' onClick={handleDeleteActivity} ml={3}>
+                                <Button
+                                    colorScheme="red"
+                                    onClick={handleDeleteActivity}
+                                    ml={3}
+                                >
                                     Excluir
                                 </Button>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialogOverlay>
                 </AlertDialog>
-            </div>
+            )}
+
+            {/* Modal de Edição */}
+            {modalType === 'edit' && selectedActivity && (
+                <AlertDialog
+                    isOpen={isOpen}
+                    leastDestructiveRef={cancelRef}
+                    onClose={onClose}
+                >
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                                Editar Atividade
+                            </AlertDialogHeader>
+                            <AlertDialogCloseButton />
+                            <AlertDialogBody>
+                                <form onSubmit={handleEditActivity} encType="multipart/form-data">
+
+                                    <input type="file" name="banner" id="" accept=".jpg, .jpeg, .png, .gif" />
+
+                                    <Stack spacing={3}>
+                                  
+                                        <Editable defaultValue={selectedActivity.nome}>
+                                            <EditablePreview />
+                                            <EditableInput name='nome' />
+                                        </Editable>
+                                        <Input variant='outline' placeholder={selectedActivity.local} name='local' />
+                                        <Input variant='outline' placeholder={selectedActivity.descricao} name='descricao' />
+                                        <Input type='number' placeholder={selectedActivity.ch} name='ch' />
+                                    </Stack>
+                                    <Button ref={cancelRef} onClick={onClose}> Cancelar
+                                    </Button>
+                                    <Button
+                                        colorScheme="red"
+
+                                        ml={3}
+                                        type='submit'
+                                    >
+                                        Editar
+                                    </Button>
+                                </form>
+
+                            </AlertDialogBody>
+                            <AlertDialogFooter>
+
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+            )}
         </>
-    )
+    );
 }

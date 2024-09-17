@@ -20,7 +20,7 @@ export default function MenuBar() {
 
 
     return (
-        <aside className={`bg-slate-200 sm:overflow-hidden transition-all h-screen duration-200   ${open ? "w-96 p-2" : "w-0 p-0 overflow-hidden"} lg:w-96 pt-4 lg:pl-4 sm:ml-0 pb-4 `}>
+        <aside className={`bg-gray-300 sm:overflow-hidden transition-all h-screen duration-200   ${open ? "w-96 p-2" : "w-0 p-0 overflow-hidden"} lg:w-96 pt-4 lg:pl-4 sm:ml-0 pb-4 `}>
             <div className="p-4 rounded-xl bg-white h-screen overflow-hidden border border-gray-300">
                 <div className="bg-gray-400 w-full h-16 mb-4 text-center flex justify-center items-center">
                     A LOGO VAI AQUI
@@ -37,7 +37,7 @@ export default function MenuBar() {
                         </div>
                     </li>
 
-                    {/* Renderiza o item de Eventos apenas se canViewEvents for verdadeiro */}
+                  
                     {canViewEvents && (
                         <li
                             className={`flex px-4 py-4 gap-4 text-md font-normal shadow-sm justify-start items-center rounded-md ${selectedItem === "eventos" ? "bg-green-900 text-white" : "bg-white text-green-700"}`}
@@ -50,7 +50,8 @@ export default function MenuBar() {
                                     <Portal>
                                         <MenuList>
                                             <MenuItem className="text-green-700  font-semibold flex gap-2">
-                                                <MdAddToPhotos className="text-green-700" />Novo Evento
+                                                <MdAddToPhotos className="text-green-700" />
+                                                <Link href="/dashboard/eventos/novo_evento">Novo Evento</Link>
                                             </MenuItem>
                                             <MenuItem className="text-green-700  font-semibold flex gap-2">
                                                 <FaListAlt className="text-green-700 " />

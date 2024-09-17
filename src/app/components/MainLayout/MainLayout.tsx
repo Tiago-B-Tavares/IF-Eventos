@@ -15,11 +15,11 @@ export default function MainLayout({ children }: DashboardLayoutProps) {
 
     return (
 
-        <div className="flex bg-gray-200 w-screen min-h-screen">
+        <div className="flex bg-gray-300 w-screen min-h-screen">
             <MenuBar />
             <div className="w-full">
                 <MainHeader />
-                <main className="lg:p-4 ">
+                <main className="lg:pt-4 lg:pl-4 lg:pb-4 ">
                     {children}
                 </main>
             </div>

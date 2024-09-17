@@ -16,7 +16,7 @@ export function setupApiClient() {
   }, (error: AxiosError) => {
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
-        signOut(); // Desloga o usuário caso receba um erro 401
+        signOut();
       } else {
         return Promise.reject("Erro ao tentar autenticar o token"); 
       }

@@ -9,8 +9,7 @@ export default async function deleteActivity(id_activity:string) {
         const response = await api.delete(`/atividades?id=${id_activity}`)
         
         const activity = response.data;
-        console.log(activity);
-
+        
         return activity;
 
     } catch (error) {
