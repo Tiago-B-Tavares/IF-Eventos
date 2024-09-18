@@ -10,13 +10,14 @@ export interface EventoProps {
     atividades: AtividadesProps[];
 }
 export interface TypesEventsProps {
+    id:string
     nome: string;
     descricao:string;
     dataInicio: string;
     dataFim: string; 
     horario: string;
     local: string;
-    organizador_id: string;
+    organizador_id?: string;
 }
 
 export interface ResponsaveisProps {

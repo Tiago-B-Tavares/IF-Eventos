@@ -1,4 +1,4 @@
 {
-  "/dashboard/eventos/todos_eventos/page": "app/dashboard/eventos/todos_eventos/page.js",
-  "/dashboard/eventos/novo_evento/page": "app/dashboard/eventos/novo_evento/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/dashboard/eventos/todos_eventos/page": "app/dashboard/eventos/todos_eventos/page.js"
 }

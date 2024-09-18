@@ -6,16 +6,17 @@ export default async function deleteEvent(id:string) {
 
 
     try {
+        console.log(id);
         
         const response = await api.delete(`/evento?id=${id}`)
         
-        const activity = response.data;
-        console.log(response.data);
+        const evento = response.data;
+
         
-        return activity;
+        return evento;
 
     } catch (error) {
-        throw new Error('Erro ao obter lista de Eventos');
+        throw new Error('Erro ao deletar Evento');
     }
 }
    

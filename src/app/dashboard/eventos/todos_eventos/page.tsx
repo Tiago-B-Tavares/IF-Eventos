@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import getEvents from "@/services/events/getEvents";
-import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Editable, EditableInput, EditablePreview, Heading, Input, Stack, useDisclosure, useToast } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Editable, EditableInput, EditablePreview, Heading, Input, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
 import { LuCalendarClock } from "react-icons/lu";
-import { MdEditDocument, MdPlace } from "react-icons/md";
+import { MdEditDocument, MdPlace, MdAccessTimeFilled } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { EventoProps } from "@/types/interfaces";
 import editEvent from "@/services/events/editEvent";
@@ -40,8 +40,8 @@ export default function Eventos() {
   const handleDeleteEvent = async () => {
     if (selectedEvent) {
       try {
-        alert(selectedEvent.id)
-      await deleteEvent(selectedEvent.id as string)
+
+        await deleteEvent(selectedEvent.id as string)
         toast({
           title: "Excluído com sucesso!",
           status: "success",
@@ -71,16 +71,16 @@ export default function Eventos() {
     const descricao = formData.get("descricao") as string;
     const dataInicio = formData.get("dataInicio") as string;
     const dataFim = formData.get("dataFim") as string;
-    const horario = "22:00:00"
-    const organizador_id = selectedEvent?.id as string
+    const horario = formData.get("horario") as string;
+    const id = selectedEvent?.id as string
     const dados = {
-      organizador_id,
+      id,
       horario,
       nome, local, descricao, dataInicio, dataFim
     }
     if (selectedEvent) {
       try {
-       
+
         await editEvent(dados);
         toast({
           title: "Editado com sucesso!",
@@ -130,6 +130,10 @@ export default function Eventos() {
                 <div className="flex flex-row justify-between gap-4 text-green-700">
                   <span><b>De:</b> {e.dataInicio}</span>
                   <span><b>Até:</b> {e.dataFim}</span>
+                </div>
+                <div className="flex flex-row justify-between items-center gap-4 text-green-700">
+                  <MdAccessTimeFilled />
+                  <span><b>Horário:</b> {e.horario}</span>
                 </div>
               </div>
               <div className="flex flex-row justify-start gap-4">
@@ -209,20 +213,29 @@ export default function Eventos() {
               <AlertDialogCloseButton />
               <AlertDialogBody>
                 <form onSubmit={handleEditEvent} encType="multipart/form-data">
-                 
 
-                  <Stack spacing={3}>
-                   
+
+                  <Stack spacing={3} className="border-1 border-green-700">
+                    <label>Nome: </label>
                     <Input variant='outline' placeholder={selectedEvent.nome} name='nome' />
+                    <label>Local: </label>
                     <Input variant='outline' placeholder={selectedEvent.local} name='local' />
-                    <Input variant='outline' placeholder={selectedEvent.descricao} name='descricao' />
-                    <Input type='date' value={selectedEvent.dataInicio} name='dataInicio' />
-                    <Input type='date' value={selectedEvent.dataFim} name='dataFim' />
+                    <label>Horário: </label>
+                    <Input variant='outline' type="time" placeholder={selectedEvent.horario} name='horario' />
+                    <label>Descrição : </label>
+                    <Textarea variant='outline' placeholder={selectedEvent.descricao} name='descricao' />
+                    <label>Início: </label>
+                    <Input type='date' placeholder={selectedEvent.dataInicio} name='dataInicio' />
+                    <label>Término: </label>
+                    <Input type='date' placeholder={selectedEvent.dataFim} name='dataFim' />
                   </Stack>
-                  <Button ref={cancelRef} onClick={onClose}>Cancelar</Button>
-                  <Button colorScheme="red" ml={3} type='submit'>
-                    Editar
-                  </Button>
+                  <div className=" pt-3 flex justify-between">
+                    <Button ref={cancelRef} onClick={onClose}>Cancelar</Button>
+                    <Button colorScheme="blue" ml={3} type='submit'>
+                      Editar
+                    </Button>
+                  </div>
+
                 </form>
               </AlertDialogBody>
               <AlertDialogFooter>
