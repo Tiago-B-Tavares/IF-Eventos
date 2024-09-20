@@ -7,9 +7,6 @@ interface showInscritosRequest {
 }
 class ShowInscritosByAtividadeService {
     async execute({ atividade_id }) {
-
-        console.log("log 02: " + atividade_id);
-        
         
         try {
 
@@ -25,7 +22,8 @@ class ShowInscritosByAtividadeService {
                             nome: true,
                             email: true,
                             idade: true,
-                            sexo: true
+                            sexo: true,
+                            _count:true
 
                         },
                     },

@@ -6,6 +6,7 @@ interface AtividadeRequest {
 class SearchAllAtividadesService {
   async execute({ evento_id }: AtividadeRequest) {
     try {
+    
       const atividades = await prismaClient.atividade.findMany({
         where: {
           evento_id: evento_id
@@ -14,14 +15,17 @@ class SearchAllAtividadesService {
            nome:true,
            local:true,
            horario:true,
+           descricao:true,
            concomitante:true,
-           responsaveis:true,
            vagas:true,
-           ch:true
+           ch:true,
+           responsaveis:true,
         }
       });
-console.log(atividades);
 
+
+    
+      
       return atividades;
 
     } catch (error) {

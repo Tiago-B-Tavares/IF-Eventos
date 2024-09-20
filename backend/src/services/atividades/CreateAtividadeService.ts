@@ -8,16 +8,15 @@ interface AtividadeRequest {
     vagas: number;
     ch: number;
     concomitante: boolean;
-    banner: string;
     evento_id: string;
     organizador_id: string;  
 }
 
 class CreateAtividadeService {
-    async execute({ nome, descricao, local, horario, vagas, ch, concomitante, banner, evento_id, organizador_id }: AtividadeRequest) {
+    async execute({ nome, descricao, local, horario, vagas, ch, concomitante, evento_id, organizador_id }: AtividadeRequest) {
         try {
             // crio um responsável com o id do usuario organizador( SUPER_ADMIN ou ACTIVITIES_ADMIN) caso 
-
+          
             let responsavel = await prismaClient.responsavel.findUnique({
                 where: { id: organizador_id }
             });
@@ -43,7 +42,6 @@ class CreateAtividadeService {
                     vagas: Number(vagas),
                     ch: Number(ch),
                     concomitante,
-                    banner,
                     evento: {
                         connect: { id: evento_id }
                     }
@@ -68,6 +66,7 @@ class CreateAtividadeService {
                     responsavel_id: organizador_id
                 }
             });
+
 
             return { message: "Atividade cadastrada com sucesso!" };
         } catch (error) {

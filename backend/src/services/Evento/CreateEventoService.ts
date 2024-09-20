@@ -6,11 +6,14 @@ interface CreateEventoRequest {
     dataFim: string;
     horario: string;
     local: string;
+    descricao:string;
     organizador_id: string;
 }
 
 class CreateEventoService {
-    async execute({ nome, dataInicio, dataFim, horario, local, organizador_id }: CreateEventoRequest) {
+    async execute({ nome, descricao,  dataInicio, dataFim, horario, local, organizador_id }: CreateEventoRequest) {
+      
+        
         try {
             const userRole = await prismaClient.organizador.findFirst({
                 where: {
@@ -24,6 +27,7 @@ class CreateEventoService {
                 const evento = await prismaClient.evento.create({
                     data: {
                         nome,
+                        descricao,
                         dataInicio,
                         dataFim,
                         horario,

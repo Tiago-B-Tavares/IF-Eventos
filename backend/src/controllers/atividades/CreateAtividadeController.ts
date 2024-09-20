@@ -19,15 +19,6 @@ class CreateAtividadeController {
         
             const evento_id = req.query.id as string;
 
-         
-            if (!req.file) {
-                throw new Error("Erro ao enviar arquivo");
-            }
-
-            
-            const { originalname, filename: banner } = req.file;
-
-           
             const createAtividadeService = new CreateAtividadeService();
 
             
@@ -37,9 +28,9 @@ class CreateAtividadeController {
                 local,
                 horario,
                 vagas: Number(vagas),
-                ch: Number(ch),
+                ch: Number(ch), 
                 concomitante: !!concomitante ,
-                banner, 
+              
                 evento_id,
                 organizador_id,
                

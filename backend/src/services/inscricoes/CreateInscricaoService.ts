@@ -30,7 +30,8 @@ class CreateInscricaoService {
                         id: true,
                         atividade_id: true,
                         participante_id: true,
-                        createdAt: true
+                        createdAt: true,
+                        updatedAt:true
                     }
 
                 })

@@ -18,7 +18,9 @@ class ListEventoService {
                     }
                 },
                 select: {
+                    id: true,
                     nome: true,
+                    descricao:true,
                     horario: true,
                     dataInicio: true,
                     dataFim: true,
@@ -26,9 +28,9 @@ class ListEventoService {
                     _count: true,
                     organizadores: {
                         select: {
-                            organizador:{
-                                select:{
-                                    nome:true
+                            organizador: {
+                                select: {
+                                    nome: true
                                 }
                             }
                         }
@@ -37,13 +39,18 @@ class ListEventoService {
                         select: {
                             id: true,
                             nome: true,
+                            local: true,
                             horario: true,
+                            concomitante: true,
                             descricao:true,
-                            responsaveis:{
-                                select:{
-                                    responsavel:{
-                                        select:{
-                                            nome:true
+                            vagas: true,
+                            ch: true,
+                           
+                            responsaveis: {
+                                select: {
+                                    responsavel: {
+                                        select: {
+                                            nome: true
                                         }
                                     }
                                 }
@@ -54,7 +61,8 @@ class ListEventoService {
                 }
             });
 
-            console.log("eventos :", listEventos);
+
+
 
             return listEventos;
         } catch (error) {

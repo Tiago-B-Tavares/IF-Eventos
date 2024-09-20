@@ -3,7 +3,8 @@ import prismaClient from "../../prisma";
 
 interface UpdateEventoRequest {
     id: string;
-    nome
+    nome:string;
+    descricao: string;
     dataInicio: string;
     dataFim: string;
     horario: string;
@@ -11,14 +12,17 @@ interface UpdateEventoRequest {
 
 }
 class UpdateEventoService {
-    async execute({ id, nome, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
+    async execute({ id, nome, descricao, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
         try {
+        console.log("service: ", id);
+            
             const updadeEvento = await prismaClient.evento.update({
                 where: {
                     id: id
                 },
                 data: {
                     nome:nome,
+                    descricao:descricao,
                     dataInicio: dataInicio,
                     dataFim: dataFim,
                     horario: horario,
@@ -27,8 +31,10 @@ class UpdateEventoService {
             })
             return { message: "alterado com susesso!" }
         } catch (error) {
-            return { message: `Não foi possível atualizar Evento devido ao erro: ${error} ` }
+            console.error(error);
+            return { message: "Erro ao deletar", error };
         }
+        
     }
 }
 export { UpdateEventoService }

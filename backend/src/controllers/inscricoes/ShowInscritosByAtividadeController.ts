@@ -4,11 +4,8 @@ import { ShowInscritosByAtividadeService } from "../../services/inscricoes/ShowI
 class ShowInscritosByAtividadeController {
     async handle(req: Request, res: Response){
         
-        const atividade_id = req.body.atividade_id;
+        const atividade_id = req.query.atividade_id;
 
-    console.log("log 01: " + atividade_id);
-
-      
         const showInscritosService = new ShowInscritosByAtividadeService();
         
         const showInscritos = await showInscritosService.execute({atividade_id})
