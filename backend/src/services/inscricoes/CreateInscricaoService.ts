@@ -14,7 +14,8 @@ class CreateInscricaoService {
             })
             if (participanteAlreadExists) {
 
-                return "Já está inscrito!!"
+                throw new Error("Usuario já está perticipando");
+                
 
             } else {
 
@@ -42,7 +43,7 @@ class CreateInscricaoService {
 
 
         } catch (error) {
-            return { message: `erro ao se inscrever: ${error}` };
+            return { message: `${error}` };
         }
     }
 

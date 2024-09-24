@@ -14,7 +14,7 @@ interface UpdateEventoRequest {
 class UpdateEventoService {
     async execute({ id, nome, descricao, dataInicio, dataFim, horario, local }: UpdateEventoRequest) {
         try {
-        console.log("service: ", id);
+       
             
             const updadeEvento = await prismaClient.evento.update({
                 where: {

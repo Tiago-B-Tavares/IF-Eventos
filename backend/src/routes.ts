@@ -18,6 +18,9 @@ import { UpdateEventoController } from './controllers/evento/UpdateEventoControl
 import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
 import { CountEventosController } from './controllers/evento/CountEventoController';
 import { ListEventoController } from './controllers/evento/ListEventoController';
+import { UpdateColaboradorController } from './controllers/colaboradores/UpdateColaboradorController';
+import { GetAppUsersController } from './controllers/appUser/GetAppUsersController';
+import { ListAllEventosController } from './controllers/evento/ListAllEventosController';
 
 import { CreateAtividadeController } from './controllers/atividades/CreateAtividadeController';
 import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
@@ -31,6 +34,7 @@ import { ShowInscritosByAtividadeController } from './controllers/inscricoes/Sho
 
 import uploadConfig from './config/multer';
 import { logRequestData } from './middlewares/logRequestData';
+
 
 const router = Router();
 
@@ -47,6 +51,7 @@ router.post('/check-email', new UserAlreadyExistsController().handler);
 router.put('/user', new UpdateWebUserController().handle);
 
 // App User
+router.get('/app/user', new GetAppUsersController().handle);
 router.post('/app/user', new CreateAppUserController().handle);
 router.put('/app/user', new UpdateAppUserController().handle);
 
@@ -54,7 +59,9 @@ router.put('/app/user', new UpdateAppUserController().handle);
 router.post('/eventos', new CreateEventoController().handle);
 router.get('/count-eventos', new CountEventosController().handle);
 router.get('/eventos', new ListEventoController().handle);
-router.put('/evento',logRequestData, new UpdateEventoController().handle);
+router.get('/todos-eventos', new ListAllEventosController().handle);
+
+router.put('/evento', new UpdateEventoController().handle);
 router.delete('/evento', new DeleteEventoController().handle);
 
 // Atividades
@@ -65,6 +72,7 @@ router.put('/atividades', new UpdateAtividadeController().handle);
 
 // Colaboradores das atividades
 router.post('/colaborador', new CreateColaboradorController().handle);
+router.put('/colaborador', new UpdateColaboradorController().handle);
 
 // Inscrições
 router.post('/inscrever', new CreateInscricoesController().handle);
