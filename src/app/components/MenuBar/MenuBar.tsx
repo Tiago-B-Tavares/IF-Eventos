@@ -74,6 +74,7 @@ export default function MenuBar() {
                             <Link href="/dashboard/atividades">Atividades</Link>
                         </div>
                     </li>
+                    {canViewEvents && (
                     <li
                         className={`flex px-4 py-4 gap-4 text-md cursor-pointer font-normal shadow-sm justify-start items-center rounded-md ${selectedItem === "participantes" ? "bg-green-900 text-white" : "bg-white text-green-700"}`}
                         onClick={() => setSelectedItem("participantes")}
@@ -82,7 +83,7 @@ export default function MenuBar() {
                         <div className="flex-1 font-bold font-sans cursor-pointer">
                         <Link href="/dashboard/participantes">Participantes</Link>
                         </div>
-                    </li>
+                    </li>)}
                     <li
                         className={`flex px-4 py-4 gap-4 text-md cursor-pointer font-normal shadow-sm justify-start items-center rounded-md ${selectedItem === "certificados" ? "bg-green-900 text-white" : "bg-white text-green-700"}`}
                         onClick={() => setSelectedItem("certificados")}

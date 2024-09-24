@@ -28,8 +28,8 @@ import {
 import { FaRegTrashAlt } from "react-icons/fa";
 import { PiFileMagnifyingGlassLight } from "react-icons/pi";
 import { MdEditDocument } from "react-icons/md";
-import Image from "next/image";
 
+import { IoMdAddCircle } from "react-icons/io";
 import { useSession } from "next-auth/react";
 import getEvents from "@/services/events/getEvents";
 import deleteActivity from "@/services/activities/deleteActivity";
@@ -45,7 +45,10 @@ export default function Atividades() {
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
-
+    let canViewEvents = false;
+    if (session?.user.role === "SUPER_ADMIN") {
+        canViewEvents = true
+    }
     useEffect(() => {
         async function fetchEvents() {
             if (session?.user?.id) {
@@ -55,6 +58,7 @@ export default function Atividades() {
                 } catch (error) {
                     console.error("Erro ao obter lista de Eventos:", error);
                 }
+
             }
         }
         fetchEvents();
@@ -92,7 +96,7 @@ export default function Atividades() {
     const handleEditActivity = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-     
+
         const formData = new FormData(e.currentTarget);
 
         const nome = formData.get("nome") as string;
@@ -105,7 +109,7 @@ export default function Atividades() {
 
 
 
-       
+
         // if (selectedActivity) {
         //     try {
         //         await editActivity(selectedActivity);
@@ -148,7 +152,7 @@ export default function Atividades() {
         <>
             <div className="">
                 {eventos.map((e) => (
-                   
+
                     <div key={e.id} className="bg-white">
                         <ul className="bg-slate-200">
                             <li className="mb-4 bg-white rounded-lg p-4">
@@ -168,32 +172,33 @@ export default function Atividades() {
 
                                 {e.atividades.length > 0 ? (
                                     e.atividades.map((atividade) => (
-                                        
+
                                         <div key={atividade.id}>
                                             <Accordion defaultIndex={[1]} allowMultiple className="bg-white rounded-lg mb-2">
                                                 <AccordionItem>
                                                     <AccordionButton className="flex flex-wrap justify-between font-medium border border-green-700 rounded-lg text-green-700">
                                                         <div>{atividade.nome}</div>
-                                                        <div>
-                                                            <Button
-                                                                size="sm"
-                                                                colorScheme="red"
-                                                                onClick={() => openModal('delete', atividade)}
-                                                            >
-                                                                <FaRegTrashAlt />
-                                                            </Button>
-                                                            <Button
-                                                                size="sm"
-                                                                colorScheme="blue"
+
+                                                        <div className='flex flex-row gap-4'>
+                                                            {canViewEvents && (
+                                                                <div
+                                                                    className='text-red-700'
+                                                                    onClick={() => openModal('delete', atividade)}
+                                                                >
+                                                                    <FaRegTrashAlt />
+                                                                </div>
+                                                            )}
+                                                            <div
+                                                                className='text-blue-700'
                                                                 onClick={() => openModal('edit', atividade)}
                                                             >
                                                                 <MdEditDocument />
-                                                            </Button>
+                                                            </div>
                                                         </div>
                                                     </AccordionButton>
                                                     <AccordionPanel pb={4} className="bg-slate-100">
                                                         <div>
-                                                           
+
                                                             <p className="text-green-800">
                                                                 <b>Local:</b> {atividade.local}
                                                             </p>
@@ -206,14 +211,15 @@ export default function Atividades() {
                                                             <p className="text-green-800">
                                                                 <b>Descrição:</b> {atividade.descricao}
                                                             </p>
-                                                            <p className="text-green-800">
+                                                            <div className="text-green-800">
                                                                 <b>Responsáveis:</b>
                                                                 <ul>
                                                                     {atividade.responsaveis.map((responsavel, index) => (
                                                                         <li key={index}>{responsavel.responsavel.nome}</li>
+
                                                                     ))}
                                                                 </ul>
-                                                            </p>
+                                                            </div>
                                                         </div>
                                                     </AccordionPanel>
                                                 </AccordionItem>
@@ -221,9 +227,22 @@ export default function Atividades() {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="text-center border border-green-700 rounded-lg text-red-500 text-sm flex justify-center flex-col items-center  p-3">
-                                        <PiFileMagnifyingGlassLight className="text-2xl" />
-                                        <p className="">Este evento ainda não possui atividades</p>
+                                    <div >
+
+                                        {session?.user.role === "SUPER_ADMIN" ?
+                                            <div className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center  p-3">
+                                                <PiFileMagnifyingGlassLight className="text-2xl" />
+                                                <p className="font-normal">Este evento ainda não possui atividades</p>
+                                                <button className='flex items-center  font-semibold flex-col text-gray-400 text-sm mt-4 p-2 border-2 rounded-lg hover:bg-gray-400 hover:text-white cursor-pointer'>
+                                                    <IoMdAddCircle className='' />
+                                                    <p>Adicionar</p>
+                                                </button>
+                                            </div> :
+                                            <div className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center  p-3">
+                                                <p className="">Este evento ainda não possui atividades</p>
+                                                <PiFileMagnifyingGlassLight className="text-4xl" />
+
+                                            </div>}
                                     </div>
                                 )}
                             </li>
@@ -232,8 +251,9 @@ export default function Atividades() {
                 ))}
             </div>
 
-            {/* Modal de Excluir */}
+
             {modalType === 'delete' && selectedActivity && (
+
                 <AlertDialog
                     isOpen={isOpen}
                     leastDestructiveRef={cancelRef}
@@ -284,7 +304,7 @@ export default function Atividades() {
                                     <input type="file" name="banner" id="" accept=".jpg, .jpeg, .png, .gif" />
 
                                     <Stack spacing={3}>
-                                  
+
                                         <Editable defaultValue={selectedActivity.nome}>
                                             <EditablePreview />
                                             <EditableInput name='nome' />

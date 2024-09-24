@@ -10,12 +10,13 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { EventoProps } from "@/types/interfaces";
 import editEvent from "@/services/events/editEvent";
 import deleteEvent from "@/services/events/deleteEvent";
+import getAllEvents from "@/services/events/getAllEvents";
 // import deleteEvent from "@/services/events/deleteEvent"; // Importe a função de excluir evento
 // import editEvent from "@/services/events/editEvent"; // Importe a função de editar evento
 
 export default function Eventos() {
   const { data: session } = useSession();
-  const [eventos, setEventos] = useState<EventoProps[]>([]);
+  let [eventos, setEventos] = useState<EventoProps[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventoProps | null>(null);
   const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
   const toast = useToast();
@@ -26,8 +27,16 @@ export default function Eventos() {
     async function fetchEventsAndActivities() {
       if (session?.user?.id) {
         try {
-          const events = await getEvents(session.user.id);
-          setEventos(events);
+          
+          
+          if (session.user.role === "SUPER_ADMIN") {
+            eventos = await getAllEvents();
+          } else {
+            eventos = await getEvents(session.user.id);
+          }
+          
+          setEventos(eventos);
+
         } catch (error) {
           console.error("Erro ao obter lista de Eventos:", error);
         }
@@ -36,6 +45,7 @@ export default function Eventos() {
 
     fetchEventsAndActivities();
   }, [session]);
+
 
   const handleDeleteEvent = async () => {
     if (selectedEvent) {

@@ -39,3 +39,11 @@ export interface AtividadesProps {
     responsaveis: ResponsaveisProps[];
     ch: string;
 }
+
+export interface ParticipantesProps{
+    id:string,
+    nome: string,
+    email: string,
+    idade:number,
+    sexo: "M" | "F"
+}
