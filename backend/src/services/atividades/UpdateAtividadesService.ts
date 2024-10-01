@@ -9,27 +9,38 @@ interface UpdateAtividadeRequest {
     nome: string;
     descricao: string;
     vagas: number;
-   
 }
 
 class UpdateAtividadesService {
     async execute({ id, local, horario, ch, concomitante, nome, descricao, vagas }: UpdateAtividadeRequest) {
+        console.log("chegou no service: ", id, local, horario, ch, concomitante, nome, descricao, vagas);
+
         try {
-            const atividade = await prismaClient.atividade.updateMany({
+            const atividade = await prismaClient.atividade.update({
                 where: {
-                    id: id
+                    id: id,
                 },
                 data: {
-                    local, horario, ch, concomitante, nome, descricao, vagas
-                }
-            })
+                    local,
+                    horario,
+                    ch,
+                    concomitante,
+                    nome,
+                    descricao,
+                    vagas,
+                },
+            });
 
+            console.log(atividade);
 
+            // Retorna a atividade atualizada juntamente com uma mensagem de sucesso
+            return { message: "Atividade atualizada com sucesso!", atividade };
 
-            return { message: "deu bom" };
+        } catch (error: any) {
+            console.error("Erro ao atualizar a atividade:", error);
 
-        } catch (error) {
-            return { message: `Não foi possível atualizar essa atividade devido ao erro: ${error.message}` };
+            // Retorna uma mensagem de erro detalhada
+            return { message: `Erro ao atualizar atividade: ${error.message}` };
         }
     }
 }
