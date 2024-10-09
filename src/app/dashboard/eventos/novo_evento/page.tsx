@@ -1,43 +1,42 @@
 "use client";
 
-import React, { ChangeEvent, useState } from 'react';
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useToast } from "@chakra-ui/react";
-import { RiUploadCloudFill } from "react-icons/ri";
+import React, { useState } from 'react';
+import { Button, useToast } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
-import { FaCheckCircle } from "react-icons/fa";
-import Form from "@/app/components/Forms/genericForm";
-import { api } from "@/services/setupApiClient";
 import registerNewEvent from "@/services/events/registerNewEvent";
 
 export default function CadastrarEvento() {
     const { data } = useSession();
-
     const toast = useToast();
-    const [nome, setNome] = useState('')
-    const [horario, setHorario] = useState('')
-    const [descricao, setDescricao] = useState('')
-    const [local, setLocal] = useState('')
-    const [dataInicio, setDataInicio] = useState('')
-    const [dataFim, setDataFim] = useState('')
-    const organizador_id = data?.user.id as string
+    const [nome, setNome] = useState('');
+    const [horario, setHorario] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [local, setLocal] = useState('');
+    const [dataInicio, setDataInicio] = useState('');
+    const [dataFim, setDataFim] = useState('');
+    const [loading, setLoading] = useState(false); // Estado de carregamento
+    const organizador_id = data?.user.id as string;
 
     async function handleRegisterEvent(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault(); // Evita o comportamento padrão do formulário
 
-        const dados = {
-            organizador_id,
-            nome,
-            horario,
-            descricao,
-            local,
-            dataInicio,
-            dataFim
+        // Validação simples
+        if (!nome || !descricao || !local || !dataInicio || !dataFim || !horario) {
+            toast({
+                title: "Erro",
+                description: "Todos os campos são obrigatórios.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
         }
 
+        const dados = { organizador_id, nome, horario, descricao, local, dataInicio, dataFim };
+
         try {
-            await registerNewEvent(dados)
-
-
-
+            setLoading(true); // Começa o carregamento
+            await registerNewEvent(dados);
             toast({
                 title: "Sucesso",
                 description: "Evento cadastrado com sucesso!",
@@ -45,7 +44,13 @@ export default function CadastrarEvento() {
                 duration: 5000,
                 isClosable: true,
             });
-
+            // Resetar os campos após o sucesso (opcional)
+            setNome('');
+            setHorario('');
+            setDescricao('');
+            setLocal('');
+            setDataInicio('');
+            setDataFim('');
         } catch (err) {
             console.error("Failed to register event", err);
             toast({
@@ -55,44 +60,71 @@ export default function CadastrarEvento() {
                 duration: 5000,
                 isClosable: true,
             });
+        } finally {
+            setLoading(false); // Finaliza o carregamento
         }
-
     }
+
     return (
-        <>
-            <div className=" bg-white p-10 gap-4  rounded-lg">
+        <div className="bg-white p-10 gap-4 rounded-lg">
+            <form className="flex flex-col gap-4" onSubmit={handleRegisterEvent}>
+                <label className="text-base font-semibold text-green-800" htmlFor="nome">Nome:</label>
+                <input
+                    id="nome"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    type='text'
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                />
 
-                <form method="post" encType="multipart/form-data" className="flex flex-col gap-4" onSubmit={handleRegisterEvent}>
+                <label className="text-base font-semibold text-green-800" htmlFor="descricao">Descrição:</label>
+                <textarea
+                    id="descricao"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    value={descricao}
+                    onChange={(e) => setDescricao(e.target.value)}
+                />
 
-                    <label className="text-base font-semibold text-green-800 ">Nome:</label>
-                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='text'
+                <label className="text-base font-semibold text-green-800" htmlFor="horario">Horário:</label>
+                <input
+                    id="horario"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    type='time'
+                    value={horario}
+                    onChange={(e) => setHorario(e.target.value)}
+                />
 
-                        onChange={(e) => setNome(e.target.value)} />
+                <label className="text-base font-semibold text-green-800" htmlFor="dataInicio">Início:</label>
+                <input
+                    id="dataInicio"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    type='date'
+                    value={dataInicio}
+                    onChange={(e) => setDataInicio(e.target.value)}
+                />
 
-                    <label className="text-base font-semibold text-green-800 ">Descriçao:</label>
-                    <textarea className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40"
-                        onChange={(e) => setDescricao(e.target.value)} />
+                <label className="text-base font-semibold text-green-800" htmlFor="dataFim">Término:</label>
+                <input
+                    id="dataFim"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    type='date'
+                    value={dataFim}
+                    onChange={(e) => setDataFim(e.target.value)}
+                />
 
-                    <label className="text-base font-semibold text-green-800 ">Horario:</label>
-                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='time'
-                        onChange={(e) => setHorario(e.target.value)}
-                    />
+                <label className="text-base font-semibold text-green-800" htmlFor="local">Local:</label>
+                <input
+                    id="local"
+                    className="border-b-2 px-2 border-b-green-800 font-normal text-orange-700 outline-none placeholder:text-orange-700 placeholder:opacity-40"
+                    type='text'
+                    value={local}
+                    onChange={(e) => setLocal(e.target.value)}
+                />
 
-                    <label className="text-base font-semibold text-green-800 ">Início:</label>
-                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='date'
-                        onChange={(e) => setDataInicio(e.target.value)} />
-
-                    <label className="text-base font-semibold text-green-800 ">Término:</label>
-                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='date'
-                        onChange={(e) => setDataFim(e.target.value)} />
-
-                    <label className="text-base font-semibold text-green-800 ">Local:</label>
-                    <input className="border-b-2 px-2  border-b-green-800 font-normal text-orange-700 outline-none  placeholder:text-orange-700 placeholder:opacity-40" type='text'
-                        onChange={(e) => setLocal(e.target.value)} />
-
-                    <Button type="submit" className="w-40">cadastrar</Button>
-                </form>
-            </div>
-        </>
+                <Button type="submit" className="w-40" isLoading={loading} loadingText="Cadastrando...">
+                    Cadastrar
+                </Button>
+            </form>
+        </div>
     );
 }

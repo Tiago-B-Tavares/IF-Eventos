@@ -11,19 +11,19 @@ interface ParticipantesProps {
 }
 
 export default function Page() {
-    const [participantes, setParticipantes] = useState<ParticipantesProps[]>([]); // inicializar como array vazio
+    const [participantes, setParticipantes] = useState<ParticipantesProps[]>([]); 
 
     useEffect(() => {
         async function fetchParticipants() {
             try {
                 const response = await getParticipants();
-                setParticipantes(response); // Atualiza o estado com os participantes
+                setParticipantes(response);
             } catch (error) {
                 console.error("Erro ao obter participantes:", error);
             }
         }
         fetchParticipants();
-    }, []); // Executa o efeito apenas uma vez ao montar o componente
+    }, []); 
 
     return (
         <div>

@@ -30,18 +30,21 @@ import { useSession } from "next-auth/react";
 import getEvents from "@/services/events/getEvents";
 import deleteActivity from "@/services/activities/deleteActivity";
 import editActivity from "@/services/activities/editActivity";
-import { AtividadesProps, EventoProps } from "@/types/interfaces";
+import { ActivitiesProps, AtividadesProps, EventoProps } from "@/types/interfaces";
+import CreateActivity from '@/services/activities/createActivity';
+import AddActivity from './components/formCreate';
 
 export default function Atividades() {
     const { data: session } = useSession();
     const [eventos, setEventos] = useState<EventoProps[]>([]);
     const [selectedActivity, setSelectedActivity] = useState<AtividadesProps | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<string | undefined>();
     const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
 
-    // Estados para os campos do formulário
+
     const [nome, setNome] = useState<string>("");
     const [local, setLocal] = useState<string>("");
     const [descricao, setDescricao] = useState<string>("");
@@ -72,6 +75,7 @@ export default function Atividades() {
     const handleDeleteActivity = async () => {
         if (selectedActivity) {
             try {
+
                 await deleteActivity(selectedActivity.id);
                 toast({
                     title: "Excluído com sucesso!",
@@ -80,12 +84,12 @@ export default function Atividades() {
                     isClosable: true,
                 });
                 onClose();
-                setEventos((prevEventos) =>
-                    prevEventos.map((evento) => ({
-                        ...evento,
-                        atividades: evento.atividades.filter((atividade) => atividade.id !== selectedActivity.id),
-                    }))
-                );
+                // setEventos((prevEventos) =>
+                //     prevEventos.map((evento) => ({
+                //         ...evento,
+                //         atividades: evento.atividades.filter((atividade) => atividade.id !== selectedActivity.id),
+                //     }))
+                // );
             } catch (error) {
                 toast({
                     title: "Erro ao excluir!",
@@ -98,12 +102,13 @@ export default function Atividades() {
         }
     };
 
+
     const handleEditActivity = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+
+
 
         if (selectedActivity) {
             try {
-                // Atualize a atividade com os dados dos estados
                 const updatedActivity: AtividadesProps = {
                     ...selectedActivity,
                     nome,
@@ -115,18 +120,10 @@ export default function Atividades() {
                     vagas,
                 };
 
-                await editActivity(updatedActivity);
+                const response = await editActivity(updatedActivity);
 
-                toast({
-                    title: "Alterado com sucesso!",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                });
+                console.log(response);
 
-                onClose();
-
-                // Atualizando o estado de eventos com a nova atividade editada
                 setEventos((prevEventos) =>
                     prevEventos.map((evento) => {
                         if (evento.id === updatedActivity.eventoId) {
@@ -140,23 +137,32 @@ export default function Atividades() {
                         return evento;
                     })
                 );
-            } catch (error) {
+
+
                 toast({
-                    title: "Erro ao alterar!",
+                    title: "Atividade atualizada com sucesso!",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                });
+            } catch (error) {
+
+                toast({
+                    title: "Erro ao atualizar atividade!",
                     status: "error",
                     duration: 5000,
                     isClosable: true,
                 });
-                console.error("Erro ao alterar os dados da atividade:", error);
             }
         }
     };
+
+
 
     const openModal = (type: 'edit' | 'delete', activity: AtividadesProps) => {
         setSelectedActivity(activity);
         setModalType(type);
 
-        // Pré-popular os campos do formulário com os valores da atividade selecionada
         if (type === 'edit' && activity) {
             setNome(activity.nome);
             setLocal(activity.local);
@@ -185,6 +191,7 @@ export default function Atividades() {
                                     <Heading as="h2" size="lg" className="underline text-green-800 pb-4">
                                         {e.nome}
                                     </Heading>
+
                                 </Box>
                                 <Heading as="h2" size="sm" className="text-green-800 pb-4">
                                     Atividades:
@@ -198,25 +205,29 @@ export default function Atividades() {
                                                         <div>{atividade.nome}</div>
                                                         <div className='flex flex-row gap-4'>
                                                             {canViewEvents && (
-                                                                <div
-                                                                    className='text-red-700'
+                                                                <Button
+
                                                                     onClick={() => openModal('delete', atividade)}
                                                                 >
-                                                                    <FaRegTrashAlt />
-                                                                </div>
+                                                                    <FaRegTrashAlt className='text-red-700' />
+                                                                </Button>
                                                             )}
-                                                            <div
-                                                                className='text-blue-700'
+                                                            <Button
+
                                                                 onClick={() => openModal('edit', atividade)}
                                                             >
-                                                                <MdEditDocument />
-                                                            </div>
+                                                                <MdEditDocument className='text-blue-700' />
+                                                            </Button>
+
                                                         </div>
                                                     </AccordionButton>
                                                     <AccordionPanel pb={4} className="bg-slate-100">
                                                         <div>
                                                             <p className="text-green-800">
                                                                 <b>Local:</b> {atividade.local}
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Horário:</b> {atividade.horario}
                                                             </p>
                                                             <p className="text-green-800">
                                                                 <b>Carga Horária:</b> {atividade.ch}h
@@ -226,6 +237,9 @@ export default function Atividades() {
                                                             </p>
                                                             <p className="text-green-800">
                                                                 <b>Descrição:</b> {atividade.descricao}
+                                                            </p>
+                                                            <p className="text-green-800">
+                                                                <b>Vagas:</b> {atividade.vagas}
                                                             </p>
                                                             <div className="text-green-800">
                                                                 <b>Responsáveis:</b>
@@ -244,14 +258,20 @@ export default function Atividades() {
                                 ) : (
                                     <div>
                                         {session?.user.role === "SUPER_ADMIN" ? (
-                                            <div className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center  p-3">
+                                            <div className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center p-3"
+                                                onClick={() => {
+                                                    setSelectedEvent(e.id);
+                                                }}
+                                            >
                                                 <PiFileMagnifyingGlassLight className="text-2xl" />
                                                 <p className="font-normal">Este evento ainda não possui atividades</p>
-                                                <button className='flex items-center  font-semibold flex-col text-gray-400 text-sm mt-4 p-2 border-2 rounded-lg hover:bg-gray-400 hover:text-white cursor-pointer'>
-                                                    <IoMdAddCircle className='' />
-                                                    <p>Adicionar</p>
-                                                </button>
+
+
+                                                {selectedEvent && selectedEvent === e.id && (
+                                                    <AddActivity evento_id={selectedEvent} />
+                                                )}
                                             </div>
+
                                         ) : (
                                             <div className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center  p-3">
                                                 <p className="">Este evento ainda não possui atividades</p>
@@ -277,7 +297,7 @@ export default function Atividades() {
                             {modalType === 'edit' ? 'Editar Atividade' : 'Excluir Atividade'}
                         </AlertDialogHeader>
                         <AlertDialogCloseButton />
-                       
+
 
                         <AlertDialogBody>
                             {modalType === 'edit' ? (
@@ -285,64 +305,71 @@ export default function Atividades() {
                                     <Stack spacing={3} className="border-1 border-green-700 font-semibold">
                                         <label htmlFor="nome">Nome da Atividade</label>
                                         <Input
+                                            required
                                             id="nome"
                                             placeholder="Nome da Atividade"
                                             value={nome}
                                             onChange={(e) => setNome(e.target.value)}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                         <label htmlFor="local">Local</label>
                                         <Input
+                                            required
                                             id="local"
                                             placeholder="Local"
                                             value={local}
                                             onChange={(e) => setLocal(e.target.value)}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                         <label htmlFor="descricao">Descrição</label>
                                         <Input
+                                            required
                                             id="descricao"
                                             placeholder="Descrição"
                                             value={descricao}
                                             onChange={(e) => setDescricao(e.target.value)}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                         <label htmlFor="horario">Horário</label>
                                         <Input
+                                            required
                                             id="horario"
                                             placeholder="Horário"
                                             value={horario}
+                                            type='time'
                                             onChange={(e) => setHorario(e.target.value)}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                         <label htmlFor="concomitante">Concomitante</label>
                                         <Select
+
                                             id="concomitante"
-                                            placeholder="Concomitante"
                                             value={concomitante ? "Sim" : "Não"}
                                             onChange={(e) => setConcomitante(e.target.value === "Sim")}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         >
                                             <option value="Sim">Sim</option>
                                             <option value="Não">Não</option>
                                         </Select>
                                         <label htmlFor="ch">Carga Horária</label>
                                         <Input
+                                            required
                                             id="ch"
                                             type="number"
                                             placeholder="Carga Horária"
                                             value={ch}
                                             onChange={(e) => setCh(Number(e.target.value))}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                         <label htmlFor="vagas">Vagas</label>
                                         <Input
+                                            required
                                             id="vagas"
                                             type="number"
                                             placeholder="Vagas"
                                             value={vagas}
                                             onChange={(e) => setVagas(Number(e.target.value))}
-                                            className="border border-gray-300 rounded-md" // Estilo de borda
+                                            className="border border-gray-300 rounded-md" 
                                         />
                                     </Stack>
                                 </form>

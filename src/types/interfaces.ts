@@ -10,7 +10,7 @@ export interface EventoProps {
     atividades: AtividadesProps[];
 }
 export interface TypesEventsProps {
-    id:string
+ 
     nome: string;
     descricao:string;
     dataInicio: string;
@@ -39,6 +39,17 @@ export interface AtividadesProps {
     responsaveis: ResponsaveisProps[];
     ch: number;
 }
+export interface CreateAtividadesProps {
+    id?: string;
+    horario: string;
+    nome: string;
+    local: string;
+    descricao: string;
+    vagas: number;
+    eventoId: string;
+    concomitante: boolean;
+    ch: number;
+}
 
 export interface ParticipantesProps{
     id:string,
@@ -46,4 +57,15 @@ export interface ParticipantesProps{
     email: string,
     idade:number,
     sexo: "M" | "F"
+}
+export interface ActivitiesProps {
+
+    horario: string;
+    nome: string;
+    local: string;
+    descricao: string;
+    vagas: number;
+    concomitante: boolean;
+    ch: number;
+    evento_id: string | null;
 }

@@ -7,6 +7,7 @@ import ChakraUIProvider from "@/providers/ChakraUIProvider";
 
 
 
+
 export const metadata: Metadata = {
   description: "next-auth credentials",
 };
@@ -23,11 +24,11 @@ export default async function RootLayout({
 
       </head>
       <body >
-        <NextAuthSessionProvider> 
+        <NextAuthSessionProvider>
           <ChakraUIProvider>
-            {children}
+              {children}
           </ChakraUIProvider>
-         </NextAuthSessionProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

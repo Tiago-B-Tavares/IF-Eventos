@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import getEvents from "@/services/events/getEvents";
-import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Editable, EditableInput, EditablePreview, Heading, Input, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Heading, Input, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
 import { LuCalendarClock } from "react-icons/lu";
 import { MdEditDocument, MdPlace, MdAccessTimeFilled } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -12,14 +12,20 @@ import editEvent from "@/services/events/editEvent";
 import deleteEvent from "@/services/events/deleteEvent";
 import getAllEvents from "@/services/events/getAllEvents";
 import React from "react";
-// import deleteEvent from "@/services/events/deleteEvent"; // Importe a função de excluir evento
-// import editEvent from "@/services/events/editEvent"; // Importe a função de editar evento
+
 
 export default function Eventos() {
   const { data: session } = useSession();
   let [eventos, setEventos] = useState<EventoProps[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventoProps | null>(null);
   const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
+  const [nome, setNome] = useState('');
+  const [local, setLocal] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [dataInicio, setDataInicio] = useState('');
+  const [dataFim, setDataFim] = useState('');
+  const [horario, setHorario] = useState('');
+  
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -28,16 +34,13 @@ export default function Eventos() {
     async function fetchEventsAndActivities() {
       if (session?.user?.id) {
         try {
-          
-          
+          let eventos;
           if (session.user.role === "SUPER_ADMIN") {
             eventos = await getAllEvents();
           } else {
             eventos = await getEvents(session.user.id);
           }
-          
           setEventos(eventos);
-
         } catch (error) {
           console.error("Erro ao obter lista de Eventos:", error);
         }
@@ -46,13 +49,11 @@ export default function Eventos() {
 
     fetchEventsAndActivities();
   }, [session]);
-
-
+ 
   const handleDeleteEvent = async () => {
     if (selectedEvent) {
       try {
-
-        await deleteEvent(selectedEvent.id as string)
+        await deleteEvent(selectedEvent.id as string);
         toast({
           title: "Excluído com sucesso!",
           status: "success",
@@ -75,23 +76,21 @@ export default function Eventos() {
 
   const handleEditEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const nome = formData.get("nome") as string;
-    const local = formData.get("local") as string;
-    const descricao = formData.get("descricao") as string;
-    const dataInicio = formData.get("dataInicio") as string;
-    const dataFim = formData.get("dataFim") as string;
-    const horario = formData.get("horario") as string;
-    const id = selectedEvent?.id as string
+    const id = selectedEvent?.id as string;
+    
     const dados = {
       id,
+      nome,
+      local,
+      descricao,
+      dataInicio,
+      dataFim,
       horario,
-      nome, local, descricao, dataInicio, dataFim
-    }
+    };
+    
     if (selectedEvent) {
       try {
-
+        
         await editEvent(dados);
         toast({
           title: "Editado com sucesso!",
@@ -102,7 +101,7 @@ export default function Eventos() {
         onClose();
         setEventos(prevEventos =>
           prevEventos.map(evento =>
-            evento.id === selectedEvent.id ? { ...evento, nome, local, descricao, dataInicio, dataFim } : evento
+            evento.id === selectedEvent.id ? { ...evento, ...dados } : evento
           )
         );
       } catch (error) {
@@ -120,6 +119,14 @@ export default function Eventos() {
   const openModal = (type: 'edit' | 'delete', event: EventoProps) => {
     setSelectedEvent(event);
     setModalType(type);
+    if (type === 'edit') {
+      setNome(event.nome);
+      setLocal(event.local);
+      setDescricao(event.descricao);
+      setDataInicio(event.dataInicio);
+      setDataFim(event.dataFim);
+      setHorario(event.horario);
+    }
     onOpen();
   };
 
@@ -131,6 +138,7 @@ export default function Eventos() {
             <div className="text-base flex gap-2 p-4 flex-col">
               <Heading as='h2' size='lg' className="underline text-green-800 pb-4">
                 {e.nome}
+                
               </Heading>
               <div className="text-gray-500 font-medium">
                 <p className="text-lg text-green-700">Sobre o evento:</p>
@@ -223,33 +231,30 @@ export default function Eventos() {
               </AlertDialogHeader>
               <AlertDialogCloseButton />
               <AlertDialogBody>
-                <form onSubmit={handleEditEvent} encType="multipart/form-data">
-
-
+                <form onSubmit={handleEditEvent}>
                   <Stack spacing={3} className="border-1 border-green-700">
                     <label>Nome: </label>
-                    <Input variant='outline' placeholder={selectedEvent.nome} name='nome' />
+                    <Input variant='outline' value={nome} onChange={(e) => setNome(e.target.value)} />
                     <label>Local: </label>
-                    <Input variant='outline' placeholder={selectedEvent.local} name='local' />
+                    <Input variant='outline' value={local} onChange={(e) => setLocal(e.target.value)} />
                     <label>Horário: </label>
-                    <Input variant='outline' type="time" placeholder={selectedEvent.horario} name='horario' />
-                    <label>Descrição : </label>
-                    <Textarea variant='outline' placeholder={selectedEvent.descricao} name='descricao' />
+                    <Input variant='outline' type="time" value={horario} onChange={(e) => setHorario(e.target.value)} />
+                    <label>Descrição: </label>
+                    <Textarea variant='outline' value={descricao} onChange={(e) => setDescricao(e.target.value)} />
                     <label>Início: </label>
-                    <Input type='date' placeholder={selectedEvent.dataInicio} name='dataInicio' />
+                    <Input type='date' value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                     <label>Término: </label>
-                    <Input type='date' placeholder={selectedEvent.dataFim} name='dataFim' />
-                  </Stack>
-                  <div className=" pt-3 flex justify-between">
-                    <Button ref={cancelRef} onClick={onClose}>Cancelar</Button>
-                    <Button colorScheme="blue" ml={3} type='submit'>
-                      Editar
+                    <Input type='date' value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
+                    <Button type="submit" colorScheme="blue" mt={4}>
+                      Salvar
                     </Button>
-                  </div>
-
+                  </Stack>
                 </form>
               </AlertDialogBody>
               <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={onClose}>
+                  Cancelar
+                </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>
@@ -258,5 +263,3 @@ export default function Eventos() {
     </>
   );
 }
-
-

@@ -1,39 +1,36 @@
 import { api } from "@/services/setupApiClient";
+import { Session } from "inspector";
 
 interface ActivitiesProps {
+
     horario: string;
     nome: string;
     local: string;
     descricao: string;
     vagas: number;
-    banner: File;
-    evento_id: string;
+    concomitante: boolean;
+    ch: number;
+    evento_id: string | null;
+    organizador_id: string | undefined;
 }
 
-export default async function CreateActivity({ nome, horario, local, descricao, vagas, banner, evento_id }: ActivitiesProps) {
+export default async function CreateActivity({ nome, horario, local, descricao, vagas, concomitante, ch, evento_id, organizador_id }: ActivitiesProps) {
+    console.log(nome," ", descricao, " ",local," ", horario, " ",vagas, " ",ch, " ",concomitante, " ",evento_id, " ",organizador_id);
+
     try {
-       
-       console.error("sdadsfds");
-       
-       
-    //    const formData = new FormData();
-    //    formData.append('horario', horario);
-    //    formData.append('nome', nome);
-    //    formData.append('local', local);
-    //    formData.append('descricao', descricao);
-    //    formData.append('vagas', vagas.toString());
-    //    formData.append('banner', banner);
-    //    formData.append('evento_id', evento_id);
 
-    //    const response = await api.post('/atividades', formData, {
-    //        headers: {
-    //            'Content-Type': 'multipart/form-data'
-    //        }
-    //    });
 
-    //    const activity = response.data;
-    //    return activity;
 
+        if (evento_id) {
+
+            const response = await api.post(`/atividades?id=${evento_id}`, {
+                nome, horario, local, descricao, vagas, concomitante, ch, organizador_id
+            });
+
+            const activity = response.data;
+            return activity;
+
+        }
     } catch (error) {
         console.error('Erro ao cadastrar atividade:', error);
         throw new Error('Erro ao cadastrar atividade');

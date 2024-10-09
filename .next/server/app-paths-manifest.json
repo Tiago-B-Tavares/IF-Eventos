@@ -1,7 +1,10 @@
 {
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/participantes/page": "app/dashboard/participantes/page.js",
-  "/dashboard/atividades/page": "app/dashboard/atividades/page.js",
-  "/dashboard/eventos/todos_eventos/page": "app/dashboard/eventos/todos_eventos/page.js"
+  "/dashboard/eventos/todos_eventos/page": "app/dashboard/eventos/todos_eventos/page.js",
+  "/dashboard/eventos/novo_evento/page": "app/dashboard/eventos/novo_evento/page.js",
+  "/dashboard/certificados/page": "app/dashboard/certificados/page.js",
+  "/dashboard/atividades/page": "app/dashboard/atividades/page.js"
 }
