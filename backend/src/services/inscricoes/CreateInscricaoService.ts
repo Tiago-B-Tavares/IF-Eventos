@@ -12,13 +12,22 @@ class CreateInscricaoService {
                     participante_id: participante_id
                 }
             })
+
+            let checkAtividade = await prismaClient.atividade.findFirst({
+
+                where: {
+                    id: atividade_id
+                }
+            
+            })
+            
             if (participanteAlreadExists) {
 
                 throw new Error("Usuario já está perticipando");
-                
 
-            } else {
 
+            } else if( checkAtividade.vagas > 0){
+               
                 const inscricao = await prismaClient.inscricao.create({
 
                     data: {
@@ -32,12 +41,30 @@ class CreateInscricaoService {
                         atividade_id: true,
                         participante_id: true,
                         createdAt: true,
-                        updatedAt:true
+                        updatedAt: true
                     }
 
                 })
+                
+               
+              
+                const UpdateVagasAtividade = await prismaClient.atividade.update({
+                    where: {
+                        id: atividade_id
+                    },
+
+                    data:{
+                        vagas:{
+                            decrement:1
+                        }
+                    }
+                
+                })
 
                 return inscricao;
+            }else{
+                throw new Error("Não há vagas para esta atividade");
+                
             }
 
 

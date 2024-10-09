@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import prismaClient from "../../prisma";
 
 interface deleteEventoRequest {
@@ -6,21 +7,35 @@ interface deleteEventoRequest {
 
 class DeleteEventoService {
     async execute({ id }: deleteEventoRequest) {
-        console.log(id);
+       console.log(id);
+       
         
         try {
-          
-            await prismaClient.evento.delete({
+         const hasRelatedActivities =  await prismaClient.atividade.findMany({
+                where:{
+                    evento_id:id
+                }
+            })
+
+
+            if(!hasRelatedActivities){
+                await prismaClient.evento.delete({
                 where: {
                     id: id,
                 }
             });
 
             return { message: "Deletado com sucesso" };
+                
+            }else{
+                throw new Error("Não é permitido excluir um evento com atividades!");
+            }
+          
+            
 
         } catch (error) {
-            console.error(error);
-            return { message: "Erro ao deletar", error };
+           return error
+          
         }
     }
 }

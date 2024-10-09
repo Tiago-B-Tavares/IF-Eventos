@@ -3,11 +3,11 @@ import { RemoveInscricaoService } from '../../services/inscricoes/RemoveInscrica
 
 class RemoveInscricaoController {
     async handle(req: Request, res: Response) {
-        const id = req.query.id as string;
+        const {atividade_id, participante_id} = req.body
 
         const removeInscricaoService = new RemoveInscricaoService();
 
-        const remover = await removeInscricaoService.excute({ id });
+        const remover = await removeInscricaoService.execute({atividade_id, participante_id } );
 
         return res.json(remover);
     }

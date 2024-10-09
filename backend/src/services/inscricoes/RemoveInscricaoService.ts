@@ -1,22 +1,48 @@
 import prismaClient from "../../prisma";
 
 interface RemoveInscricaoRequest {
-    id: string
+    atividade_id: string;
+    participante_id: string;
 }
 
 class RemoveInscricaoService {
-    async excute({ id }: RemoveInscricaoRequest) {
+    async execute({ atividade_id, participante_id }: RemoveInscricaoRequest) {
         try {
-            const removeInscricaoService = await prismaClient.inscricao.delete({
+          
+            const removeInscricao = await prismaClient.inscricao.deleteMany({
                 where: {
-
-                    id: id
+                    AND: [
+                        { atividade_id: atividade_id },
+                        { participante_id: participante_id }
+                    ]
                 }
-            })
-            return "inscrição removida com sucesso!"
+            });
+
+            if (removeInscricao.count === 0) {
+                return "Nenhuma inscrição encontrada para remover.";
+            }
+
+            try {
+                
+                await prismaClient.atividade.update({
+                    where: {
+                        id: atividade_id
+                    },
+                    data: {
+                        vagas: {
+                            increment: 1
+                        }
+                    }
+                });
+
+                return "Inscrição removida com sucesso!";
+            } catch (error) {
+                return "Erro ao incrementar as vagas: " + error.message;
+            }
         } catch (error) {
-            return `Erro ao remover inscrição: ${error}`
+            return `Erro ao remover inscrição: ${error.message}`;
         }
     }
 }
-export { RemoveInscricaoService }
+
+export { RemoveInscricaoService };

@@ -13,7 +13,7 @@ interface UpdateAtividadeRequest {
 
 class UpdateAtividadesService {
     async execute({ id, local, horario, ch, concomitante, nome, descricao, vagas }: UpdateAtividadeRequest) {
-        console.log("chegou no service: ", id, local, horario, ch, concomitante, nome, descricao, vagas);
+   
 
         try {
             const atividade = await prismaClient.atividade.update({
@@ -31,9 +31,8 @@ class UpdateAtividadesService {
                 },
             });
 
-            console.log(atividade);
 
-            // Retorna a atividade atualizada juntamente com uma mensagem de sucesso
+            
             return { message: "Atividade atualizada com sucesso!", atividade };
 
         } catch (error: any) {

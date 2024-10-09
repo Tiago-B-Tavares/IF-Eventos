@@ -16,6 +16,7 @@ class CreateAtividadeService {
     async execute({ nome, descricao, local, horario, vagas, ch, concomitante, evento_id, organizador_id }: AtividadeRequest) {
         try {
             // crio um responsável com o id do usuario organizador( SUPER_ADMIN ou ACTIVITIES_ADMIN) caso 
+          console.log(nome," ", descricao, " ",local," ", horario, " ",vagas, " ",ch, " ",concomitante, " ",evento_id, " ",organizador_id);
           
             let responsavel = await prismaClient.responsavel.findUnique({
                 where: { id: organizador_id }
@@ -69,6 +70,7 @@ class CreateAtividadeService {
 
 
             return { message: "Atividade cadastrada com sucesso!" };
+
         } catch (error) {
             console.error("Erro no processo de criação da atividade:", error);
             throw new Error(`Não foi possível cadastrar a atividade devido ao erro: ${error.message}`);

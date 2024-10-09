@@ -68,7 +68,7 @@ router.delete('/evento', new DeleteEventoController().handle);
 router.post('/atividades', new CreateAtividadeController().handle);
 router.delete('/atividades', new DeleteAtividadeController().handle);
 router.get('/evento/atividades', new ListAtividadesByEventIdController().handle);  // Corrigi o erro de sintaxe
-router.put('/atividades',logRequestData, new UpdateAtividadeController().handle);
+router.put('/atividades', new UpdateAtividadeController().handle);
 
 // Colaboradores das atividades
 router.post('/colaborador', new CreateColaboradorController().handle);
