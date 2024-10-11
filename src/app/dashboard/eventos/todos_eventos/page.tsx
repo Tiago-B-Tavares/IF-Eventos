@@ -25,7 +25,7 @@ export default function Eventos() {
   const [dataInicio, setDataInicio] = useState('');
   const [dataFim, setDataFim] = useState('');
   const [horario, setHorario] = useState('');
-  
+
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -49,7 +49,7 @@ export default function Eventos() {
 
     fetchEventsAndActivities();
   }, [session]);
- 
+
   const handleDeleteEvent = async () => {
     if (selectedEvent) {
       try {
@@ -77,7 +77,7 @@ export default function Eventos() {
   const handleEditEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const id = selectedEvent?.id as string;
-    
+
     const dados = {
       id,
       nome,
@@ -87,10 +87,10 @@ export default function Eventos() {
       dataFim,
       horario,
     };
-    
+
     if (selectedEvent) {
       try {
-        
+
         await editEvent(dados);
         toast({
           title: "Editado com sucesso!",
@@ -138,7 +138,7 @@ export default function Eventos() {
             <div className="text-base flex gap-2 p-4 flex-col">
               <Heading as='h2' size='lg' className="underline text-green-800 pb-4">
                 {e.nome}
-                
+
               </Heading>
               <div className="text-gray-500 font-medium">
                 <p className="text-lg text-green-700">Sobre o evento:</p>
@@ -162,21 +162,33 @@ export default function Eventos() {
                 </div>
               </div>
               <div className="flex justify-end">
-                <div>
+                <div className='flex flex-row gap-4'>
+
                   <Button
-                    size="sm"
-                    colorScheme="red"
+                    backgroundColor="#fca5a5"
+                    _hover={{
+                      bg: '#f87171',
+                      color: 'white'
+                    }}
+                    color="red.700"
                     onClick={() => openModal('delete', e)}
                   >
                     <FaRegTrashAlt />
                   </Button>
+
                   <Button
-                    size="sm"
-                    colorScheme="blue"
+                    backgroundColor="#60a5fa"
+                    _hover={{
+                      bg: '#1d4ed8',
+                      color: 'white'
+                    }}
+                    color="blue.700"
                     onClick={() => openModal('edit', e)}
                   >
                     <MdEditDocument />
                   </Button>
+
+
                 </div>
               </div>
             </div>
@@ -245,17 +257,20 @@ export default function Eventos() {
                     <Input type='date' value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                     <label>Término: </label>
                     <Input type='date' value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
+
+                  </Stack>
+                  <div className='flex flex-row gap-4'>
+                    <Button ref={cancelRef} onClick={onClose}>
+                      Cancelar
+                    </Button>
                     <Button type="submit" colorScheme="blue" mt={4}>
                       Salvar
                     </Button>
-                  </Stack>
+                  </div>
+
                 </form>
               </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
-                  Cancelar
-                </Button>
-              </AlertDialogFooter>
+
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>

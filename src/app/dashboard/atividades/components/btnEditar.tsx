@@ -1,8 +1,9 @@
 import editActivity from "@/services/activities/editActivity";
-import { Input, Select, Stack, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Input, Select, Stack, useDisclosure, useToast } from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import { MdEditDocument } from "react-icons/md";
 
-export interface ResponsaveisProps {
+ interface ResponsaveisProps {
     responsavel: {
         nome: string;
     };
@@ -22,21 +23,25 @@ interface AtividadesProps {
     ch: number;
 }
 
-export default function btnEditar({ id, eventoId }: { id: string; eventoId: string }) {
-    const [nome, setNome] = useState<string>("");
-    const [local, setLocal] = useState<string>("");
-    const [descricao, setDescricao] = useState<string>("");
-    const [horario, setHorario] = useState<string>("");
-    const [concomitante, setConcomitante] = useState<boolean>(false);
-    const [ch, setCh] = useState<number>(0);
-    const [vagas, setVagas] = useState<number>(0);
+export default function BtnEditar({ atividade }: { atividade: AtividadesProps }) {
+    const [nome, setNome] = useState<string>(atividade.nome);
+    const [local, setLocal] = useState<string>(atividade.local);
+    const [descricao, setDescricao] = useState<string>(atividade.descricao);
+    const [horario, setHorario] = useState<string>(atividade.horario);
+    const [concomitante, setConcomitante] = useState<boolean>(atividade.concomitante);
+    const [ch, setCh] = useState<number>(atividade.ch);
+    const [vagas, setVagas] = useState<number>(atividade.vagas);
     const toast = useToast();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef<HTMLButtonElement>(null);
 
     const handleEditActivity = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const updatedActivity: Partial<AtividadesProps> = {
-                id,
+            
+
+         
+            await editActivity({id: atividade.id,
                 nome,
                 local,
                 descricao,
@@ -44,10 +49,7 @@ export default function btnEditar({ id, eventoId }: { id: string; eventoId: stri
                 concomitante,
                 ch,
                 vagas,
-                eventoId,
-            };
-
-            // await editActivity(updatedActivity);
+                });
 
             toast({
                 title: "Atividade atualizada com sucesso!",
@@ -55,6 +57,8 @@ export default function btnEditar({ id, eventoId }: { id: string; eventoId: stri
                 duration: 5000,
                 isClosable: true,
             });
+            await fetchEvents();
+            onClose();  
         } catch (error) {
             console.error('Erro ao editar a atividade:', error);
             toast({
@@ -67,71 +71,121 @@ export default function btnEditar({ id, eventoId }: { id: string; eventoId: stri
     };
 
     return (
-        <form onSubmit={handleEditActivity}>
-            <Stack spacing={3} className="border-1 border-green-700 font-semibold">
-                <label htmlFor="nome">Nome da Atividade</label>
-                <Input
-                    id="nome"
-                    placeholder="Nome da Atividade"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    className="border border-gray-300 rounded-md"
-                />
-                <label htmlFor="local">Local</label>
-                <Input
-                    id="local"
-                    placeholder="Local"
-                    value={local}
-                    onChange={(e) => setLocal(e.target.value)}
-                    className="border border-gray-300 rounded-md"
-                />
-                <label htmlFor="descricao">Descrição</label>
-                <Input
-                    id="descricao"
-                    placeholder="Descrição"
-                    value={descricao}
-                    onChange={(e) => setDescricao(e.target.value)}
-                    className="border border-gray-300 rounded-md"
-                />
-                <label htmlFor="horario">Horário</label>
-                <Input
-                    id="horario"
-                    placeholder="Horário"
-                    value={horario}
-                    type="time"
-                    onChange={(e) => setHorario(e.target.value)}
-                    className="border border-gray-300 rounded-md"
-                />
-                <label htmlFor="concomitante">Concomitante</label>
-                <Select
-                    id="concomitante"
-                    placeholder="Concomitante"
-                    value={concomitante ? "Sim" : "Não"}
-                    onChange={(e) => setConcomitante(e.target.value === "Sim")}
-                    className="border border-gray-300 rounded-md"
-                >
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                </Select>
-                <label htmlFor="ch">Carga Horária</label>
-                <Input
-                    id="ch"
-                    type="number"
-                    placeholder="Carga Horária"
-                    value={ch}
-                    onChange={(e) => setCh(Number(e.target.value))}
-                    className="border border-gray-300 rounded-md"
-                />
-                <label htmlFor="vagas">Vagas</label>
-                <Input
-                    id="vagas"
-                    type="number"
-                    placeholder="Vagas"
-                    value={vagas}
-                    onChange={(e) => setVagas(Number(e.target.value))}
-                    className="border border-gray-300 rounded-md"
-                />
-            </Stack>
-        </form>
+        <>
+            <Button
+                backgroundColor="#60a5fa"
+                _hover={{
+                    bg: '#1d4ed8',
+                    color: 'white'
+                }}
+                color="blue.700"
+                onClick={onOpen}  
+            >
+                <MdEditDocument />
+            </Button>
+            
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Editar Atividade 002
+                        </AlertDialogHeader>
+                        <AlertDialogCloseButton />
+
+                        <AlertDialogBody>
+                            <form onSubmit={handleEditActivity} id="edit-form">
+                                <Stack spacing={3} className="border-1 border-green-700 font-semibold">
+                                    <label htmlFor="nome">Nome da Atividade</label>
+                                    <Input
+                                        required
+                                        id="nome"
+                                        placeholder="Nome da Atividade"
+                                        value={nome}
+                                        onChange={(e) => setNome(e.target.value)}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                    <label htmlFor="local">Local</label>
+                                    <Input
+                                        required
+                                        id="local"
+                                        placeholder="Local"
+                                        value={local}
+                                        onChange={(e) => setLocal(e.target.value)}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                    <label htmlFor="descricao">Descrição</label>
+                                    <Input
+                                        required
+                                        id="descricao"
+                                        placeholder="Descrição"
+                                        value={descricao}
+                                        onChange={(e) => setDescricao(e.target.value)}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                    <label htmlFor="horario">Horário</label>
+                                    <Input
+                                        required
+                                        id="horario"
+                                        placeholder="Horário"
+                                        value={horario}
+                                        type='time'
+                                        onChange={(e) => setHorario(e.target.value)}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                    <label htmlFor="concomitante">Concomitante</label>
+                                    <Select
+                                        id="concomitante"
+                                        value={concomitante ? "Sim" : "Não"}
+                                        onChange={(e) => setConcomitante(e.target.value === "Sim")}
+                                        className="border border-gray-300 rounded-md"
+                                    >
+                                        <option value="Sim">Sim</option>
+                                        <option value="Não">Não</option>
+                                    </Select>
+                                    <label htmlFor="ch">Carga Horária</label>
+                                    <Input
+                                        required
+                                        id="ch"
+                                        type="number"
+                                        placeholder="Carga Horária"
+                                        value={ch}
+                                        onChange={(e) => setCh(Number(e.target.value))}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                    <label htmlFor="vagas">Vagas</label>
+                                    <Input
+                                        required
+                                        id="vagas"
+                                        type="number"
+                                        placeholder="Vagas"
+                                        value={vagas}
+                                        onChange={(e) => setVagas(Number(e.target.value))}
+                                        className="border border-gray-300 rounded-md"
+                                    />
+                                </Stack>
+                            </form>
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter className="flex gap-3">
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cancelar
+                            </Button>
+
+                            <Button colorScheme="blue" type="submit" form="edit-form">
+                                Salvar
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </>
     );
 }
+function fetchEvents() {
+    throw new Error("Function not implemented.");
+}
+

@@ -1,6 +1,6 @@
 import { api } from "../setupApiClient";
 interface AtividadesProps {
-    id: string;
+    id?: string ;
     horario: string;
     nome: string;
     local: string;

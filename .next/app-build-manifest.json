@@ -26,11 +26,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/eventos/todos_eventos/page.js"
     ],
-    "/dashboard/participantes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/participantes/page.js"
-    ],
     "/dashboard/atividades/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -41,20 +36,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
     ],
-    "/dashboard/eventos/novo_evento/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/eventos/novo_evento/page.js"
-    ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/dashboard/certificados/page": [
+    "/dashboard/eventos/novo_evento/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/certificados/page.js"
+      "static/chunks/app/dashboard/eventos/novo_evento/page.js"
     ]
   }
 }

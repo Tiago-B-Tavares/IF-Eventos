@@ -69,3 +69,7 @@ export interface ActivitiesProps {
     ch: number;
     evento_id: string | null;
 }
+export interface CreateColabProps{
+    nome:string;
+    atividade_id:string;
+}

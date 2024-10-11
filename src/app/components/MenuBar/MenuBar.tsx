@@ -13,9 +13,9 @@ export default function MenuBar() {
     const { data: session } = useSession();
     const { open } = useContext(MenuContexts);
     const [selectedItem, setSelectedItem] = useState("dashboard");
-    let canViewEvents = false;
+    let IsAdmin = false;
     if (session?.user.role === "SUPER_ADMIN") {
-        canViewEvents = true
+        IsAdmin = true
     }
 
 
@@ -38,7 +38,7 @@ export default function MenuBar() {
                     </li>
 
                   
-                    {canViewEvents && (
+                    {IsAdmin && (
                         <li
                             className={`flex px-4 py-4 gap-4 text-md font-normal shadow-sm justify-start items-center rounded-md ${selectedItem === "eventos" ? "bg-green-900 text-white" : "bg-white text-green-700"}`}
                             onClick={() => setSelectedItem("eventos")}
@@ -74,7 +74,7 @@ export default function MenuBar() {
                             <Link href="/dashboard/atividades">Atividades</Link>
                         </div>
                     </li>
-                    {canViewEvents && (
+                    {IsAdmin && (
                     <li
                         className={`flex px-4 py-4 gap-4 text-md cursor-pointer font-normal shadow-sm justify-start items-center rounded-md ${selectedItem === "participantes" ? "bg-green-900 text-white" : "bg-white text-green-700"}`}
                         onClick={() => setSelectedItem("participantes")}
