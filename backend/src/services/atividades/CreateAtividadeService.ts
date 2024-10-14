@@ -15,8 +15,7 @@ interface AtividadeRequest {
 class CreateAtividadeService {
     async execute({ nome, descricao, local, horario, vagas, ch, concomitante, evento_id, organizador_id }: AtividadeRequest) {
         try {
-            // crio um responsável com o id do usuario organizador( SUPER_ADMIN ou ACTIVITIES_ADMIN) caso 
-          console.log(nome," ", descricao, " ",local," ", horario, " ",vagas, " ",ch, " ",concomitante, " ",evento_id, " ",organizador_id);
+            
           
             let responsavel = await prismaClient.responsavel.findUnique({
                 where: { id: organizador_id }

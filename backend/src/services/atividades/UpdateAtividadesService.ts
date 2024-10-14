@@ -38,7 +38,7 @@ class UpdateAtividadesService {
         } catch (error: any) {
             console.error("Erro ao atualizar a atividade:", error);
 
-            // Retorna uma mensagem de erro detalhada
+           
             return { message: `Erro ao atualizar atividade: ${error.message}` };
         }
     }

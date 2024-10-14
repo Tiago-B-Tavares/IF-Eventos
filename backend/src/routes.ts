@@ -36,6 +36,7 @@ import uploadConfig from './config/multer';
 import { logRequestData } from './middlewares/logRequestData';
 
 
+
 const router = Router();
 
 // Upload de imagem
@@ -50,6 +51,7 @@ router.get('/user', new GetUserDataByIdController().handle);
 router.post('/check-email', new UserAlreadyExistsController().handler);
 router.put('/user', new UpdateWebUserController().handle);
 
+
 // App User
 router.get('/app/user', new GetAppUsersController().handle);
 router.post('/app/user', new CreateAppUserController().handle);
@@ -60,14 +62,14 @@ router.post('/eventos', new CreateEventoController().handle);
 router.get('/count-eventos', new CountEventosController().handle);
 router.get('/eventos', new ListEventoController().handle);
 router.get('/todos-eventos', new ListAllEventosController().handle);
-
 router.put('/evento', new UpdateEventoController().handle);
-router.delete('/evento', new DeleteEventoController().handle);
+router.delete('/evento',logRequestData, new DeleteEventoController().handle);
 
 // Atividades
 router.post('/atividades', new CreateAtividadeController().handle);
 router.delete('/atividades', new DeleteAtividadeController().handle);
-router.get('/evento/atividades', new ListAtividadesByEventIdController().handle);  // Corrigi o erro de sintaxe
+router.get('/evento/atividades', new ListAtividadesByEventIdController().handle);
+router.get('aticida')  
 router.put('/atividades', new UpdateAtividadeController().handle);
 
 // Colaboradores das atividades

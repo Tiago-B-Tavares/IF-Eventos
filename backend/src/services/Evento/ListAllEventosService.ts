@@ -40,11 +40,21 @@ class ListAllEventosService {
                                 select: {
                                     responsavel: {
                                         select: {
+                                            id:true,
                                             nome: true
                                         }
                                     }
                                 }
-                            }
+                            },
+                            inscricoes: {
+                                select: {
+                                  participante: {
+                                    select: {
+                                      nome: true
+                                    }
+                                  }
+                                }
+                              }
                         },
                     }
 
