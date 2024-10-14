@@ -10,7 +10,12 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
-    Heading
+    Heading,
+    Tabs,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels
 } from "@chakra-ui/react";
 import { PiFileMagnifyingGlassLight } from "react-icons/pi";
 import { useSession } from "next-auth/react";
@@ -21,6 +26,8 @@ import BtnEditar from './components/btnEditar';
 import BtnExluir from './components/btnExcluir';
 import getAllEvents from '@/services/events/getAllEvents';
 import NoActivitiesMessage from './components/NoActivitiesMessage';
+import { color } from 'framer-motion';
+import { FiPlusCircle } from 'react-icons/fi';
 
 export default function Atividades() {
     const { data: session } = useSession();
@@ -28,7 +35,7 @@ export default function Atividades() {
     const [selectedActivity, setSelectedActivity] = useState<AtividadesProps | null>(null);
     const [selectedEvent, setSelectedEvent] = useState<string>();
 
-    const toast = useToast();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
     const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -54,6 +61,8 @@ export default function Atividades() {
                     try {
                         const listaEventos = await getAllEvents();
                         setEventos(listaEventos);
+                        console.log(listaEventos);
+
                     } catch (error) {
                         console.error("Erro ao obter lista de Eventos:", error);
                     }
@@ -98,18 +107,19 @@ export default function Atividades() {
                                             <div key={atividade.id}>
                                                 <Accordion defaultIndex={[1]} allowMultiple className="bg-white rounded-lg mb-2">
                                                     <AccordionItem>
+                                                    {selectedEvent && <AddActivity name="Adicionar nova Atividade"  evento_id={atividade.eventoId} />}
                                                         <AccordionButton
                                                             onClick={() => {
                                                                 setSelectedEvent(e.id);
-                                                                setIsVisible(!isVisible); // Alterna a visibilidade ao clicar
+                                                                setIsVisible(!isVisible); 
                                                             }}
-                                                            className="flex flex-wrap justify-between font-medium border border-green-700 rounded-lg text-green-700"
+                                                            className="flex flex-wrap justify-between font-medium border border-green-700 rounded-lg text-green-700 mt-4"
                                                         >
                                                             <div>{atividade.nome}</div>
                                                             <div className={`flex flex-row gap-4 ${isVisible ? "block" : "hidden"}`}>
                                                                 {IsAdmin && (
                                                                     <>
-                                                                        {selectedEvent && <AddActivity evento_id={selectedEvent} />}
+                                                                       
                                                                         <BtnExluir atividade={atividade} />
                                                                     </>
                                                                 )}
@@ -136,13 +146,36 @@ export default function Atividades() {
                                                                 <p className="text-green-800">
                                                                     <b>Vagas:</b> {atividade.vagas}
                                                                 </p>
-                                                                <div className="text-green-800">
-                                                                    <b>Responsáveis:</b>
-                                                                    <ul>
-                                                                        {atividade.responsaveis.map((responsavel, index) => (
-                                                                            <li key={index}>{responsavel.responsavel.nome}</li>
-                                                                        ))}
-                                                                    </ul>
+                                                                <div className='mt-4 text-green-800'>
+                                                                    <Tabs align='start' variant='enclosed' border="green" >
+                                                                        <TabList mb='1em'>
+                                                                            <Tab _selected={{ color: 'white', bg: '#166534' }}> <b>Responsáveis</b></Tab>
+                                                                            <Tab _selected={{ color: 'white', bg: '#166534' }}><b>Inscritos</b></Tab>
+                                                                        </TabList>
+                                                                        <TabPanels>
+                                                                            <TabPanel>
+
+                                                                                <ul >
+                                                                                    {atividade.responsaveis.map((responsavel, index) => (
+                                                                                        <li className='text-lg  pb-3' key={index}>{responsavel.responsavel.nome}</li>
+                                                                                    ))}
+                                                                                </ul>
+                                                                            </TabPanel>
+                                                                            <TabPanel>
+                                                                                {atividade.inscricoes && atividade.inscricoes.length > 0 ? (
+                                                                                    <ul>
+                                                                                        {atividade.inscricoes.map((inscricao, index) => (
+                                                                                            <li key={index}>{inscricao.participante.nome}</li>
+                                                                                        ))}
+                                                                                    </ul>
+                                                                                ) : (
+                                                                                    <p>Ainda não há inscritos para esta atividade.</p>
+                                                                                )}
+
+                                                                            </TabPanel>
+                                                                        </TabPanels>
+                                                                    </Tabs>
+
                                                                 </div>
                                                             </div>
                                                         </AccordionPanel>
@@ -152,7 +185,7 @@ export default function Atividades() {
                                         ))
                                     ) : (
                                         <div>
-                                            {session?.user.role === "SUPER_ADMIN" ? (
+                                            {IsAdmin ? (
                                                 <div
                                                     className="text-center border border-green-700 rounded-lg text-red-500 text-xl flex justify-center flex-col items-center p-3"
                                                     onClick={() => {
@@ -161,10 +194,10 @@ export default function Atividades() {
                                                 >
                                                     <PiFileMagnifyingGlassLight className="text-2xl" />
                                                     <p className="font-normal">Este evento ainda não possui atividades</p>
-                                                    <b className="text-sm p-2 cursor-pointer">Clique aqui para adicionar</b>
+                                                    <b className="text-sm p-2 cursor-pointer">Clique abaixo para adicionar</b>
 
                                                     {selectedEvent && selectedEvent === e.id && (
-                                                        <AddActivity evento_id={selectedEvent} />
+                                                        <AddActivity name="Adicionar nova Atividade" evento_id={selectedEvent} />
                                                     )}
                                                 </div>
 

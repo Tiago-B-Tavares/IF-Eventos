@@ -7,27 +7,28 @@ import BtnLogout from "../Logout/btnLogout";
 import { Menu, MenuButton, MenuList, MenuGroup, MenuItem, MenuDivider, Avatar, WrapItem, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+
 
 export default function MainHeader() {
     const { data } = useSession()
     const { toggle } = useContext(MenuContexts);
-
+   
+    
     return (
-        <header className="mt-4 flex flex-1 w-screen sm:w-full sm:mb-4 md:mb-4  justify-between items-center lg:justify-end  h-16">
+        <header className="mt-4 flex flex-1 max-w-screen sm:w-full sm:mb-4 md:mb-4  justify-between items-center lg:justify-end  h-16 px-5 bg-white">
 
             <div onClick={toggle} className="lg:hidden"><FaBars className="cursor-pointer" /></div>
             <div className="pl-2 flex lg:flex-1 font-bold opacity-60">
-                Dashboard
+                teste
             </div>
-            <div className="pr-4">
+            <div className="">
                 <Menu>
                     <MenuButton className="text-purple-700">
                         <WrapItem>
                             <Avatar
                                 name={data?.user?.name ?? "Usuário"}
                                 src={data?.user?.image ?? "https://bit.ly/broken-link"}
-                                
+
                             />
                         </WrapItem>
                     </MenuButton>

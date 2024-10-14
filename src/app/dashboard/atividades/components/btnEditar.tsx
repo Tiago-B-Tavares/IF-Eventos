@@ -31,7 +31,7 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
     const [concomitante, setConcomitante] = useState<boolean>(atividade.concomitante);
     const [ch, setCh] = useState<number>(atividade.ch);
     const [vagas, setVagas] = useState<number>(atividade.vagas);
-    const toast = useToast();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -51,22 +51,11 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
                 vagas,
                 });
 
-            toast({
-                title: "Atividade atualizada com sucesso!",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-            });
-            await fetchEvents();
+          
+           
             onClose();  
         } catch (error) {
             console.error('Erro ao editar a atividade:', error);
-            toast({
-                title: "Erro ao atualizar a atividade.",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
         }
     };
 
@@ -184,8 +173,5 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
             </AlertDialog>
         </>
     );
-}
-function fetchEvents() {
-    throw new Error("Function not implemented.");
 }
 

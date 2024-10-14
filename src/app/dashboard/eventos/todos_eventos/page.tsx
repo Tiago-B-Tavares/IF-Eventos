@@ -14,11 +14,16 @@ import getAllEvents from "@/services/events/getAllEvents";
 import React from "react";
 
 
+
+
 export default function Eventos() {
   const { data: session } = useSession();
+
   let [eventos, setEventos] = useState<EventoProps[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventoProps | null>(null);
   const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
+
+
   const [nome, setNome] = useState('');
   const [local, setLocal] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -26,7 +31,7 @@ export default function Eventos() {
   const [dataFim, setDataFim] = useState('');
   const [horario, setHorario] = useState('');
 
-  const toast = useToast();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -41,6 +46,7 @@ export default function Eventos() {
             eventos = await getEvents(session.user.id);
           }
           setEventos(eventos);
+       
         } catch (error) {
           console.error("Erro ao obter lista de Eventos:", error);
         }
@@ -54,21 +60,11 @@ export default function Eventos() {
     if (selectedEvent) {
       try {
         await deleteEvent(selectedEvent.id as string);
-        toast({
-          title: "Excluído com sucesso!",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+      
         onClose();
         setEventos(prevEventos => prevEventos.filter(evento => evento.id !== selectedEvent.id));
       } catch (error) {
-        toast({
-          title: "Erro ao excluir!",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+       
         console.error("Erro ao excluir o evento:", error);
       }
     }
@@ -77,6 +73,7 @@ export default function Eventos() {
   const handleEditEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const id = selectedEvent?.id as string;
+
 
     const dados = {
       id,
@@ -92,12 +89,7 @@ export default function Eventos() {
       try {
 
         await editEvent(dados);
-        toast({
-          title: "Editado com sucesso!",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
+       
         onClose();
         setEventos(prevEventos =>
           prevEventos.map(evento =>
@@ -105,12 +97,7 @@ export default function Eventos() {
           )
         );
       } catch (error) {
-        toast({
-          title: "Erro ao editar!",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+       
         console.error("Erro ao editar o evento:", error);
       }
     }
@@ -130,10 +117,12 @@ export default function Eventos() {
     onOpen();
   };
 
+
   return (
     <>
       {eventos.map((e) => (
-        <ul className="bg-gray-300 mx-auto max-w-screen-lg p-4" key={e.id}>
+
+        <ul className="bg-gray-300 mx-auto min-w-screen-lg p-4" key={e.id}>
           <li className="flex flex-col justify-start rounded-lg bg-white border border-green-700 m-4">
             <div className="text-base flex gap-2 p-4 flex-col">
               <Heading as='h2' size='lg' className="underline text-green-800 pb-4">
@@ -161,8 +150,16 @@ export default function Eventos() {
                   <span>{e.local}</span>
                 </div>
               </div>
-              <div className="flex justify-end">
-                <div className='flex flex-row gap-4'>
+
+              <div className="flex justify-between  items-center">
+                <div className="text-green-700">
+                  <b>Organizadores: </b>
+                  {e.organizadores.map((orgEvent) => (
+                    <p className="text-sm" key={orgEvent.organizador.nome}>{orgEvent.organizador.nome}</p> 
+                  ))}
+                </div>
+
+                <div className='flex flex-row gap-4 border border-red-600'>
 
                   <Button
                     backgroundColor="#fca5a5"
@@ -196,7 +193,7 @@ export default function Eventos() {
         </ul>
       ))}
 
-      {/* Modal de Exclusão */}
+
       {modalType === 'delete' && selectedEvent && (
         <AlertDialog
           isOpen={isOpen}
@@ -254,7 +251,7 @@ export default function Eventos() {
                     <label>Descrição: </label>
                     <Textarea variant='outline' value={descricao} onChange={(e) => setDescricao(e.target.value)} />
                     <label>Início: </label>
-                    <Input type='date' value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
+                    <Input type='date'  value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
                     <label>Término: </label>
                     <Input type='date' value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
 
@@ -277,4 +274,6 @@ export default function Eventos() {
       )}
     </>
   );
+
 }
+

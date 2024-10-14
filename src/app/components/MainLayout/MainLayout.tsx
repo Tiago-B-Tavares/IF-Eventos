@@ -10,19 +10,17 @@ type DashboardLayoutProps = {
 };
 
 export default function MainLayout({ children }: DashboardLayoutProps) {
-
     const { open } = useContext(MenuContexts);
 
     return (
-
-        <div className="flex bg-gray-300 w-screen min-h-screen">
+        <div className="flex mainL bg-gray-300 sm:min-w-screen md:min-w-screen min-h-screen">
             <MenuBar />
-            <div className="w-full">
+            <div className="w-full px-4">
                 <MainHeader />
-                <main className="lg:pt-4 lg:pl-4 lg:pb-4 ">
+                <main className="lg:pt-4  lg:pb-4 border border-green-700">
                     {children}
                 </main>
             </div>
         </div>
-    )
+    );
 }

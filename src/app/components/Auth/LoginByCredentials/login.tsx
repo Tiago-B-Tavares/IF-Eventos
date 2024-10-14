@@ -7,7 +7,7 @@ import { Highlight } from '@chakra-ui/react'
 import Link from "next/link";
 
 export function FormLogin() {
-    const toast = useToast();
+   
     async function login(e: React.FormEvent<HTMLFormElement>) {
         try {
             e.preventDefault()
@@ -27,19 +27,9 @@ export function FormLogin() {
                 ...data,
                 callbackUrl: "/dashboard"
             })
-            toast({
-                title: 'Cadastrado com sucesso!',
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            });
+            
         } catch (error) {
-            toast({
-                title: 'Email ou senha incorreta!',
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
+            
         }
     }
 

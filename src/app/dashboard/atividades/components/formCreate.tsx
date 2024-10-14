@@ -6,7 +6,7 @@ import React from "react";
 import { useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 
-export default function AddActivity({ evento_id }: { evento_id: string }) {
+export default function AddActivity({ evento_id , name}: { evento_id: string, name?:string }) {
     const [nome, setNome] = useState<string>("");
     const [local, setLocal] = useState<string>("");
     const [descricao, setDescricao] = useState<string>("");
@@ -36,7 +36,9 @@ export default function AddActivity({ evento_id }: { evento_id: string }) {
 
     return (
         <>
-            <Button onClick={onOpen} color="green.600"  backgroundColor="green.100" border="violet" className="text-green-600 bg-green-100"><FiPlusCircle /></Button>
+            <Button onClick={onOpen} color="green.600"  backgroundColor="green.100" border="violet" className="text-green-600 bg-green-100">
+                {name}
+                </Button>
 
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

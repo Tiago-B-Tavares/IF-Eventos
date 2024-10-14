@@ -20,31 +20,14 @@ export default function CadastrarEvento() {
     async function handleRegisterEvent(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault(); // Evita o comportamento padrão do formulário
 
-        // Validação simples
-        if (!nome || !descricao || !local || !dataInicio || !dataFim || !horario) {
-            toast({
-                title: "Erro",
-                description: "Todos os campos são obrigatórios.",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
+       
 
         const dados = { organizador_id, nome, horario, descricao, local, dataInicio, dataFim };
 
         try {
-            setLoading(true); // Começa o carregamento
+            setLoading(true); 
             await registerNewEvent(dados);
-            toast({
-                title: "Sucesso",
-                description: "Evento cadastrado com sucesso!",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-            });
-            // Resetar os campos após o sucesso (opcional)
+           
             setNome('');
             setHorario('');
             setDescricao('');
@@ -61,7 +44,7 @@ export default function CadastrarEvento() {
                 isClosable: true,
             });
         } finally {
-            setLoading(false); // Finaliza o carregamento
+            setLoading(false); 
         }
     }
 

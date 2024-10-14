@@ -28,29 +28,19 @@ export default function BtnExluir({ atividade }: { atividade: AtividadesProps })
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
 
-    const toast = useToast();
+ 
     const handleDeleteActivity = async () => {
         if (atividade) {
             
             try {
 
                 await deleteActivity(atividade.id);
-                toast({
-                    title: "Excluído com sucesso!",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                });
+               
                 onClose();
-                await fetchEvents();
+              
                
             } catch (error) {
-                toast({
-                    title: "Erro ao excluir!",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                });
+                
                 console.error("Erro ao excluir a atividade:", error);
             }
         }

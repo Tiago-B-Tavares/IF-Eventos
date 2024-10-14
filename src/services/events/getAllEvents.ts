@@ -9,7 +9,7 @@ export default async function getAllEvents() {
         const response = await api.get(`/todos-eventos`)
 
         const listEvents = response.data;
-
+        
         return listEvents;
 
     } catch (error) {
