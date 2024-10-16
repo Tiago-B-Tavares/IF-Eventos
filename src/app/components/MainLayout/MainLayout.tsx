@@ -17,7 +17,7 @@ export default function MainLayout({ children }: DashboardLayoutProps) {
             <MenuBar />
             <div className="w-full px-4">
                 <MainHeader />
-                <main className="lg:pt-4  lg:pb-4 border border-green-700">
+                <main className="lg:pt-4  lg:pb-4">
                     {children}
                 </main>
             </div>

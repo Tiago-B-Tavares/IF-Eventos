@@ -3,14 +3,14 @@ import { api } from "../setupApiClient";
 
 
 export default async function CreateColab(
-    { nome, atividade_id }: CreateColabProps) {
+    { organizador_id, atividade_id }: CreateColabProps) {
         
     try {
 
 
         const response = await api.post("/colaborador", {
            
-            nome,
+            organizador_id,
            atividade_id
         });
 
@@ -18,6 +18,7 @@ export default async function CreateColab(
         return response.data;
 
     } catch (error) {
+        throw new Error(" "+ error);
        
     }
 }

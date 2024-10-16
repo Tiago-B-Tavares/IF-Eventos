@@ -69,6 +69,7 @@ export default function BtnExluir({ atividade }: { atividade: AtividadesProps })
                 leastDestructiveRef={cancelRef}
                 onClose={onClose}
             >
+                
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">

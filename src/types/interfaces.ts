@@ -84,6 +84,16 @@ export interface ActivitiesProps {
     evento_id: string | null;
 }
 export interface CreateColabProps {
-    nome: string;
+    organizador_id: string;
     atividade_id: string;
+}
+export interface User {
+    id: string;
+    nome: string;
+    email: string;
+    senha: string;
+    createdAt: string;
+    updatedAt: string;
+    googleId: string | null;
+    role: string;
 }

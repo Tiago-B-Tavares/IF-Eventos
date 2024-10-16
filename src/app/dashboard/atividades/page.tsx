@@ -28,6 +28,9 @@ import getAllEvents from '@/services/events/getAllEvents';
 import NoActivitiesMessage from './components/NoActivitiesMessage';
 import { color } from 'framer-motion';
 import { FiPlusCircle } from 'react-icons/fi';
+import { FaAd, FaPlusCircle } from 'react-icons/fa';
+import AddResponsavel from './components/AddResponsavel';
+import getAllUsers from '@/services/user/getAllUsers';
 
 export default function Atividades() {
     const { data: session } = useSession();
@@ -61,7 +64,7 @@ export default function Atividades() {
                     try {
                         const listaEventos = await getAllEvents();
                         setEventos(listaEventos);
-                        console.log(listaEventos);
+
 
                     } catch (error) {
                         console.error("Erro ao obter lista de Eventos:", error);
@@ -77,6 +80,7 @@ export default function Atividades() {
             }
         }
         fetchEvents();
+
     }, [session, eventos]);
 
 
@@ -95,38 +99,48 @@ export default function Atividades() {
                                         textAlign="left"
                                         className="flex lg:flex-row sm:flex-col flex-wrap justify-start items-center h-auto relative"
                                     >
-                                        <Heading as="h2" size="lg" className="underline text-green-800 pb-4">
+                                        <Heading as="h2" size="lg" className="underline text-green-800 pb-4 ">
                                             {e.nome}
                                         </Heading>
+
+
                                     </Box>
-                                    <Heading as="h2" size="sm" className="text-green-800 pb-4">
+                                    <Heading as="h2" size="md" className="text-green-800 pb-4 flex flex-row gap-2 justify-start items-center'">
                                         Atividades:
+                                        <div className='text-sm'>
+                                            {<AddActivity name={<FaPlusCircle />} evento_id={e.id as string} />}
+                                        </div>
                                     </Heading>
+
                                     {e.atividades.length > 0 ? (
                                         e.atividades.map((atividade) => (
                                             <div key={atividade.id}>
                                                 <Accordion defaultIndex={[1]} allowMultiple className="bg-white rounded-lg mb-2">
                                                     <AccordionItem>
-                                                    {selectedEvent && <AddActivity name="Adicionar nova Atividade"  evento_id={atividade.eventoId} />}
+
                                                         <AccordionButton
                                                             onClick={() => {
                                                                 setSelectedEvent(e.id);
-                                                                setIsVisible(!isVisible); 
+                                                                setIsVisible(!isVisible);
                                                             }}
                                                             className="flex flex-wrap justify-between font-medium border border-green-700 rounded-lg text-green-700 mt-4"
                                                         >
                                                             <div>{atividade.nome}</div>
-                                                            <div className={`flex flex-row gap-4 ${isVisible ? "block" : "hidden"}`}>
+                                                            <div className={`flex flex-row  gap-4 `}>
                                                                 {IsAdmin && (
                                                                     <>
-                                                                       
+
                                                                         <BtnExluir atividade={atividade} />
                                                                     </>
                                                                 )}
-                                                                <BtnEditar atividade={atividade} />
+                                                                <div>
+                                                                    <BtnEditar atividade={atividade} />
+                                                                    <AddResponsavel atividade_id={atividade.id} />
+                                                                </div>
+
                                                             </div>
                                                         </AccordionButton>
-                                                        <AccordionPanel pb={4} className="bg-slate-100">
+                                                        <AccordionPanel pb={4} className="">
                                                             <div>
                                                                 <p className="text-green-800">
                                                                     <b>Local:</b> {atividade.local}
@@ -147,7 +161,7 @@ export default function Atividades() {
                                                                     <b>Vagas:</b> {atividade.vagas}
                                                                 </p>
                                                                 <div className='mt-4 text-green-800'>
-                                                                    <Tabs align='start' variant='enclosed' border="green" >
+                                                                    <Tabs align='start' variant='enclosed' border="green" bg="green.50" >
                                                                         <TabList mb='1em'>
                                                                             <Tab _selected={{ color: 'white', bg: '#166534' }}> <b>Responsáveis</b></Tab>
                                                                             <Tab _selected={{ color: 'white', bg: '#166534' }}><b>Inscritos</b></Tab>
@@ -155,11 +169,13 @@ export default function Atividades() {
                                                                         <TabPanels>
                                                                             <TabPanel>
 
+
                                                                                 <ul >
                                                                                     {atividade.responsaveis.map((responsavel, index) => (
                                                                                         <li className='text-lg  pb-3' key={index}>{responsavel.responsavel.nome}</li>
                                                                                     ))}
                                                                                 </ul>
+
                                                                             </TabPanel>
                                                                             <TabPanel>
                                                                                 {atividade.inscricoes && atividade.inscricoes.length > 0 ? (

@@ -6,7 +6,7 @@ import React from "react";
 import { useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 
-export default function AddActivity({ evento_id , name}: { evento_id: string, name?:string }) {
+export default function AddActivity({ evento_id , name}: { evento_id: string, name?:any }) {
     const [nome, setNome] = useState<string>("");
     const [local, setLocal] = useState<string>("");
     const [descricao, setDescricao] = useState<string>("");
@@ -20,7 +20,7 @@ export default function AddActivity({ evento_id , name}: { evento_id: string, na
     const organizador_id = session?.user.id
 
     const handleCreateActivity = async (e: React.FormEvent<HTMLFormElement>) => {
-       
+       e.preventDefault()
         try {
             if (!evento_id) {
                 console.log("Não tem evento id");
@@ -36,7 +36,7 @@ export default function AddActivity({ evento_id , name}: { evento_id: string, na
 
     return (
         <>
-            <Button onClick={onOpen} color="green.600"  backgroundColor="green.100" border="violet" className="text-green-600 bg-green-100">
+            <Button onClick={onOpen} color="green.600"  size="sm" backgroundColor="green.100" border="violet" className="text-green-600 bg-green-100">
                 {name}
                 </Button>
 
