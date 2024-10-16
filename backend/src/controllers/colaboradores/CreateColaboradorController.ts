@@ -4,12 +4,12 @@ import { CreateColaboradorService } from "../../services/colaboradores/CreateCol
 class CreateColaboradorController {
     async handle(req: Request, res: Response) {
 
-        const { nome, atividade_id } = req.body;
+        const { organizador_id, atividade_id } = req.body;
 
         const createColaborador = new CreateColaboradorService()
 
         const colaboradorCreated = await createColaborador.execute({
-            nome,
+            organizador_id,
             atividade_id
         })
         return res.json(colaboradorCreated)

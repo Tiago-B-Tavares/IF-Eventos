@@ -1,6 +1,7 @@
 import prismaClient from "../../prisma";
 
 interface GetUserUserRequest {
+    id?:string
     nome: string;
     email: string;
     senha?: string
@@ -10,7 +11,7 @@ class GetDataUserService {
     async execute() {
         try {
             const userData = await prismaClient.organizador.findMany()
-            return {userData}
+            return userData
         } catch (error) {
             throw new Error("Erro ao buscar dados do usuário");
         }

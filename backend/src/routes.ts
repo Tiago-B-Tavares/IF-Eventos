@@ -17,8 +17,9 @@ import { CreateEventoController } from './controllers/evento/CreateEventoControl
 import { UpdateEventoController } from './controllers/evento/UpdateEventoController';
 import { DeleteEventoController } from './controllers/evento/DeleteEventoController';
 import { CountEventosController } from './controllers/evento/CountEventoController';
+import { AddOrganizadorEventoController } from './controllers/evento/AddOrganizadorEventoController';
 import { ListEventoController } from './controllers/evento/ListEventoController';
-import { UpdateColaboradorController } from './controllers/colaboradores/UpdateColaboradorController';
+
 import { GetAppUsersController } from './controllers/appUser/GetAppUsersController';
 import { ListAllEventosController } from './controllers/evento/ListAllEventosController';
 
@@ -27,6 +28,7 @@ import { DeleteAtividadeController } from './controllers/atividades/DeleteAtivid
 import { ListAtividadesByEventIdController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
 
+import { UpdateColaboradorController } from './controllers/colaboradores/UpdateColaboradorController';
 import { CreateColaboradorController } from './controllers/colaboradores/CreateColaboradorController';
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
@@ -34,6 +36,8 @@ import { ShowInscritosByAtividadeController } from './controllers/inscricoes/Sho
 
 import uploadConfig from './config/multer';
 import { logRequestData } from './middlewares/logRequestData';
+// import { logRequestData } from './middlewares/logRequestData';
+
 
 
 
@@ -63,13 +67,13 @@ router.get('/count-eventos', new CountEventosController().handle);
 router.get('/eventos', new ListEventoController().handle);
 router.get('/todos-eventos', new ListAllEventosController().handle);
 router.put('/evento', new UpdateEventoController().handle);
-router.delete('/evento',logRequestData, new DeleteEventoController().handle);
+router.delete('/evento', new DeleteEventoController().handle);
+router.post('/add-organizador-evento', new AddOrganizadorEventoController().handle);
 
 // Atividades
 router.post('/atividades', new CreateAtividadeController().handle);
 router.delete('/atividades', new DeleteAtividadeController().handle);
-router.get('/evento/atividades', new ListAtividadesByEventIdController().handle);
-router.get('aticida')  
+router.get('/evento/atividades', new ListAtividadesByEventIdController().handle); 
 router.put('/atividades', new UpdateAtividadeController().handle);
 
 // Colaboradores das atividades

@@ -1,16 +1,22 @@
 import { GetDataUserService } from "../../services/webUser/GetAllUsersService";
-import { Response } from 'express';
+import { Request, Response } from "express";
 
 class GetAllUsersController {
-    async handle(res: Response) {
+    async handle(req:Request, res:Response ) {
 
+        try {
+            const getUserDataService = new GetDataUserService();
 
-        const getUserDataService = new GetDataUserService();
+            const userData = await getUserDataService.execute();
+           
 
-        const userData = await getUserDataService.execute();
-     
-       
-        return userData;
+            return res.json(userData);
+
+        } catch (error) {
+            throw new Error("erro: " + error);
+            
+        }
+
 
     }
 }
