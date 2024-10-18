@@ -19,7 +19,7 @@ class SearchAllAtividadesService {
           concomitante: true,
           vagas: true,
           ch: true,
-          responsaveis: true,
+         
 
           
         },

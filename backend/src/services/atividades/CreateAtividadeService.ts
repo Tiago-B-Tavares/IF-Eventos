@@ -17,21 +17,10 @@ class CreateAtividadeService {
         try {
             
           
-            let responsavel = await prismaClient.responsavel.findUnique({
-                where: { id: organizador_id }
-            });
 
            let nomeResponsavel = await prismaClient.organizador.findUnique({ where: { id: organizador_id } })
            
-            if (!responsavel) {
-                responsavel = await prismaClient.responsavel.create({
-                    data: {
-                        id: organizador_id,  
-                        nome: nomeResponsavel.nome,
-                    }
-                });
-            }
-
+        
            
             const atividade = await prismaClient.atividade.create({
                 data: {
@@ -60,13 +49,7 @@ class CreateAtividadeService {
             });
 
 
-            await prismaClient.atividadeResponsavel.create({
-                data: {
-                    atividade_id: atividade.id,
-                    responsavel_id: organizador_id
-                }
-            });
-
+           
 
             return { message: "Atividade cadastrada com sucesso!" };
 

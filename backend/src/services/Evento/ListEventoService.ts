@@ -20,7 +20,7 @@ class ListEventoService {
                 select: {
                     id: true,
                     nome: true,
-                    descricao:true,
+                    descricao: true,
                     horario: true,
                     dataInicio: true,
                     dataFim: true,
@@ -42,27 +42,35 @@ class ListEventoService {
                             local: true,
                             horario: true,
                             concomitante: true,
-                            descricao:true,
+                            descricao: true,
                             vagas: true,
                             ch: true,
-                           
-                            responsaveis: {
+                            inscricoes: {
                                 select: {
-                                    responsavel: {
+                                    participante: {
                                         select: {
                                             nome: true
                                         }
                                     }
                                 }
+                            },
+                            organizadores: {
+                                select: {
+                                    organizador: {
+                                        select: {
+                                            nome: true,
+                                        }
+                                    }
+                                }
                             }
-                        },
+                        }
                     }
-
                 }
             });
 
-
-
+            if (!listEventos) {
+                throw new Error("Nenhum evento encontrado");
+            }
 
             return listEventos;
         } catch (error) {

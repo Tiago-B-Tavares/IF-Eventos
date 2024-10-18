@@ -27,16 +27,22 @@ import { CreateAtividadeController } from './controllers/atividades/CreateAtivid
 import { DeleteAtividadeController } from './controllers/atividades/DeleteAtividadeController';
 import { ListAtividadesByEventIdController } from './controllers/atividades/ListAtividadesByEventIdController';
 import { UpdateAtividadeController } from './controllers/atividades/UpdateAtividadeController';
+import { VerificaAtividadesOrganizadorController } from './controllers/atividades/VerificaAtividadesOrganizadorController';
 
 import { UpdateColaboradorController } from './controllers/colaboradores/UpdateColaboradorController';
-import { CreateColaboradorController } from './controllers/colaboradores/CreateColaboradorController';
+import { CreateColaboradorAtividadeController } from './controllers/colaboradores/CreateColaboradorAtividadeController';
+import { CreateColaboradorEventoController } from './controllers/colaboradores/CreateColaboradorEventoController';
+
 import { CreateInscricoesController } from './controllers/inscricoes/CreateInscricoesController';
 import { RemoveInscricaoController } from './controllers/inscricoes/RemoveInscricaoController';
 import { ShowInscritosByAtividadeController } from './controllers/inscricoes/ShowInscritosByAtividadeController';
 
+import { ChangeUserPermissionsController } from './controllers/admin/changeUserPermissionsController';
+
 import uploadConfig from './config/multer';
+
 import { logRequestData } from './middlewares/logRequestData';
-// import { logRequestData } from './middlewares/logRequestData';
+
 
 
 
@@ -45,6 +51,9 @@ const router = Router();
 
 // Upload de imagem
 const upload = multer(uploadConfig.upload('public/uploads'));
+
+
+router.put('/permissions', new ChangeUserPermissionsController().handle);
 
 // Web User
 router.post('/user', new CreateWebUserController().handle);
@@ -75,9 +84,11 @@ router.post('/atividades', new CreateAtividadeController().handle);
 router.delete('/atividades', new DeleteAtividadeController().handle);
 router.get('/evento/atividades', new ListAtividadesByEventIdController().handle); 
 router.put('/atividades', new UpdateAtividadeController().handle);
+router.get('/hasAtividades', new VerificaAtividadesOrganizadorController().handle)
 
 // Colaboradores das atividades
-router.post('/colaborador', new CreateColaboradorController().handle);
+router.post('/colaborador', new CreateColaboradorAtividadeController().handle);
+router.post('/colaborador-evento', new CreateColaboradorEventoController().handle);
 router.put('/colaborador', new UpdateColaboradorController().handle);
 
 // Inscrições

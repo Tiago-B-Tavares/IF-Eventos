@@ -1,12 +1,6 @@
 import prismaClient from "../../prisma";
 
-interface GetUserUserRequest {
-    id?:string
-    nome: string;
-    email: string;
-    senha?: string
-    googleId?: string
-}
+
 class GetDataUserService {
     async execute() {
         try {

@@ -35,17 +35,6 @@ class ListAllEventosService {
                             descricao:true,
                             vagas: true,
                             ch: true,
-                           
-                            responsaveis: {
-                                select: {
-                                    responsavel: {
-                                        select: {
-                                            id:true,
-                                            nome: true
-                                        }
-                                    }
-                                }
-                            },
                             inscricoes: {
                                 select: {
                                   participante: {
@@ -54,7 +43,18 @@ class ListAllEventosService {
                                     }
                                   }
                                 }
-                              }
+                              },
+                            organizadores:{
+                                select:{
+                                    organizador:{
+                                        select:{
+                                            nome:true,
+                                        }
+                                    }
+                                }
+                            }  
+                                   
+                               
                         },
                     }
 

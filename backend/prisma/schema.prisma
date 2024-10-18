@@ -52,7 +52,6 @@ model Atividade {
   concomitante  Boolean
   evento_id     String
   organizadores AtividadeOrganizador[]
-  responsaveis  AtividadeResponsavel[]
   evento        Evento                 @relation(fields: [evento_id], references: [id])
   inscricoes    Inscricao[]
 
@@ -79,8 +78,8 @@ model Inscricao {
   updatedAt       DateTime     @updatedAt
   atividade_id    String
   participante_id String
-  atividade       Atividade    @relation(fields: [atividade_id], references: [id])
-  participante    Participante @relation(fields: [participante_id], references: [id])
+  atividade       Atividade    @relation(fields: [atividade_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  participante    Participante @relation(fields: [participante_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("inscricoes")
 }
@@ -107,28 +106,6 @@ model AtividadeOrganizador {
   updatedAt      DateTime    @updatedAt
 
   @@map("atividade_organizadores")
-}
-
-model Responsavel {
-  id         String                 @id @default(uuid())
-  nome       String
-  atividades AtividadeResponsavel[]
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-
-  @@map("responsaveis")
-}
-
-model AtividadeResponsavel {
-  id             String      @id @default(uuid())
-  atividade_id   String
-  responsavel_id String
-  atividade      Atividade   @relation(fields: [atividade_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  responsavel    Responsavel @relation(fields: [responsavel_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  @@map("atividade_responsaveis")
 }
 
 enum Sexo {

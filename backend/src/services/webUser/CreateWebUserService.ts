@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs';
 import prismaClient from '../../prisma';
-import { Role } from '../../enums/permissionRoles'; // Verifique o caminho correto para o enum
+import { Role } from '../../enums/permissionRoles'; 
 
 interface WebUserRequest {
   nome: string;
