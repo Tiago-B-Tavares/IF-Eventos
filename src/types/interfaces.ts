@@ -1,7 +1,9 @@
 export interface OrganizadorProps {
-    organizador: any;
-    id: string;
-    nome: string;
+    organizador: {
+        nome: string;
+    }
+
+
 }
 
 export interface EventoProps {
@@ -14,10 +16,11 @@ export interface EventoProps {
     local: string;
     organizador_id: string;
     atividades: AtividadesProps[];
-    organizadores: OrganizadorProps[];
+    organizadores: OrganizadorProps[]
 }
-export interface TypesEventsProps {
 
+export interface TypesEventsProps {
+    id?: string;
     nome: string;
     descricao: string;
     dataInicio: string;
@@ -25,12 +28,6 @@ export interface TypesEventsProps {
     horario: string;
     local: string;
     organizador_id?: string;
-}
-
-export interface ResponsaveisProps {
-    responsavel: {
-        nome: string;
-    };
 }
 
 export interface InscritosProps {
@@ -49,10 +46,11 @@ export interface AtividadesProps {
     eventoId: string;
     createdAt: string;
     concomitante: boolean;
-    responsaveis: ResponsaveisProps[];
+    organizadores: OrganizadorProps[];
     inscricoes: InscritosProps[];
     ch: number;
 }
+
 export interface CreateAtividadesProps {
     id?: string;
     horario: string;
@@ -66,14 +64,14 @@ export interface CreateAtividadesProps {
 }
 
 export interface ParticipantesProps {
-    id: string,
-    nome: string,
-    email: string,
-    idade: number,
-    sexo: "M" | "F"
+    id: string;
+    nome: string;
+    email: string;
+    idade: number;
+    sexo: "M" | "F";
 }
-export interface ActivitiesProps {
 
+export interface ActivitiesProps {
     horario: string;
     nome: string;
     local: string;
@@ -83,10 +81,12 @@ export interface ActivitiesProps {
     ch: number;
     evento_id: string | null;
 }
+
 export interface CreateColabProps {
     organizador_id: string;
     atividade_id: string;
 }
+
 export interface User {
     id: string;
     nome: string;

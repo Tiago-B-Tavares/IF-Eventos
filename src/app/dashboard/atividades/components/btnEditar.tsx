@@ -1,27 +1,9 @@
 import editActivity from "@/services/activities/editActivity";
+import { AtividadesProps } from "@/types/interfaces";
 import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Input, Select, Stack, useDisclosure, useToast } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { MdEditDocument } from "react-icons/md";
 
- interface ResponsaveisProps {
-    responsavel: {
-        nome: string;
-    };
-}
-
-interface AtividadesProps {
-    id: string;
-    horario: string;
-    nome: string;
-    local: string;
-    descricao: string;
-    vagas: number;
-    eventoId: string;
-    createdAt: string;
-    concomitante: boolean;
-    responsaveis: ResponsaveisProps[];
-    ch: number;
-}
 
 export default function BtnEditar({ atividade }: { atividade: AtividadesProps }) {
     const [nome, setNome] = useState<string>(atividade.nome);
@@ -34,14 +16,15 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef<HTMLButtonElement>(null);
-
+    const toast = useToast()
     const handleEditActivity = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            
 
-         
-            await editActivity({id: atividade.id,
+
+
+            await editActivity({
+                id: atividade.id,
                 nome,
                 local,
                 descricao,
@@ -49,12 +32,26 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
                 concomitante,
                 ch,
                 vagas,
-                });
+            });
 
-          
-           
-            onClose();  
+            toast({
+                title: 'Edição realizada com sucesso!',
+                status: 'success',
+                duration: 5000,
+                isClosable: false,
+                position:"top"
+              })
+
+            onClose();
         } catch (error) {
+            toast({
+                title: 'Erro ao remover responsável',
+                description: "We've created your account for you.",
+                status: 'warning',
+                duration: 3000,
+                isClosable: false,
+                position: "top"
+            })
             console.error('Erro ao editar a atividade:', error);
         }
     };
@@ -68,11 +65,14 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
                     color: 'white'
                 }}
                 color="blue.700"
-                onClick={onOpen}  
+                onClick={onOpen}
+                w='100%'
+                textAlign="left"
             >
-                <MdEditDocument />
+                <span className="w-full mr-3">Editar dados</span>
+                <MdEditDocument className="text-lg" />
             </Button>
-            
+
             <AlertDialog
                 isOpen={isOpen}
                 leastDestructiveRef={cancelRef}
@@ -81,7 +81,7 @@ export default function BtnEditar({ atividade }: { atividade: AtividadesProps })
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Editar Atividade 002
+                            Editar Atividade
                         </AlertDialogHeader>
                         <AlertDialogCloseButton />
 

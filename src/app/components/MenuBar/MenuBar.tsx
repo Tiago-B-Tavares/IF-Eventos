@@ -1,4 +1,4 @@
-import { FaAdn, FaAngleRight, FaHome, FaListAlt, FaSadCry } from "react-icons/fa";
+import { FaAngleRight, FaHome, FaListAlt } from "react-icons/fa";
 import { TiGroup } from "react-icons/ti";
 import { MdAddToPhotos } from "react-icons/md";
 import { GrProjects } from "react-icons/gr";
@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from 'next/link';
 import { Menu, MenuButton, Portal, MenuList, MenuItem } from "@chakra-ui/react";
+import Permissoes from "@/app/dashboard/administrador/permissions";
 
 export default function MenuBar() {
     const { data: session } = useSession();
@@ -72,7 +73,7 @@ export default function MenuBar() {
                 >
                     <TbCertificate className="text-xl" />
                     <div className="flex-1 font-semibold cursor-pointer ">
-                        <Link href="/dashboard/atividades">Atividades</Link>
+                        <Link  className="" href="/dashboard/atividades">Atividades</Link>
                     </div>
                 </li>
                 {IsAdmin && (
@@ -106,8 +107,8 @@ export default function MenuBar() {
                                 <Portal>
                                     <MenuList>
                                         <MenuItem className="text-green-700  font-semibold flex gap-2">
-                                            <MdAddToPhotos className="text-green-700" />
-                                            <Link href="/dashboard/administrador/permissoes">Permissões</Link>
+                                         
+                                          <Permissoes/>
                                         </MenuItem>
                                         <MenuItem className="text-green-700  font-semibold flex gap-2">
                                             <FaListAlt className="text-green-700 " />

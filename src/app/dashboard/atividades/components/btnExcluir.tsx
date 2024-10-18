@@ -1,27 +1,10 @@
 import deleteActivity from "@/services/activities/deleteActivity";
+import { AtividadesProps } from "@/types/interfaces";
 import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogCloseButton, AlertDialogBody, AlertDialogFooter, Button, useDisclosure, useToast } from "@chakra-ui/react";
 import { useRef } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-interface ResponsaveisProps {
-    responsavel: {
-        nome: string;
-    };
-}
 
-interface AtividadesProps {
-    id: string;
-    horario: string;
-    nome: string;
-    local: string;
-    descricao: string;
-    vagas: number;
-    eventoId: string;
-    createdAt: string;
-    concomitante: boolean;
-    responsaveis: ResponsaveisProps[];
-    ch: number;
-}
 
 export default function BtnExluir({ atividade }: { atividade: AtividadesProps }) {
 
@@ -59,8 +42,12 @@ export default function BtnExluir({ atividade }: { atividade: AtividadesProps })
                 }}
                 color="red.700"
                 onClick={onOpen}  
+                textAlign="left"
+                w="100%"
+                justifyContent="space-between"
             >
-                <FaRegTrashAlt />
+                <span className="mr-3" >Excluir Atividade</span>
+                <FaRegTrashAlt className="text-lg"/>
             </Button>
 
 

@@ -3,119 +3,58 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import getEvents from "@/services/events/getEvents";
-import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Heading, Input, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Heading, Input, Menu, MenuButton, MenuItem, MenuList, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
 import { LuCalendarClock } from "react-icons/lu";
 import { MdEditDocument, MdPlace, MdAccessTimeFilled } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { EventoProps } from "@/types/interfaces";
-import editEvent from "@/services/events/editEvent";
-import deleteEvent from "@/services/events/deleteEvent";
+
 import getAllEvents from "@/services/events/getAllEvents";
 import React from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
+
+import BtnEditar from "../components/btnEditar";
+import { BtnExcluir } from "../components/btnExcluir";
+import AddResponsavelEvento from "../components/btnAddResponsavelEvento";
 
 
 
 
 export default function Eventos() {
   const { data: session } = useSession();
-
   let [eventos, setEventos] = useState<EventoProps[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<EventoProps | null>(null);
-  const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
 
+  let IsAdmin = false;
+  if (session?.user.role === "SUPER_ADMIN") {
+    IsAdmin = true;
+  }
 
-  const [nome, setNome] = useState('');
-  const [local, setLocal] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [dataInicio, setDataInicio] = useState('');
-  const [dataFim, setDataFim] = useState('');
-  const [horario, setHorario] = useState('');
-
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    async function fetchEventsAndActivities() {
-      if (session?.user?.id) {
+  async function fetchEventsAndActivities() {
+    if (session?.user?.id) {
+      if (IsAdmin) {
         try {
-          let eventos;
-          if (session.user.role === "SUPER_ADMIN") {
-            eventos = await getAllEvents();
-          } else {
-            eventos = await getEvents(session.user.id);
-          }
-          setEventos(eventos);
-       
+          const listaEventos = await getAllEvents();
+          setEventos(listaEventos);
+
+
+        } catch (error) {
+          console.error("Erro ao obter lista de Eventos:", error);
+        }
+      } else {
+        try {
+          const listaEventos = await getEvents(session.user.id);
+          setEventos(listaEventos);
         } catch (error) {
           console.error("Erro ao obter lista de Eventos:", error);
         }
       }
     }
-
+  }
+  useEffect(() => {
     fetchEventsAndActivities();
-  }, [session]);
+  }, [session, eventos]);
 
-  const handleDeleteEvent = async () => {
-    if (selectedEvent) {
-      try {
-        await deleteEvent(selectedEvent.id as string);
-      
-        onClose();
-        setEventos(prevEventos => prevEventos.filter(evento => evento.id !== selectedEvent.id));
-      } catch (error) {
-       
-        console.error("Erro ao excluir o evento:", error);
-      }
-    }
-  };
-
-  const handleEditEvent = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const id = selectedEvent?.id as string;
-
-
-    const dados = {
-      id,
-      nome,
-      local,
-      descricao,
-      dataInicio,
-      dataFim,
-      horario,
-    };
-
-    if (selectedEvent) {
-      try {
-
-        await editEvent(dados);
-       
-        onClose();
-        setEventos(prevEventos =>
-          prevEventos.map(evento =>
-            evento.id === selectedEvent.id ? { ...evento, ...dados } : evento
-          )
-        );
-      } catch (error) {
-       
-        console.error("Erro ao editar o evento:", error);
-      }
-    }
-  };
-
-  const openModal = (type: 'edit' | 'delete', event: EventoProps) => {
-    setSelectedEvent(event);
-    setModalType(type);
-    if (type === 'edit') {
-      setNome(event.nome);
-      setLocal(event.local);
-      setDescricao(event.descricao);
-      setDataInicio(event.dataInicio);
-      setDataFim(event.dataFim);
-      setHorario(event.horario);
-    }
-    onOpen();
-  };
 
 
   return (
@@ -125,10 +64,44 @@ export default function Eventos() {
         <ul className="bg-gray-300 mx-auto min-w-screen-lg p-4" key={e.id}>
           <li className="flex flex-col justify-start rounded-lg bg-white border border-green-700 m-4">
             <div className="text-base flex gap-2 p-4 flex-col">
-              <Heading as='h2' size='lg' className="underline text-green-800 pb-4">
-                {e.nome}
+              <div className="flex justify-between">
+                <Heading as='h2' size='lg' className="underline text-green-800 pb-4">
+                  {e.nome}
+                </Heading>
+                <Menu>
+                  {({ isOpen }) => (
+                    <>
+                      <MenuButton
+                        bg="none"
+                        justifyContent="space-between"
+                        isActive={isOpen}
+                        as={Button}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <BsThreeDotsVertical className="text-2xl" />
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem w="100%">
+                          <BtnEditar evento={e} />
+                        </MenuItem>
+                        <MenuItem w="100%">
+                          {IsAdmin && (
+                            <>
+                              <BtnExcluir id={e.id as string} />
+                            </>
+                          )}
+                        </MenuItem>
+                        <MenuItem w="100%">
+                        <AddResponsavelEvento evento_id={e.id as string}/>
+                        </MenuItem>
+                      </MenuList>
+                    </>
+                  )}
+                </Menu>
+              </div>
 
-              </Heading>
               <div className="text-gray-500 font-medium">
                 <p className="text-lg text-green-700">Sobre o evento:</p>
                 {e.descricao}
@@ -155,35 +128,12 @@ export default function Eventos() {
                 <div className="text-green-700">
                   <b>Organizadores: </b>
                   {e.organizadores.map((orgEvent) => (
-                    <p className="text-sm" key={orgEvent.organizador.nome}>{orgEvent.organizador.nome}</p> 
+                    <p className="text-sm" key={orgEvent.organizador.nome}>{orgEvent.organizador.nome}</p>
                   ))}
                 </div>
 
                 <div className='flex flex-row gap-4 border border-red-600'>
 
-                  <Button
-                    backgroundColor="#fca5a5"
-                    _hover={{
-                      bg: '#f87171',
-                      color: 'white'
-                    }}
-                    color="red.700"
-                    onClick={() => openModal('delete', e)}
-                  >
-                    <FaRegTrashAlt />
-                  </Button>
-
-                  <Button
-                    backgroundColor="#60a5fa"
-                    _hover={{
-                      bg: '#1d4ed8',
-                      color: 'white'
-                    }}
-                    color="blue.700"
-                    onClick={() => openModal('edit', e)}
-                  >
-                    <MdEditDocument />
-                  </Button>
 
 
                 </div>
@@ -192,86 +142,6 @@ export default function Eventos() {
           </li>
         </ul>
       ))}
-
-
-      {modalType === 'delete' && selectedEvent && (
-        <AlertDialog
-          isOpen={isOpen}
-          leastDestructiveRef={cancelRef}
-          onClose={onClose}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Excluir Evento
-              </AlertDialogHeader>
-              <AlertDialogCloseButton />
-              <AlertDialogBody>
-                Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.
-              </AlertDialogBody>
-              <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
-                  Cancelar
-                </Button>
-                <Button
-                  colorScheme="red"
-                  onClick={handleDeleteEvent}
-                  ml={3}
-                >
-                  Excluir
-                </Button>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
-      )}
-
-      {/* Modal de Edição */}
-      {modalType === 'edit' && selectedEvent && (
-        <AlertDialog
-          isOpen={isOpen}
-          leastDestructiveRef={cancelRef}
-          onClose={onClose}
-        >
-          <AlertDialogOverlay>
-            <AlertDialogContent>
-              <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                Editar Evento
-              </AlertDialogHeader>
-              <AlertDialogCloseButton />
-              <AlertDialogBody>
-                <form onSubmit={handleEditEvent}>
-                  <Stack spacing={3} className="border-1 border-green-700">
-                    <label>Nome: </label>
-                    <Input variant='outline' value={nome} onChange={(e) => setNome(e.target.value)} />
-                    <label>Local: </label>
-                    <Input variant='outline' value={local} onChange={(e) => setLocal(e.target.value)} />
-                    <label>Horário: </label>
-                    <Input variant='outline' type="time" value={horario} onChange={(e) => setHorario(e.target.value)} />
-                    <label>Descrição: </label>
-                    <Textarea variant='outline' value={descricao} onChange={(e) => setDescricao(e.target.value)} />
-                    <label>Início: </label>
-                    <Input type='date'  value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
-                    <label>Término: </label>
-                    <Input type='date' value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
-
-                  </Stack>
-                  <div className='flex flex-row gap-4'>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Cancelar
-                    </Button>
-                    <Button type="submit" colorScheme="blue" mt={4}>
-                      Salvar
-                    </Button>
-                  </div>
-
-                </form>
-              </AlertDialogBody>
-
-            </AlertDialogContent>
-          </AlertDialogOverlay>
-        </AlertDialog>
-      )}
     </>
   );
 

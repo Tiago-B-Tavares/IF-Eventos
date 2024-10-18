@@ -1,13 +1,16 @@
 import React from 'react';
-import { Box, Heading, Text, Button, Icon } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, Button, Icon } from '@chakra-ui/react';
 import { FiAlertCircle } from 'react-icons/fi';
+import alert from '../../../images/alerta.png'
 
+
+const alerta = (alert as unknown as { src: string }).src;
 const NoActivitiesMessage = () => {
 
 
     return (
         <>
-            <div>
+            <div className='bg-white'>
                 <Box
                     display="flex"
                     flexDirection="column"
@@ -18,14 +21,19 @@ const NoActivitiesMessage = () => {
                     p={4}
                     borderRadius="md"
                 >
-                    <Heading as="h2" size="lg" mb={4} color="red.500">
-                        Não há atividades disponíveis.
+
+                    <Image className="w-40  " src={alerta} alt="" />
+
+
+                    <Heading as="h1" size="2xl" mb={4} color="red.300">
+                        Oops!
                     </Heading>
-                <Text fontSize="lg" mb={6} textAlign="center" color="green.700" >
-                        Parece que você ainda não possui atividades relacionadas.                     
-                </Text>
-                <Text fontSize="lg" mb={6} textAlign="center" color="green.700" fontWeight="bold">Entre em contato com um adminstrador!</Text>
-                <FiAlertCircle className='text-2xl'/>
+                    <Heading as="h2" size="lg" mb={4} color="red.300">
+                        Parece que você ainda não possui atividades para gerenciar
+                    </Heading>
+
+                    <Text fontSize="lg" mb={6} textAlign="center" color="green.700" fontWeight="bold">Entre em contato com um adminstrador!</Text>
+
                 </Box>
             </div>
 

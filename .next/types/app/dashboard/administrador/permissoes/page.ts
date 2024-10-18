@@ -1,8 +1,8 @@
 // File: D:\Tiggas\TCC\IF-Eventos(Desenvolvimento)\frontend\src\app\dashboard\administrador\permissoes\page.tsx
-import * as entry from '../../../../../../src/app/dashboard/administrador/permissoes/page.js'
+import * as entry from '../../../../../../src/app/dashboard/administrador/permissions.jsx'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../../../src/app/dashboard/administrador/permissoes/page.js')
+type TEntry = typeof import('../../../../../../src/app/dashboard/administrador/permissions.jsx')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

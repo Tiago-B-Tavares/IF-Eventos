@@ -3,7 +3,7 @@ import React from 'react';
 import type { Metadata } from "next";
 import MainLayout from '../components/MainLayout/MainLayout';
 import MenuContextProvider from '@/contexts/MenuContexts';
-
+import { ToastContainer } from "react-toastify";
 
 
 
@@ -21,7 +21,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div >
            
                 <MenuContextProvider>
-                    <MainLayout>{children}</MainLayout>
+                    <MainLayout>
+                        {children}
+                    </MainLayout>
                 </MenuContextProvider>
             
         </div>
